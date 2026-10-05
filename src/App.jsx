@@ -1,13 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import './App.css'
+import React from "react";
+import "./App.css";
+import AppRoutes from "./Routes/AppRoutes";
 
 function App() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <AppRoutes />;
 }
 
-export default App
+export default App;
