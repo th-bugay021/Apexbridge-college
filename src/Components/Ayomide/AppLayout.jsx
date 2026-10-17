@@ -1,8 +1,10 @@
+import { Outlet } from "react-router-dom";
+
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import Breadcrumbs from "./Breadcrumbs";
 
-function AppLayout({ children }) {
+function AppLayout() {
   return (
     <div className="app-layout">
       <Sidebar />
@@ -13,7 +15,7 @@ function AppLayout({ children }) {
         <main className="app-content">
           <Breadcrumbs />
 
-          {children}
+          <Outlet />
         </main>
       </div>
     </div>

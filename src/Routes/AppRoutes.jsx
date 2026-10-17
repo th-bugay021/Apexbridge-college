@@ -1,8 +1,10 @@
-// import React from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import AppLayout from "../Components/Ayomide/AppLayout";
 import ProtectedRoute from "./ProtectedRoute";
+import RoleRoute from "./RoleRoute";
+import PermissionRoute from "./PermissionRoute";
+
+import AppLayout from "../Components/Ayomide/AppLayout";
 
 import Login from "../Pages/Ayomide/Auth/Login";
 import Register from "../Pages/Ayomide/Auth/Register";
@@ -24,12 +26,22 @@ function AppRoutes() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* Application routes */}
-
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
-            <Route path="/dashboard" element={<h1>Dashboard</h1>} />
+            <Route
+              element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN"]} />}
+            >
+              <Route path="/dashboard" element={<h1>Dashboard</h1>} />
+            </Route>
 
-            <Route path="/students" element={<h1>Students</h1>} />
+            <Route
+              path="/students"
+              element={
+                <PermissionRoute permission="students.view">
+                  {/* <Students />- */}
+                </PermissionRoute>
+              }
+            />
 
             <Route path="/teachers" element={<h1>Teachers</h1>} />
 
