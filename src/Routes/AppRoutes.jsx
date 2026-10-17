@@ -13,6 +13,7 @@ import ForgotPassword from "../Pages/Ayomide/Auth/ForgotPassword";
 import Settings from "../Pages/Ayomide/Settings/Settings";
 import Profile from "../Pages/Ayomide/Settings/Profile";
 
+import HomePage from "../Pages/Michael/Homepage/HomePage";
 import NotFound from "../Errors/NotFound";
 import Unauthorized from "../Errors/Unauthorized";
 
@@ -65,6 +66,7 @@ function AppRoutes() {
         </Route>
 
         <Route path="/403" element={<Unauthorized />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
