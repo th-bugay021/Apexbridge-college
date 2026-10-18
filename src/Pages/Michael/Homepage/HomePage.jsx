@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
     import './apexbridge.css';
     import possibilityImage from '../../../assets/possibility-image.png';
     import campusScience from '../../../assets/campus-science.jpg';

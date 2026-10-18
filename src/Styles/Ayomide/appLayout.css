@@ -1,0 +1,45 @@
+/* =========================================================
+   APP LAYOUT & CONTENT WRAPPER STYLES
+   ========================================================= */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+/* Main Content Area Container */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* Automatically sets margin to match the expanded sidebar width */
+  margin-left: var(--sidebar-width);
+  transition: margin-left var(--transition-normal);
+  min-width: 0; /* Prevents flex/grid child overflow bugs */
+}
+
+/* When layout is collapsed, shrink the left margin to match the collapsed sidebar */
+.app-layout.layout--collapsed .app-main {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+/* The actual padded wrapper where pages live */
+.app-content {
+  flex: 1;
+  padding: var(--content-padding);
+  max-width: var(--container-max-width);
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   RESPONSIVE (MOBILE & TABLET VIEW)
+   ========================================================= */
+@media (max-width: 1024px) {
+  .app-main {
+    /* On mobile, the sidebar is a fixed drawer (transform: translateX), 
+       so the main content has 0 left margin */
+    margin-left: 0 !important;
+  }
+}

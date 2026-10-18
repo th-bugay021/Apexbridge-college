@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-// import React from "react";
 import navigationConfig from "./navigationConfig";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
@@ -17,13 +16,12 @@ import {
 } from "react-icons/fi";
 import "../../Styles/Ayomide/Sidebar.css";
 
-const Sidebar = () => {
+// 1. Accept isCollapsed and setIsCollapsed as props from AppLayout
+const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const { hasPermission, user, logout } = useAuth();
   const location = useLocation();
 
-  // Desktop Collapsed state
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  // Mobile Drawer Open state
+  // Mobile Drawer Open state (kept local since it's only for mobile screens)
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   // Track expanded groups by item label or path
@@ -35,19 +33,17 @@ const Sidebar = () => {
 
     return items
       .map((item) => {
-        // If item has children, filter children first
         if (item.children && item.children.length > 0) {
           const allowedChildren = filterNavItems(item.children);
-          if (allowedChildren.length === 0) return null; // Hide parent if no visible children
+          if (allowedChildren.length === 0) return null;
           return { ...item, children: allowedChildren };
         }
 
-        // Single item check
         if (item.permission && typeof hasPermission === "function") {
           return hasPermission(item.permission) ? item : null;
         }
 
-        return item; // No permission specified, accessible by default
+        return item;
       })
       .filter(Boolean);
   };
@@ -150,7 +146,7 @@ const Sidebar = () => {
             />
           </NavLink>
 
-          {/* Desktop Collapse Toggle */}
+          {/* Desktop Collapse Toggle - Updates parent state */}
           <button
             type="button"
             className="collapse-toggle-btn"
@@ -203,7 +199,7 @@ const Sidebar = () => {
                       </span>
                     </button>
 
-                    {/* SubFimenu Children */}
+                    {/* Submenu Children */}
                     {isGroupExpanded && (
                       <ul className="nav-submenu">
                         {item.children.map((child) => (

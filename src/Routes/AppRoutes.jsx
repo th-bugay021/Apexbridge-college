@@ -13,6 +13,8 @@ import ForgotPassword from "../Pages/Ayomide/Auth/ForgotPassword";
 import Settings from "../Pages/Ayomide/Settings/Settings";
 import Profile from "../Pages/Ayomide/Settings/Profile";
 
+import StudentList from "../Components/Ayomide/CardPattern"
+
 import HomePage from "../Pages/Michael/Homepage/HomePage";
 import NotFound from "../Errors/NotFound";
 import Unauthorized from "../Errors/Unauthorized";
@@ -44,7 +46,8 @@ function AppRoutes() {
               }
             />
 
-            <Route path="/teachers" element={<h1>Teachers</h1>} />
+            {/* <Route path="/teachers" element={<h1>Teachers</h1>} /> */}
+            <Route path="/teachers" element={<StudentList/>} />
 
             <Route path="/classes" element={<h1>Classes</h1>} />
 

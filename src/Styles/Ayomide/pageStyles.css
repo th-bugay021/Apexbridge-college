@@ -1,0 +1,93 @@
+/* =========================================================
+   STANDARD PAGE LAYOUT STYLES
+   ========================================================= */
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  /* Padding matches your design system's content expectations */
+  padding-bottom: var(--space-8); 
+}
+
+/* Page Header */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.page-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.page-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Toolbar / Filters Section */
+.page-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-surface);
+}
+
+.search-input {
+  flex: 1;
+  max-width: 320px;
+}
+
+.filter-select {
+  width: 180px;
+}
+
+/* Main Content Card */
+.page-content-card {
+  padding: var(--space-6);
+  background: var(--color-surface);
+  min-height: 400px;
+}
+
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================= */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .page-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input,
+  .filter-select {
+    max-width: 100%;
+    width: 100%;
+  }
+}
