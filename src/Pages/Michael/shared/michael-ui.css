@@ -1,0 +1,513 @@
+/* Root scope and aliases */
+.michael-ui {
+  --mu-gap: var(--space-4);
+  --mu-gap-small: var(--space-2);
+  --mu-gap-large: var(--space-6);
+  --mu-page-title-size: var(--font-size-3xl);
+  --mu-section-title-size: var(--font-size-xl);
+  --mu-body-size: var(--font-size-md);
+  --mu-caption-size: var(--font-size-sm);
+  /* Mixes the theme-aware primary color with transparency for both themes. */
+  --mu-backdrop: color-mix(in srgb, var(--color-primary) 72%, transparent);
+  color: var(--color-text-primary);
+  font-family: var(--font-family);
+  font-size: var(--mu-body-size);
+}
+
+/* Page header and section header */
+.michael-ui .mu-page-content {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--mu-gap-large);
+}
+
+.michael-ui .mu-page-header,
+.michael-ui .mu-section-header {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mu-gap);
+}
+
+.michael-ui .mu-page-header {
+  flex-wrap: wrap;
+}
+
+.michael-ui .mu-page-header-actions,
+.michael-ui .mu-section-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--mu-gap-small);
+  flex-wrap: wrap;
+}
+
+.michael-ui .mu-page-title {
+  font-size: var(--mu-page-title-size);
+  line-height: var(--line-height-tight);
+}
+
+.michael-ui .mu-section-title {
+  font-size: var(--mu-section-title-size);
+  line-height: var(--line-height-tight);
+}
+
+.michael-ui .mu-body {
+  font-size: var(--mu-body-size);
+}
+
+.michael-ui .mu-caption {
+  color: var(--color-text-secondary);
+  font-size: var(--mu-caption-size);
+}
+
+/* Card and section layout */
+.michael-ui .mu-card {
+  min-width: 0;
+  padding: var(--mu-gap-large);
+}
+
+.michael-ui .mu-section {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--mu-gap);
+}
+
+/* Table and pagination */
+.michael-ui .mu-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.michael-ui .mu-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.michael-ui .mu-table th,
+.michael-ui .mu-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-border-light);
+  vertical-align: middle;
+}
+
+.michael-ui .mu-table th {
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+  font-size: var(--mu-caption-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.michael-ui .mu-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.michael-ui .mu-cell-numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.michael-ui .mu-pagination,
+.michael-ui .mu-pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mu-gap);
+}
+
+.michael-ui .mu-pagination {
+  color: var(--color-text-secondary);
+  font-size: var(--mu-caption-size);
+}
+
+/* Scoped button variants; shell .btn variants remain unchanged. */
+.michael-ui .mu-btn-quiet {
+  border-color: transparent;
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+.michael-ui .mu-btn-quiet:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.michael-ui .mu-btn-danger {
+  border-color: var(--color-danger);
+  background: var(--color-danger);
+  color: var(--color-text-inverse);
+}
+
+.michael-ui .mu-btn-danger:hover {
+  border-color: var(--color-danger-dark);
+  background: var(--color-danger-dark);
+}
+
+.michael-ui .mu-btn-icon,
+.michael-ui .mu-btn-row-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.michael-ui .mu-btn-icon {
+  width: var(--button-height-sm);
+  min-width: var(--button-height-sm);
+  min-height: var(--button-height-sm);
+}
+
+.michael-ui .mu-btn-row-action {
+  min-width: var(--button-height-sm);
+  min-height: 32px;
+  padding: 0 var(--space-2);
+  color: var(--color-text-primary);
+  font-size: var(--mu-caption-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.michael-ui .mu-btn-icon:hover,
+.michael-ui .mu-btn-row-action:hover {
+  border-color: var(--color-border);
+  background: var(--color-surface-hover);
+  color: var(--color-primary);
+}
+
+.michael-ui .mu-btn-quiet:focus-visible,
+.michael-ui .mu-btn-danger:focus-visible,
+.michael-ui .mu-btn-icon:focus-visible,
+.michael-ui .mu-btn-row-action:focus-visible,
+.michael-ui .mu-modal-close:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: var(--space-1);
+}
+
+/* Form field structure and inline errors */
+.michael-ui .mu-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.michael-ui .mu-field-label {
+  color: var(--color-text-primary);
+  font-size: var(--mu-caption-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.michael-ui .mu-field-hint,
+.michael-ui .mu-field-error {
+  font-size: var(--mu-caption-size);
+}
+
+.michael-ui .mu-field-hint {
+  color: var(--color-text-secondary);
+}
+
+.michael-ui .mu-field-error {
+  color: var(--color-danger-dark);
+}
+
+.michael-ui .mu-field-control[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+
+.michael-ui .mu-field-control[aria-invalid="true"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 var(--border-width-thick) var(--color-danger-light);
+}
+
+/* Modal */
+.michael-ui .mu-modal-backdrop {
+  position: fixed;
+  z-index: var(--z-modal-backdrop);
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--mu-gap);
+  background: var(--mu-backdrop);
+}
+
+.michael-ui .mu-modal-dialog {
+  width: min(100%, 40rem);
+  max-height: min(90vh, 52rem);
+  overflow: auto;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.michael-ui .mu-modal-header,
+.michael-ui .mu-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mu-gap);
+  padding: var(--mu-gap-large);
+}
+
+.michael-ui .mu-modal-header {
+  border-bottom: var(--border-width) solid var(--color-border-light);
+}
+
+.michael-ui .mu-modal-footer {
+  justify-content: flex-end;
+  border-top: var(--border-width) solid var(--color-border-light);
+}
+
+.michael-ui .mu-modal-close {
+  display: inline-flex;
+  width: var(--button-height-sm);
+  min-width: var(--button-height-sm);
+  min-height: var(--button-height-sm);
+  align-items: center;
+  justify-content: center;
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.michael-ui .mu-modal-close:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+/* Empty, loading, badge, tab and segmented states */
+.michael-ui .mu-empty-state {
+  display: grid;
+  min-height: 8rem;
+  place-content: center;
+  justify-items: center;
+  gap: var(--mu-gap-small);
+  padding: var(--mu-gap-large);
+  border: var(--border-width) dashed var(--color-border-dark);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.michael-ui .mu-empty-title {
+  color: var(--color-text-primary);
+  font-size: var(--mu-section-title-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.michael-ui .mu-skeleton {
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+}
+
+.michael-ui .mu-skeleton-text {
+  width: min(100%, 18rem);
+  height: var(--input-height-sm);
+}
+
+.michael-ui .mu-skeleton-row {
+  width: 100%;
+  height: var(--button-height-md);
+}
+
+.michael-ui .mu-skeleton-card {
+  min-height: 8rem;
+  border: var(--border-width) solid var(--color-border-light);
+  border-radius: var(--radius-md);
+}
+
+.michael-ui .mu-badge {
+  display: inline-flex;
+  min-height: var(--button-height-sm);
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+  font-size: var(--mu-caption-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.michael-ui .mu-badge-success {
+  border-color: var(--color-success-light);
+  background: var(--color-success-light);
+  color: var(--color-success-dark);
+}
+
+.michael-ui .mu-badge-warning {
+  border-color: var(--color-warning-light);
+  background: var(--color-warning-light);
+  color: var(--color-warning-dark);
+}
+
+.michael-ui .mu-badge-danger {
+  border-color: var(--color-danger-light);
+  background: var(--color-danger-light);
+  color: var(--color-danger-dark);
+}
+
+.michael-ui .mu-badge-neutral {
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+}
+
+.michael-ui .mu-tabs {
+  display: flex;
+  gap: var(--mu-gap-small);
+  overflow-x: auto;
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.michael-ui .mu-tab {
+  min-height: var(--button-height-lg);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-bottom: var(--border-width-thick) solid transparent;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: var(--mu-caption-size);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.michael-ui .mu-tab[aria-selected="true"] {
+  border-bottom-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
+.michael-ui .mu-segmented {
+  display: grid;
+  position: relative;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  isolation: isolate;
+}
+
+.michael-ui .mu-segmented::before {
+  position: absolute;
+  z-index: -1;
+  inset: var(--space-1) auto var(--space-1) var(--space-1);
+  width: calc((100% - var(--space-2)) / 4);
+  border-radius: var(--radius-sm);
+  background: var(--color-accent-light);
+  content: "";
+  pointer-events: none;
+}
+
+.michael-ui .mu-segmented[data-value="ABSENT"]::before {
+  transform: translateX(100%);
+}
+
+.michael-ui .mu-segmented[data-value="LATE"]::before {
+  transform: translateX(200%);
+}
+
+.michael-ui .mu-segmented[data-value="EXCUSED"]::before {
+  transform: translateX(300%);
+}
+
+.michael-ui .mu-segmented-option {
+  min-width: 0;
+  min-height: var(--button-height-md);
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: var(--mu-caption-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.michael-ui .mu-segmented-option[aria-pressed="true"] {
+  color: var(--color-accent-dark);
+}
+
+.michael-ui .mu-toast {
+  position: fixed;
+  z-index: var(--z-modal);
+  right: var(--space-4);
+  bottom: var(--space-4);
+  max-width: min(26rem, calc(100vw - var(--space-8)));
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.michael-ui .mu-toast-success { border-inline-start: var(--border-width-thick) solid var(--color-success); }
+.michael-ui .mu-toast-warning { border-inline-start: var(--border-width-thick) solid var(--color-warning); }
+.michael-ui .mu-toast-danger { border-inline-start: var(--border-width-thick) solid var(--color-danger); }
+
+/* Motion is opt-in and kept short; the wrapper can set --mu-i per item. */
+@media (prefers-reduced-motion: no-preference) {
+  .michael-ui .mu-page-content { animation: muFadeUp 200ms ease-out both; }
+  .michael-ui .mu-modal-backdrop { animation: muFadeIn 180ms ease-out both; }
+  .michael-ui .mu-modal-dialog { animation: muModalIn 200ms ease-out both; }
+  .michael-ui .mu-skeleton { background-size: 200% 100%; animation: muShimmer 220ms ease-out infinite alternate; }
+  .michael-ui .mu-toast { animation: muToastIn 200ms ease-out both; }
+  .michael-ui .mu-stagger-item { animation: muFadeUp 200ms ease-out both; animation-delay: calc(var(--mu-i, 0) * 35ms); }
+  .michael-ui .mu-table tbody tr { transition: background-color 180ms ease-out; }
+  .michael-ui .mu-table tbody tr:hover { background: var(--color-surface-hover); }
+  .michael-ui .mu-segmented::before { transition: transform 200ms ease-out; }
+
+  .michael-ui .mu-btn-icon,
+  .michael-ui .mu-btn-row-action { transition: background-color 200ms ease-out, color 200ms ease-out, border-color 200ms ease-out; }
+
+  @keyframes muFadeUp {
+    from { opacity: 0; transform: translateY(var(--space-2)); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes muFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes muModalIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes muShimmer {
+    from { background-image: linear-gradient(100deg, var(--color-surface-muted) 35%, var(--color-surface-hover) 50%, var(--color-surface-muted) 65%); background-position: 100% 0; }
+    to { background-image: linear-gradient(100deg, var(--color-surface-muted) 35%, var(--color-surface-hover) 50%, var(--color-surface-muted) 65%); background-position: -100% 0; }
+  }
+
+  @keyframes muToastIn {
+    from { opacity: 0; transform: translate(var(--space-2), var(--space-2)); }
+    to { opacity: 1; transform: translate(0, 0); }
+  }
+}
+
+/* Compact layouts */
+@media (max-width: 700px) {
+  .michael-ui .mu-card { padding: var(--space-4); }
+  .michael-ui .mu-page-header,
+  .michael-ui .mu-section-header,
+  .michael-ui .mu-pagination { align-items: flex-start; flex-direction: column; }
+  .michael-ui .mu-page-header-actions,
+  .michael-ui .mu-pagination-controls { width: 100%; justify-content: space-between; }
+  .michael-ui .mu-modal-header,
+  .michael-ui .mu-modal-footer { padding: var(--space-4); }
+  .michael-ui .mu-segmented-option { padding-inline: var(--space-1); }
+}
