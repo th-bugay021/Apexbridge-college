@@ -1,0 +1,28 @@
+@import "../Academics/academics.css";
+
+.timetable-page{gap:var(--space-5)}
+.timetable-section{display:flex;flex-direction:column;gap:var(--space-4)}
+.timetable-grid{--timetable-day-count:5;display:grid;grid-template-columns:repeat(var(--timetable-day-count),minmax(150px,1fr));gap:var(--space-3);align-items:stretch;overflow-x:auto;padding-bottom:var(--space-2)}
+.timetable-day{min-width:0;padding:var(--space-3);border:1px solid var(--color-border-light);border-radius:var(--radius-md);background:var(--color-surface-muted)}
+.timetable-day h3{padding:var(--space-2) var(--space-1);color:var(--color-text-primary);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold)}
+.timetable-day-entries{display:grid;align-content:start;gap:var(--space-3)}
+.timetable-entry{padding:var(--space-3);border:1px solid var(--color-border);border-left:3px solid var(--color-accent);border-radius:var(--radius-md);background:var(--color-surface);box-shadow:var(--shadow-xs)}
+.timetable-entry h4{font-size:var(--font-size-sm);line-height:var(--line-height-normal)}
+.timetable-entry p{margin-top:var(--space-2);font-size:var(--font-size-xs);line-height:var(--line-height-normal);color:var(--color-text-secondary);overflow-wrap:anywhere}
+.timetable-entry .timetable-entry-time{color:var(--color-accent-dark);font-weight:var(--font-weight-semibold)}
+.timetable-entry-code{font-weight:var(--font-weight-medium)}
+.timetable-entry-class{font-weight:var(--font-weight-semibold)}
+.timetable-day-empty{padding:var(--space-3) var(--space-1);font-size:var(--font-size-xs);color:var(--color-text-secondary)}
+.timetable-card-actions{display:flex;gap:var(--space-3);margin-top:var(--space-3);padding-top:var(--space-2);border-top:1px solid var(--color-border-light)}
+.timetable-delete-action{color:var(--color-danger-dark)}
+.timetable-modal{max-height:min(90vh,780px);overflow:auto}
+.timetable-assigned-teacher{display:flex;flex-direction:column;justify-content:center;gap:var(--space-2);padding:var(--space-3);border-radius:var(--radius-md);background:var(--color-surface-muted);font-size:var(--font-size-sm)}
+.timetable-assigned-teacher span{color:var(--color-text-secondary)}
+.timetable-help{color:var(--color-text-secondary);font-size:var(--font-size-sm)}
+.timetable-class-summary h2{font-size:var(--font-size-lg)}
+@media(max-width:700px){
+  .timetable-grid{grid-template-columns:1fr;overflow:visible}
+  .timetable-day{min-width:0}
+  .timetable-modal .academic-form{grid-template-columns:1fr}
+  .timetable-modal .academic-form-actions{grid-column:1}
+}

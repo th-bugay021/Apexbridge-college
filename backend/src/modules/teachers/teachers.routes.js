@@ -1,0 +1,22 @@
+import { Router } from 'express';
+import { authenticate } from '../../middleware/authenticate.js';
+import { authorize } from '../../middleware/authorize.js';
+import { validate } from '../../middleware/validate.js';
+import * as controller from './teachers.controller.js';
+import { teacherIdSchema, teacherListSchema, teacherOverviewListSchema, teacherOverviewSchema, updateOwnTeacherSchema, updateTeacherSchema } from './teachers.schema.js';
+import { HttpError } from '../../utils/httpError.js';
+const router = Router();
+router.use(authenticate);
+router.get('/me', authorize('teachers.view.own'), controller.getOwn);
+router.patch('/me', authorize('teachers.update.own'), validate(updateOwnTeacherSchema), controller.updateOwn);
+router.get('/overview', authorize('teachers.view'), validate(teacherOverviewListSchema), controller.overviewList);
+router.get('/:id/overview', validate(teacherOverviewSchema), (req, _res, next) => {
+  if (['ADMIN', 'SUPER_ADMIN', 'TEACHER'].includes(req.user.role)) return next();
+  return next(new HttpError(403, 'FORBIDDEN', 'You do not have permission to view teacher overviews'));
+}, controller.overview);
+router.get('/', authorize('teachers.view'), validate(teacherListSchema), controller.list);
+router.get('/:id', authorize('teachers.view'), validate(teacherIdSchema), controller.getOne);
+router.patch('/:id', authorize('teachers.update'), validate(updateTeacherSchema), controller.updateOne);
+router.post('/:id/deactivate', authorize('teachers.update'), validate(teacherIdSchema), controller.deactivate);
+router.post('/:id/reactivate', authorize('teachers.update'), validate(teacherIdSchema), controller.reactivate);
+export default router;

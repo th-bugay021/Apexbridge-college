@@ -11,6 +11,11 @@ const permissions = {
     "teachers.view",
     "teachers.create",
     "teachers.update",
+    "classes.view",
+    "classes.manage",
+    "subjects.view",
+    "subjects.manage",
+    "attendance.access",
   ],
 
   TEACHER: [
@@ -18,11 +23,17 @@ const permissions = {
     "attendance.view",
     "attendance.manage",
     "results.view",
+    "classes.view",
+    "attendance.access",
+    "timetable.view.own",
   ],
 
   STUDENT: [
     "results.view",
     "attendance.view",
+    "attendance.access",
+    "classes.view",
+    "timetable.view.own",
   ],
 
   PARENT: [

@@ -1,0 +1,21 @@
+@import "./teachers.css";
+
+.performance-page{gap:var(--space-5)}
+.performance-filters,.performance-date-range,.performance-range-form{display:flex;align-items:flex-end;gap:var(--space-4);flex-wrap:wrap}
+.performance-filters{justify-content:space-between;margin-bottom:var(--space-4)}
+.performance-filters .teacher-search{margin-bottom:0;flex:1 1 260px}
+.performance-date-range label{display:flex;flex-direction:column;gap:var(--space-2);min-width:155px;font-size:var(--font-size-sm);font-weight:var(--font-weight-medium)}
+.performance-date-range input{min-height:42px;padding:var(--space-2) var(--space-3);border:1px solid var(--color-border-dark);border-radius:var(--radius-md);background:var(--color-surface);color:var(--color-text-primary);font:inherit}
+.performance-date-range input:focus{outline:2px solid var(--color-border-focus);outline-offset:1px}
+.performance-range-form{justify-content:space-between}
+.performance-range-form .btn{min-height:42px}
+.performance-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4)}
+.performance-stat{display:flex;min-width:0;flex-direction:column;gap:var(--space-2)}
+.performance-stat span,.performance-stat small,.performance-caption{color:var(--color-text-secondary);font-size:var(--font-size-sm)}
+.performance-stat strong{font-size:var(--font-size-2xl);line-height:1.2;overflow-wrap:anywhere}
+.performance-card h2,.performance-page .teacher-card>h2{margin-bottom:var(--space-3)}
+.performance-table{min-width:760px}
+.performance-results-note{padding:var(--space-3) var(--space-4);border-left:3px solid var(--color-accent);border-radius:var(--radius-sm);background:var(--color-surface-muted);color:var(--color-text-secondary);font-size:var(--font-size-sm)}
+.performance-caption{margin:-var(--space-1) 0 var(--space-3)}
+@media(max-width:900px){.performance-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.performance-summary{grid-template-columns:1fr 1fr}.performance-date-range{width:100%;display:grid;grid-template-columns:1fr 1fr}.performance-range-form{align-items:stretch}.performance-range-form>.btn{width:100%}.performance-filters{align-items:stretch}.performance-filters .teacher-search{max-width:none}}

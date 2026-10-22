@@ -1,0 +1,823 @@
+.lg-page {
+  --lg-paper: #f6f9fa;
+  --lg-navy: #0b1f3a;
+  --lg-teal: #0a9a8f;
+  --lg-teal-dark: #077a72;
+  --lg-teal-light: #6fd6cc;
+  --lg-mint: #dff1ef;
+  --lg-text: #0b1f3a;
+  --lg-muted: #5b6b7a;
+  --lg-error: #c0392b;
+  --lg-rake: -8deg;
+
+  /* ONE slanted line, shared by both pages: it leans the same way ("\") on Login and Register,
+     only the side that is navy changes. Values are % of the card width. */
+  --lg-edge-top: 43.2%;
+  --lg-edge-bot: 54%;
+  /* Register (default): navy on the left of the line */
+  --lg-slant: polygon(0 0, var(--lg-edge-top) 0, var(--lg-edge-bot) 100%, 0 100%);
+  --lg-seam-shift: 3px;
+  --lg-glow-x: 6%;
+
+  display: grid;
+  min-height: 100vh;
+  min-height: 100dvh;
+  place-items: stretch;
+  overflow: hidden;
+  padding: 0;
+  background: var(--lg-paper);
+  color: var(--lg-text);
+  font-family: 'DM Sans', Arial, sans-serif;
+}
+
+.lg-card {
+  position: relative;
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+  border-radius: 0;
+  background: var(--lg-paper);
+  isolation: isolate;
+}
+
+/* Login: navy on the right of the same line */
+.lg-card--flip {
+  --lg-slant: polygon(var(--lg-edge-top) 0, 100% 0, 100% 100%, var(--lg-edge-bot) 100%);
+  --lg-seam-shift: -3px;
+  --lg-glow-x: 94%;
+}
+
+/* ---------- Navy panel with slanted edge ---------- */
+
+.lg-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(32px, 5vw, 72px);
+  background: radial-gradient(ellipse 45% 60% at var(--lg-glow-x) 100%, rgba(10, 154, 143, .32), transparent 100%), var(--lg-navy);
+  clip-path: var(--lg-slant);
+  color: #fff;
+}
+
+/* Keep the text clear of the slanted edge when the navy side is on the right */
+.lg-card--flip .lg-panel {
+  padding-left: calc(var(--lg-edge-bot) + clamp(24px, 3.5vw, 64px));
+}
+
+/* Teal seam: same shape, nudged sideways so a thin lit line shows along the slant */
+.lg-seam-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  filter: drop-shadow(0 0 10px rgba(10, 154, 143, .55));
+  pointer-events: none;
+}
+
+.lg-seam {
+  width: 100%;
+  height: 100%;
+  background: var(--lg-teal);
+  clip-path: var(--lg-slant);
+  transform: translateX(var(--lg-seam-shift));
+}
+
+.lg-logo {
+  align-self: flex-start;
+  width: clamp(150px, 14vw, 210px);
+  height: auto;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: var(--lg-mint);
+}
+
+.lg-welcome {
+  max-width: clamp(320px, 30vw, 520px);
+  padding-bottom: 31px;
+}
+
+/* Headline stacks on two lines ("Welcome / back."), with room for the italic descenders */
+.lg-welcome h1 {
+  margin: 0 0 24px;
+  color: #fff;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1.1;
+}
+
+.lg-welcome h1 em {
+  display: block;
+  padding-bottom: .08em;
+}
+
+.lg-welcome em,
+.lg-blade-copy em {
+  color: var(--lg-teal-light);
+  font-weight: 500;
+}
+
+.lg-welcome p {
+  margin: 0;
+  color: #cfe3e6;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.65;
+}
+
+/* ---------- Form side ---------- */
+
+.lg-form-side {
+  display: grid;
+  align-items: start;
+  /* Same fixed top offset on both pages, so the heading never jumps when you switch.
+     Left padding clears the navy panel (Register: navy on the left). */
+  padding: clamp(64px, 16vh, 170px) 48px 48px calc(var(--lg-edge-bot) + clamp(16px, 2vw, 40px));
+  background: var(--lg-paper);
+  color: var(--lg-text);
+}
+
+/* Login: form on the left, so clear the navy panel on the right instead */
+.lg-card--flip .lg-form-side {
+  padding: clamp(64px, 16vh, 170px) calc(100% - var(--lg-edge-top) + clamp(16px, 2vw, 40px)) 48px clamp(32px, 4vw, 72px);
+}
+
+.lg-form-content {
+  width: 100%;
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+.lg-title {
+  margin: 0;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -.025em;
+}
+
+.lg-title-rule {
+  display: block;
+  width: 36px;
+  height: 3px;
+  margin-top: 13px;
+  border-radius: 5px;
+  background: var(--lg-teal);
+}
+
+.lg-fields {
+  display: grid;
+  gap: 30px;
+  margin-top: 42px;
+}
+
+.lg-field {
+  position: relative;
+  min-height: 48px;
+  padding-top: 5px;
+  border-bottom: 1px solid rgba(11, 31, 58, .25);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+/* 2px underline without shifting the layout (extra 1px comes from the shadow) */
+.lg-field:focus-within {
+  border-bottom-color: var(--lg-teal);
+  box-shadow: 0 1px 0 var(--lg-teal);
+}
+
+.lg-field label {
+  position: absolute;
+  top: 13px;
+  left: 0;
+  color: var(--lg-muted);
+  font-size: 15px;
+  pointer-events: none;
+  transform-origin: left top;
+  transition: transform .18s ease, color .18s ease, font-size .18s ease;
+}
+
+.lg-field input {
+  width: 100%;
+  min-height: 42px;
+  padding: 15px 36px 5px 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--lg-text);
+  font-size: 15px;
+}
+
+.lg-field:focus-within label,
+.lg-field:has(input:not(:placeholder-shown)) label {
+  transform: translateY(-11px);
+  color: var(--lg-teal-dark);
+  font-size: 11px;
+}
+
+.lg-field svg {
+  position: absolute;
+  top: 15px;
+  right: 2px;
+  width: 19px;
+  fill: none;
+  stroke: #667a83;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+  pointer-events: none;
+  transition: stroke .18s ease;
+}
+
+.lg-field:focus-within svg,
+.lg-field:has(input:not(:placeholder-shown)) svg {
+  stroke: var(--lg-teal-dark);
+}
+
+/* ---------- Keep me signed in / Forgot password ---------- */
+
+.lg-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-top: 26px;
+  font-size: 14px;
+}
+
+.lg-check {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--lg-text);
+  cursor: pointer;
+}
+
+/* The real checkbox stays in the page (keyboard and screen readers); the box is drawn next to it */
+.lg-check input {
+  position: absolute;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.lg-check-box {
+  display: grid;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border: 1.5px solid rgba(11, 31, 58, .35);
+  border-radius: 6px;
+  background: #fff;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+
+.lg-check-box::after {
+  content: "";
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: translate(0, -1px) rotate(45deg) scale(0);
+  transition: transform .15s ease;
+}
+
+.lg-check input:checked + .lg-check-box {
+  border-color: var(--lg-teal);
+  background: var(--lg-teal);
+}
+
+.lg-check input:checked + .lg-check-box::after {
+  transform: translate(0, -1px) rotate(45deg) scale(1);
+}
+
+.lg-check input:focus-visible + .lg-check-box {
+  outline: 2px solid var(--lg-teal);
+  outline-offset: 3px;
+}
+
+.lg-forgot {
+  color: var(--lg-teal-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.lg-forgot:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.rg-account-type {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--lg-muted);
+  font-size: 13px;
+}
+
+.rg-account-select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid rgba(11, 31, 58, .25);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--lg-text);
+  font: inherit;
+}
+
+/* Registration mode switch: native radios retain keyboard and screen-reader semantics. */
+.rg-mode-switch {
+  display: flex;
+  gap: 4px;
+  margin: 0 0 25px;
+  padding: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: #e5efef;
+}
+
+.rg-mode-switch label {
+  position: relative;
+  display: grid;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 44px;
+  place-items: center;
+  border-radius: 999px;
+  color: #294456;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: color .18s ease;
+}
+
+.rg-mode-switch label::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--lg-teal);
+  content: "";
+  opacity: 0;
+  transform: scale(.96);
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+.rg-mode-switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.rg-mode-switch label.is-selected {
+  color: #0b1f3a;
+}
+
+.rg-mode-switch label.is-selected::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.rg-mode-switch label span {
+  position: relative;
+  z-index: 1;
+  padding: 0 7px;
+  text-align: center;
+}
+
+.rg-mode-switch input:focus-visible + span {
+  border-radius: 4px;
+  outline: 2px solid #0b1f3a;
+  outline-offset: 3px;
+}
+
+.rg-mode-fields {
+  display: grid;
+  grid-template-rows: 78px;
+  margin-top: 1px;
+  transition: grid-template-rows .18s ease;
+}
+
+.rg-mode-fields.is-staff {
+  grid-template-rows: 226px;
+}
+
+.rg-mode-field {
+  grid-area: 1 / 1;
+  min-width: 0;
+  overflow: hidden;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+}
+
+.rg-mode-field[aria-hidden="true"] {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+}
+
+.rg-staff-field {
+  display: grid;
+  grid-template-rows: auto auto auto auto auto;
+  gap: 2px;
+}
+
+.rg-staff-field .rg-account-type {
+  margin-bottom: 3px;
+}
+
+.rg-staff-field .rg-account-select {
+  align-self: start;
+  margin-bottom: 9px;
+}
+
+.lg-field.rg-invite-field {
+  min-height: 47px;
+  margin-top: 2px;
+}
+
+.lg-field.rg-invite-field input.rg-invite-input {
+  padding-right: 38px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: .035em;
+}
+
+.lg-field.rg-invite-field.has-error {
+  border-bottom-color: var(--lg-error);
+  box-shadow: 0 1px 0 var(--lg-error);
+}
+
+.lg-field.rg-invite-field.has-error label,
+.lg-field.rg-invite-field.has-error svg {
+  color: var(--lg-error);
+  stroke: var(--lg-error);
+}
+
+.rg-invite-help {
+  margin: 5px 0 0;
+  color: #526878;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.rg-invite-error {
+  min-height: 18px;
+  margin: 2px 0 0;
+  color: #a32626;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.rg-invite-error span {
+  font-weight: 700;
+}
+
+.rg-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 9px;
+  vertical-align: -3px;
+  border: 2px solid rgba(255, 255, 255, .45);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: rg-spin .7s linear infinite;
+}
+
+@keyframes rg-spin {
+  to { transform: rotate(360deg); }
+}
+
+.auth-error {
+  margin: 18px 0 0;
+  color: #a32626;
+  font-size: 14px;
+}
+
+/* ---------- Button and switch link ---------- */
+
+.lg-submit {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 37px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--lg-navy);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  transition: background-color .2s ease, transform .2s ease;
+}
+
+.lg-options + .lg-submit {
+  margin-top: 24px;
+}
+
+.lg-submit:hover {
+  background: var(--lg-teal-dark);
+  transform: translateY(-2px);
+}
+
+.lg-submit:active {
+  transform: translateY(0);
+}
+
+.lg-submit:disabled {
+  cursor: wait;
+  opacity: .7;
+  transform: none;
+}
+
+.lg-register {
+  margin: 21px 0 0;
+  color: var(--lg-muted);
+  font-size: 14px;
+}
+
+.lg-register a {
+  color: var(--lg-teal-dark);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.lg-register a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- The blade ---------- */
+
+.lg-blade {
+  position: absolute;
+  z-index: 3;
+  inset: 0 -12%;
+  overflow: hidden;
+  background: var(--lg-navy);
+  pointer-events: none;
+  transform: skewX(var(--lg-rake)) translateX(0);
+}
+
+/* Two lit seams, one on each edge of the blade (inside it, so they travel with it) */
+.lg-blade::before,
+.lg-blade::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--lg-teal);
+  box-shadow: 0 0 12px rgba(10, 154, 143, .7);
+}
+
+.lg-blade::before { left: 0; }
+.lg-blade::after { right: 0; }
+
+/* Counter-transform: exactly the opposite of the blade, so content stays upright and still */
+.lg-blade-inner {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  transform: translateX(0) skewX(calc(-1 * var(--lg-rake)));
+}
+
+.lg-blade-copy {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.lg-blade-copy img {
+  width: 190px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--lg-mint);
+}
+
+.lg-blade-copy p {
+  margin: 0;
+  color: #fff;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 2.1rem;
+}
+
+/* Page load: the blade starts covering the card, then slides out to the right.
+   Blade and inner layer use the same duration and easing, with opposite offsets. */
+.lg-is-ready .lg-blade {
+  animation: lg-blade-out .9s cubic-bezier(.7, 0, .2, 1) forwards;
+}
+
+.lg-is-ready .lg-blade-inner {
+  animation: lg-inner-out .9s cubic-bezier(.7, 0, .2, 1) forwards;
+}
+
+/* Leaving: the blade slides in from the left and covers the card */
+.lg-is-leaving .lg-blade {
+  animation: lg-blade-in .9s cubic-bezier(.7, 0, .2, 1) forwards;
+}
+
+.lg-is-leaving .lg-blade-inner {
+  animation: lg-inner-in .9s cubic-bezier(.7, 0, .2, 1) forwards;
+}
+
+@keyframes lg-blade-out {
+  from { transform: skewX(var(--lg-rake)) translateX(0); }
+  to { transform: skewX(var(--lg-rake)) translateX(105%); }
+}
+
+@keyframes lg-inner-out {
+  from { transform: translateX(0) skewX(calc(-1 * var(--lg-rake))); }
+  to { transform: translateX(-105%) skewX(calc(-1 * var(--lg-rake))); }
+}
+
+@keyframes lg-blade-in {
+  from { transform: skewX(var(--lg-rake)) translateX(-105%); }
+  to { transform: skewX(var(--lg-rake)) translateX(0); }
+}
+
+@keyframes lg-inner-in {
+  from { transform: translateX(105%) skewX(calc(-1 * var(--lg-rake))); }
+  to { transform: translateX(0) skewX(calc(-1 * var(--lg-rake))); }
+}
+
+.lg-page :is(a, input, button):focus-visible {
+  outline: 2px solid var(--lg-teal);
+  outline-offset: 4px;
+}
+
+/* ---------- Dark mode (only if a data-theme="dark" ancestor exists) ---------- */
+
+[data-theme="dark"] .lg-card,
+[data-theme="dark"] .lg-form-side {
+  background: #0f2438;
+  color: #e8f1f2;
+}
+
+[data-theme="dark"] .lg-field {
+  border-bottom-color: rgba(255, 255, 255, .25);
+}
+
+[data-theme="dark"] .lg-field label,
+[data-theme="dark"] .lg-register {
+  color: #9fb4b8;
+}
+
+[data-theme="dark"] .lg-field input,
+[data-theme="dark"] .lg-check {
+  color: #e8f1f2;
+}
+
+[data-theme="dark"] .lg-field svg {
+  stroke: #9fb4b8;
+}
+
+[data-theme="dark"] .lg-register a,
+[data-theme="dark"] .lg-forgot {
+  color: var(--lg-teal-light);
+}
+
+[data-theme="dark"] .lg-check-box {
+  border-color: rgba(255, 255, 255, .35);
+  background: transparent;
+}
+
+/* ---------- Mobile: banner on top, simple fade, no blade ---------- */
+
+@media (max-width: 767px) {
+  .lg-page {
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .lg-card {
+    width: 100%;
+    align-content: start;
+  }
+
+  .lg-seam-wrap {
+    display: none;
+  }
+
+  /* `.lg-card .x` beats the `.lg-card--flip .x` desktop rules, so one set works for both pages */
+  .lg-card .lg-panel {
+    position: static;
+    min-height: 140px;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 22px;
+    clip-path: none;
+  }
+
+  .lg-logo {
+    width: 115px;
+    flex: none;
+    padding: 6px 9px;
+  }
+
+  .lg-welcome {
+    padding: 0;
+  }
+
+  .lg-welcome h1 {
+    margin-bottom: 6px;
+    font-size: clamp(1.45rem, 6vw, 2rem);
+  }
+
+  .lg-welcome p {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .lg-card .lg-form-side {
+    padding: 31px 26px 35px;
+  }
+
+  .lg-fields {
+    gap: 20px;
+    margin-top: 27px;
+  }
+
+  .lg-submit {
+    margin-top: 28px;
+  }
+
+  .rg-mode-switch {
+    margin-bottom: 22px;
+  }
+
+  .rg-mode-switch label {
+    font-size: 12px;
+  }
+
+  .lg-options + .lg-submit {
+    margin-top: 22px;
+  }
+
+  .lg-blade {
+    display: none;
+  }
+
+  .lg-card > :not(.lg-blade) {
+    opacity: 0;
+    transition: opacity .4s ease;
+  }
+
+  .lg-is-ready .lg-card > :not(.lg-blade) {
+    opacity: 1;
+  }
+}
+
+/* ---------- Reduced motion: no sweep, short fade only ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .lg-blade,
+  .lg-is-ready .lg-blade,
+  .lg-is-leaving .lg-blade,
+  .lg-is-ready .lg-blade-inner,
+  .lg-is-leaving .lg-blade-inner {
+    display: none;
+    animation: none;
+  }
+
+  .lg-submit,
+  .lg-field,
+  .lg-field label,
+  .lg-check-box,
+  .lg-check-box::after {
+    transition: none;
+  }
+
+  .rg-mode-fields,
+  .rg-mode-field,
+  .rg-mode-switch label,
+  .rg-mode-switch label::before {
+    transition: none;
+  }
+
+  .rg-spinner {
+    animation: none;
+  }
+
+  .lg-card > :not(.lg-blade) {
+    opacity: 1;
+    transition: opacity .2s ease;
+  }
+}

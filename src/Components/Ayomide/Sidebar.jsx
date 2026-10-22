@@ -3,7 +3,7 @@ import navigationConfig from "./navigationConfig";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   FiChevronDown,
@@ -39,6 +39,8 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           return { ...item, children: allowedChildren };
         }
 
+        if (item.roles && !item.roles.includes(user?.role)) return null;
+
         if (item.permission && typeof hasPermission === "function") {
           return hasPermission(item.permission) ? item : null;
         }
@@ -49,25 +51,6 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   };
 
   const navItems = filterNavItems(navigationConfig);
-
-  // Automatically expand group if active route matches any child path
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const newExpanded = { ...expandedGroups };
-
-    navItems.forEach((item) => {
-      if (item.children) {
-        const isChildActive = item.children.some(
-          (child) => child.path && currentPath.startsWith(child.path),
-        );
-        if (isChildActive) {
-          newExpanded[item.label] = true;
-        }
-      }
-    });
-
-    setExpandedGroups(newExpanded);
-  }, [location.pathname]);
 
   // Toggle dropdown group state
   const toggleGroup = (label) => {
@@ -167,7 +150,10 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           <ul className="nav-list">
             {navItems.map((item) => {
               const hasChildren = item.children && item.children.length > 0;
-              const isGroupExpanded = !!expandedGroups[item.label];
+              const hasActiveChild = item.children?.some(
+                (child) => child.path && location.pathname.startsWith(child.path),
+              );
+              const isGroupExpanded = !!expandedGroups[item.label] || hasActiveChild;
 
               if (hasChildren) {
                 const isAnyChildActive = item.children.some(

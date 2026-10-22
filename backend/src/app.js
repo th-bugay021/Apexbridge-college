@@ -1,0 +1,45 @@
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import { env } from './config/env.js';
+import authRoutes, { inviteRouter } from './modules/auth/auth.routes.js';
+import usersRoutes from './modules/users/users.routes.js';
+import studentsRoutes from './modules/students/students.routes.js';
+import teachersRoutes from './modules/teachers/teachers.routes.js';
+import subjectsRoutes from './modules/subjects/subjects.routes.js';
+import classesRoutes from './modules/classes/classes.routes.js';
+import attendanceRoutes from './modules/attendance/attendance.routes.js';
+import resultsRoutes from './modules/results/results.routes.js';
+import feesRoutes from './modules/fees/fees.routes.js';
+import timetableRoutes from './modules/timetable/timetable.routes.js';
+import { notFound } from './middleware/notFound.js';
+import { errorHandler } from './middleware/errorHandler.js';
+
+const app = express();
+app.use(helmet());
+app.use(cors({ origin: env.CLIENT_ORIGIN, credentials: true }));
+app.use(express.json({ limit: '1mb' }));
+app.use(morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use((req, _res, next) => {
+  req.cookies = Object.fromEntries((req.headers.cookie ?? '').split(';').filter(Boolean).map((part) => {
+    const separator = part.indexOf('=');
+    return separator < 0 ? [part.trim(), ''] : [part.slice(0, separator).trim(), decodeURIComponent(part.slice(separator + 1).trim())];
+  }));
+  next();
+});
+app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
+app.use('/api/auth', authRoutes);
+app.use('/api/invites', inviteRouter);
+app.use('/api/users', usersRoutes);
+app.use('/api/students', studentsRoutes);
+app.use('/api/teachers', teachersRoutes);
+app.use('/api/subjects', subjectsRoutes);
+app.use('/api/classes', classesRoutes);
+app.use('/api/attendance', attendanceRoutes);
+app.use('/api/results', resultsRoutes);
+app.use('/api/fees', feesRoutes);
+app.use('/api/timetable', timetableRoutes);
+app.use(notFound);
+app.use(errorHandler);
+export default app;

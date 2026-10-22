@@ -13,11 +13,20 @@ import ForgotPassword from "../Pages/Ayomide/Auth/ForgotPassword";
 import Settings from "../Pages/Ayomide/Settings/Settings";
 import Profile from "../Pages/Ayomide/Settings/Profile";
 
-import StudentList from "../Components/Ayomide/CardPattern"
-
 import HomePage from "../Pages/Michael/Homepage/HomePage";
 import NotFound from "../Errors/NotFound";
 import Unauthorized from "../Errors/Unauthorized";
+import TeacherList from "../Pages/Michael/Teachers/TeacherList";
+import TeacherProfile from "../Pages/Michael/Teachers/TeacherProfile";
+import MyTeacherProfile from "../Pages/Michael/Teachers/MyProfile";
+import PerformanceList from "../Pages/Michael/Teachers/PerformanceList";
+import PerformanceDetail from "../Pages/Michael/Teachers/PerformanceDetail";
+import DashboardLanding from "../Pages/Kingston/Dashboard/DashboardLanding";
+import Subjects from "../Pages/Michael/Academics/Subjects";
+import Classes from "../Pages/Michael/Academics/Classes";
+import ClassDetails from "../Pages/Michael/Academics/ClassDetails";
+import Attendance from "../Pages/Michael/Attendance/Attendance";
+import MyTimetable from "../Pages/Michael/Timetable/MyTimetable";
 
 function AppRoutes() {
   return (
@@ -32,9 +41,9 @@ function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
             <Route
-              element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN"]} />}
+              element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN", "TEACHER"]} />}
             >
-              <Route path="/dashboard" element={<h1>Dashboard</h1>} />
+              <Route path="/dashboard" element={<DashboardLanding />} />
             </Route>
 
             <Route
@@ -46,14 +55,33 @@ function AppRoutes() {
               }
             />
 
-            {/* <Route path="/teachers" element={<h1>Teachers</h1>} /> */}
-            <Route path="/teachers" element={<StudentList/>} />
+            <Route element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN"]} />}>
+              <Route path="/teachers/performance" element={<PerformanceList />} />
+              <Route path="/teachers/:id/performance" element={<PerformanceDetail />} />
+              <Route path="/teachers" element={<TeacherList />} />
+              <Route path="/teachers/:id" element={<TeacherProfile />} />
+            </Route>
+            <Route element={<RoleRoute allowedRoles={["TEACHER"]} />}>
+              <Route path="/teachers/me/performance" element={<PerformanceDetail />} />
+              <Route path="/teachers/me" element={<MyTeacherProfile />} />
+            </Route>
 
-            <Route path="/classes" element={<h1>Classes</h1>} />
+            <Route element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN"]} />}>
+              <Route path="/subjects" element={<Subjects />} />
+            </Route>
+            <Route element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN", "TEACHER", "STUDENT"]} />}>
+              <Route path="/classes" element={<Classes />} />
+            </Route>
+            <Route element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN", "TEACHER"]} />}>
+              <Route path="/classes/:id" element={<ClassDetails />} />
+            </Route>
 
-            <Route path="/subjects" element={<h1>Subjects</h1>} />
-
-            <Route path="/attendance" element={<h1>Attendance</h1>} />
+            <Route element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN", "TEACHER", "STUDENT"]} />}>
+              <Route path="/attendance" element={<Attendance />} />
+            </Route>
+            <Route element={<RoleRoute allowedRoles={["TEACHER", "STUDENT"]} />}>
+              <Route path="/timetable" element={<MyTimetable />} />
+            </Route>
 
             <Route path="/examinations" element={<h1>Examinations</h1>} />
 

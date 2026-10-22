@@ -17,6 +17,7 @@ const Breadcrumbs = () => {
 
   // Split path into clean non-empty segments
   const pathnames = location.pathname.split("/").filter((x) => x);
+  const classRoute = location.pathname.match(/^\/classes\/([^/]+)$/);
 
   // If the current path is strictly '/' or '/dashboard', display Home as the active breadcrumb
   const isHomeOrDashboard =
@@ -47,7 +48,11 @@ const Breadcrumbs = () => {
             // Reconstruct the nested route URL path
             const to = `/${pathnames.slice(0, index + 1).join("/")}`;
             const isLast = index === pathnames.length - 1;
-            const label = formatLabel(value);
+            const isClassIdSegment = classRoute && index === 1;
+            const classBreadcrumb = location.state?.breadcrumbClass;
+            const label = isClassIdSegment
+              ? classBreadcrumb?.id === decodeURIComponent(classRoute[1]) ? classBreadcrumb.name : "Class"
+              : formatLabel(value);
 
             // Skip rendering "Dashboard" again if path is e.g. /dashboard/something
             if (value.toLowerCase() === "dashboard" && index === 0) {

@@ -10,6 +10,7 @@ import {
   FiDollarSign,
   FiCreditCard,
   FiSettings,
+  FiTrendingUp,
 } from "react-icons/fi";
 
 const navigationConfig = [
@@ -31,6 +32,21 @@ const navigationConfig = [
     path: "/teachers",
     icon: FiUser,
     permission: "teachers.view",
+  },
+
+  {
+    label: "Teacher performance",
+    path: "/teachers/performance",
+    icon: FiTrendingUp,
+    permission: "teachers.view",
+    roles: ["SUPER_ADMIN", "ADMIN"],
+  },
+
+  {
+    label: "My performance",
+    path: "/teachers/me/performance",
+    icon: FiTrendingUp,
+    roles: ["TEACHER"],
   },
 
   {
@@ -60,7 +76,14 @@ const navigationConfig = [
         label: "Attendance",
         path: "/attendance",
         icon: FiClipboard,
-        permission: "attendance.view",
+        permission: "attendance.access",
+      },
+      {
+        label: "My timetable",
+        path: "/timetable",
+        icon: FiGrid,
+        permission: "timetable.view.own",
+        roles: ["TEACHER", "STUDENT"],
       },
     ],
   },

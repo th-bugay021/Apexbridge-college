@@ -1,0 +1,23 @@
+import { Router } from 'express';
+import { rateLimit } from 'express-rate-limit';
+import * as controller from './auth.controller.js';
+import { registerSchema, loginSchema, inviteSchema, inviteIdSchema } from './auth.schema.js';
+import { validate } from '../../middleware/validate.js';
+import { authenticate } from '../../middleware/authenticate.js';
+import { authorize } from '../../middleware/authorize.js';
+
+const router = Router();
+export const inviteRouter = Router();
+const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 20, standardHeaders: 'draft-8', legacyHeaders: false });
+router.post('/register', authLimiter, validate(registerSchema), controller.register);
+router.post('/login', authLimiter, validate(loginSchema), controller.login);
+router.post('/refresh', authLimiter, controller.refresh);
+router.post('/logout', controller.logout);
+router.get('/me', authenticate, controller.me);
+router.post('/forgot-password', authLimiter, controller.notImplemented);
+router.post('/reset-password', authLimiter, controller.notImplemented);
+inviteRouter.use(authenticate, authorize('invites.create'));
+inviteRouter.post('/', validate(inviteSchema), controller.createInvite);
+inviteRouter.get('/', controller.listInvites);
+inviteRouter.post('/:id/revoke', validate(inviteIdSchema), controller.revokeInvite);
+export default router;

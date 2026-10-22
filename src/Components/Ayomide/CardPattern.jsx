@@ -8,8 +8,8 @@ const StudentList = () => {
       {/* 1. Page Header (Title & Action Buttons) */}
       <div className="page-header">
         <div>
-          <h1 className="page-title">Student Management</h1>
-          <p className="page-subtitle">View and manage all registered students.</p>
+          <h1 className="page-title">Teacher Management</h1>
+          <p className="page-subtitle">View and manage all registered teachers.</p>
         </div>
         <div className="page-actions">
           <button type="button" className="btn btn-outline">Export CSV</button>
