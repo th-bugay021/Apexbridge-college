@@ -475,7 +475,7 @@
   .michael-ui .mu-page-content { animation: muFadeUp 200ms ease-out both; }
   .michael-ui .mu-modal-backdrop { animation: muFadeIn 180ms ease-out both; }
   .michael-ui .mu-modal-dialog { animation: muModalIn 200ms ease-out both; }
-  .michael-ui .mu-skeleton { background-size: 200% 100%; animation: muShimmer 220ms ease-out infinite alternate; }
+  .michael-ui .mu-skeleton { background-size: 200% 100%; animation: muShimmer 1.9s ease-in-out infinite alternate; }
   .michael-ui .mu-toast { animation: muToastIn 200ms ease-out both; }
   .michael-ui .mu-stagger-item { animation: muFadeUp 200ms ease-out both; animation-delay: calc(var(--mu-i, 0) * 35ms); }
   .michael-ui .mu-table tbody tr { transition: background-color 180ms ease-out; }
@@ -501,8 +501,8 @@
   }
 
   @keyframes muShimmer {
-    from { background-image: linear-gradient(100deg, var(--color-surface-muted) 35%, var(--color-surface-hover) 50%, var(--color-surface-muted) 65%); background-position: 100% 0; }
-    to { background-image: linear-gradient(100deg, var(--color-surface-muted) 35%, var(--color-surface-hover) 50%, var(--color-surface-muted) 65%); background-position: -100% 0; }
+    from { background-image: linear-gradient(100deg, var(--color-surface-muted) 20%, color-mix(in srgb, var(--color-surface-hover) 55%, var(--color-surface-muted)) 50%, var(--color-surface-muted) 80%); background-position: 100% 0; }
+    to { background-image: linear-gradient(100deg, var(--color-surface-muted) 20%, color-mix(in srgb, var(--color-surface-hover) 55%, var(--color-surface-muted)) 50%, var(--color-surface-muted) 80%); background-position: -100% 0; }
   }
 
   @keyframes muToastIn {
