@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { BookOpen, Search, School, UsersRound } from "lucide-react";
 import { createClass, deleteClass, getClasses, getMyClasses, updateClass } from "../../../api/classes";
 import ConfirmDialog from "../../../Components/Michael/Teachers/ConfirmDialog";
 import Toast from "../../../Components/Michael/Teachers/Toast";
@@ -166,6 +167,14 @@ export default function Classes() {
   const hasSearch = Boolean(query || search.trim());
   const pageTitle = isAdmin ? "Classes" : user?.role === "TEACHER" ? "My classes" : "My class";
   const columns = isAdmin ? 5 : 4;
+  const totalClassCount = isAdmin ? pagination.total : classes.length;
+  const totalStudentCount = classes.reduce((total, classItem) => total + (classItem.studentCount ?? classItem.students?.length ?? 0), 0);
+  const totalSubjectCount = classes.reduce((total, classItem) => total + (classItem.subjectCount ?? classItem.subjects?.length ?? 0), 0);
+  const stats = [
+    { label: "Total classes", value: totalClassCount, caption: isAdmin ? "Matching your filters" : "Assigned to you", Icon: School },
+    { label: "Total students", value: totalStudentCount, caption: "Across loaded classes", Icon: UsersRound },
+    { label: "Subjects assigned", value: totalSubjectCount, caption: "Across loaded classes", Icon: BookOpen },
+  ];
 
   return <div className="michael-ui">
     <main className="mu-page-content">
@@ -177,11 +186,25 @@ export default function Classes() {
         {isAdmin && <div className="mu-page-header-actions"><button className="btn btn-primary" type="button" onClick={openAdd}>Add class</button></div>}
       </header>
 
-      <section className="card mu-card" aria-label="Class list">
-        {isAdmin && <div className="academic-list-toolbar">
-          <div className="mu-field">
-            <label className="mu-field-label" htmlFor="class-search">Search classes</label>
-            <input className="input mu-field-control" id="class-search" type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Class name or level" />
+      <div className="mu-stat-grid" aria-label="Class statistics">
+        {stats.map(({ label, value, caption, Icon }, index) => <article className="mu-stat-card mu-stagger-item" key={label} style={{ "--mu-i": index }}>
+          <div className="mu-stat-card-header">
+            <span className="mu-stat-label">{label}</span>
+            <span className="mu-stat-icon" aria-hidden="true"><Icon size={16} strokeWidth={1.8} /></span>
+          </div>
+          <strong className="mu-stat-number">{loading ? "—" : value}</strong>
+          <p className="mu-stat-caption">{caption}</p>
+        </article>)}
+      </div>
+
+      <section className="card mu-card mu-class-list-card" aria-label="Class list">
+        {isAdmin && <div className="academic-list-toolbar mu-toolbar">
+          <div className="mu-toolbar-search">
+            <label className="mu-sr-only" htmlFor="class-search">Search classes</label>
+            <div className="mu-search-input-wrap">
+              <Search className="mu-search-icon" size={16} strokeWidth={1.8} aria-hidden="true" />
+              <input className="input mu-field-control" id="class-search" type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search classes by name or level" />
+            </div>
           </div>
         </div>}
 
@@ -191,17 +214,19 @@ export default function Classes() {
           <p>{error}</p>
           <button className="btn btn-outline" type="button" onClick={load}>Retry</button>
         </div> : classes.length === 0 ? <div className="mu-empty-state">
+          <span className="mu-empty-icon" aria-hidden="true"><School size={22} strokeWidth={1.7} /></span>
           <strong className="mu-empty-title">{isAdmin && hasSearch ? "No classes match your search" : "No classes yet"}</strong>
+          <p className="mu-empty-hint">{isAdmin && hasSearch ? "Try a different class name or level." : isAdmin ? "Create a class to start organizing students and subjects." : "Your class information will appear here once it is available."}</p>
           {isAdmin && !hasSearch && <button className="btn btn-primary" type="button" onClick={openAdd}>Add class</button>}
         </div> : <div className="mu-table-wrap">
           <table className="mu-table">
-            <thead><tr><th scope="col">Class</th><th scope="col">Level</th>{isAdmin ? <><th scope="col">Students</th><th scope="col">Subjects</th></> : <th scope="col">Assigned subjects</th>}<th scope="col">Actions</th></tr></thead>
+            <thead><tr><th scope="col">Class</th><th scope="col">Level</th>{isAdmin ? <><th className="mu-cell-numeric" scope="col">Students</th><th className="mu-cell-numeric" scope="col">Subjects</th></> : <th scope="col">Assigned subjects</th>}<th scope="col">Actions</th></tr></thead>
             <tbody>{classes.map((classItem) => <tr key={classItem.id}>
               <td>{isAdmin ? <Link to={`/classes/${classItem.id}`}>{classItem.name}</Link> : classItem.name}</td>
-              <td><span className="mu-badge mu-badge-neutral">{classItem.level || "Not set"}</span></td>
+              <td><span className="mu-badge mu-badge-neutral mu-level-pill">{classItem.level || "Not set"}</span></td>
               {isAdmin ? <>
-                <td>{classItem.studentCount ?? classItem.students?.length ?? 0}</td>
-                <td>{classItem.subjectCount ?? classItem.subjects?.length ?? 0}</td>
+                <td className="mu-cell-numeric">{classItem.studentCount ?? classItem.students?.length ?? 0}</td>
+                <td className="mu-cell-numeric">{classItem.subjectCount ?? classItem.subjects?.length ?? 0}</td>
               </> : <td>{classItem.subjects?.length ? classItem.subjects.map((assignment) => assignment.subject.name).join(", ") : "No subjects assigned"}</td>}
               <td><div className="mu-section-header-actions">
                 {isAdmin && <>
