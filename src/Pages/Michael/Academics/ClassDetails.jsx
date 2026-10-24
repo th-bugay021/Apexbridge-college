@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { BookOpen, UsersRound } from "lucide-react";
 import { assignSubject, getActiveTeachers, getClass, unassignSubject } from "../../../api/classes";
 import { getSubjects } from "../../../api/subjects";
 import ConfirmDialog from "../../../Components/Michael/Teachers/ConfirmDialog";
@@ -132,7 +133,6 @@ export default function ClassDetails() {
     <main className="mu-page-content">
       <header className="mu-page-header">
         <div>
-          <Link className="mu-caption" to="/classes">← {isAdmin ? "Classes" : "My classes"}</Link>
           <h1 className="mu-page-title">{loading ? "Class" : classItem?.name || "Class"}</h1>
           {!loading && classItem && <p className="mu-caption">Level: {classItem.level || "Not specified"}</p>}
         </div>
@@ -142,18 +142,28 @@ export default function ClassDetails() {
         <p>{error}</p>
         <button className="btn btn-outline" type="button" onClick={load}>Retry</button>
       </section> : !classItem ? <section className="card mu-card mu-empty-state"><p>Class details are unavailable.</p></section> : <>
-        <section className="card mu-card" aria-label="Class overview">
-          <div className="mu-section-header">
-            <h2 className="mu-section-title">Class overview</h2>
-            <span className="mu-caption">{students.length} {students.length === 1 ? "student" : "students"} · {classSubjects.length} {classSubjects.length === 1 ? "subject" : "subjects"}</span>
-          </div>
-        </section>
+        <div className="mu-stat-grid" aria-label="Class statistics">
+          <article className="mu-stat-card mu-stagger-item" style={{ "--mu-i": 0 }}>
+            <div className="mu-stat-card-header"><span className="mu-stat-label">Students</span><span className="mu-stat-icon" aria-hidden="true"><UsersRound size={16} strokeWidth={1.8} /></span></div>
+            <strong className="mu-stat-number">{students.length}</strong>
+            <p className="mu-stat-caption">Enrolled in this class</p>
+          </article>
+          <article className="mu-stat-card mu-stagger-item" style={{ "--mu-i": 1 }}>
+            <div className="mu-stat-card-header"><span className="mu-stat-label">Subjects</span><span className="mu-stat-icon" aria-hidden="true"><BookOpen size={16} strokeWidth={1.8} /></span></div>
+            <strong className="mu-stat-number">{classSubjects.length}</strong>
+            <p className="mu-stat-caption">Assigned to this class</p>
+          </article>
+        </div>
 
-        <section className="card mu-card">
+        <section className="card mu-card mu-detail-card">
           <header className="mu-section-header">
-            <div><h2 className="mu-section-title">Students</h2><p className="mu-caption">Read-only class roster.</p></div>
+            <div className="mu-card-heading"><h2 className="mu-section-title">Students</h2><p className="mu-card-subtitle">Read-only class roster.</p></div>
           </header>
-          {students.length === 0 ? <div className="mu-empty-state"><strong className="mu-empty-title">No students in this class yet</strong></div> : <div className="mu-table-wrap">
+          {students.length === 0 ? <div className="mu-empty-state mu-students-empty">
+            <span className="mu-empty-icon" aria-hidden="true"><UsersRound size={16} strokeWidth={1.8} /></span>
+            <strong className="mu-empty-title">No students in this class yet</strong>
+            <p className="mu-empty-hint">Students appear here once they are enrolled</p>
+          </div> : <div className="mu-table-wrap">
             <table className="mu-table">
               <thead><tr><th scope="col">Name</th><th scope="col">Admission number</th><th scope="col">Status</th></tr></thead>
               <tbody>{students.map((student) => {
@@ -164,9 +174,9 @@ export default function ClassDetails() {
           </div>}
         </section>
 
-        <section className="card mu-card">
+        <section className="card mu-card mu-detail-card">
           <header className="mu-section-header">
-            <div><h2 className="mu-section-title">Subjects and teachers</h2><p className="mu-caption">Subjects currently assigned to this class.</p></div>
+            <div className="mu-card-heading"><h2 className="mu-section-title">Subjects and teachers</h2><p className="mu-card-subtitle">Subjects currently assigned to this class.</p></div>
           </header>
           {isAdmin && <form className="academic-assignment-form" onSubmit={addAssignment}>
             <div className="mu-field">

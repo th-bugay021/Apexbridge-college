@@ -117,6 +117,24 @@
   gap: var(--mu-gap);
 }
 
+.michael-ui .mu-detail-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.michael-ui .mu-card-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.michael-ui .mu-card-subtitle {
+  color: var(--color-text-secondary);
+  font-size: var(--mu-label-size);
+  line-height: var(--line-height-normal);
+}
+
 /* Table and pagination */
 .michael-ui .mu-table-wrap {
   width: 100%;
@@ -162,6 +180,14 @@
 .michael-ui .mu-cell-numeric {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+.michael-ui .mu-cell-action {
+  text-align: right;
+}
+
+.michael-ui .mu-cell-action .mu-section-header-actions {
+  justify-content: flex-end;
 }
 
 .michael-ui .mu-pagination,
@@ -673,6 +699,24 @@
 .michael-ui .mu-empty-hint {
   color: var(--color-text-secondary);
   font-size: var(--mu-caption-size);
+}
+
+.michael-ui .mu-students-empty {
+  min-height: var(--space-12);
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  border: 0;
+}
+
+.michael-ui .mu-students-empty .mu-empty-icon {
+  width: var(--space-8);
+  height: var(--space-8);
+}
+
+.michael-ui .mu-students-empty .mu-empty-title {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
 }
 
 .michael-ui .mu-toast-success { border-inline-start: var(--border-width-thick) solid var(--color-success); }

@@ -171,7 +171,7 @@ export default function Classes() {
   const totalStudentCount = classes.reduce((total, classItem) => total + (classItem.studentCount ?? classItem.students?.length ?? 0), 0);
   const totalSubjectCount = classes.reduce((total, classItem) => total + (classItem.subjectCount ?? classItem.subjects?.length ?? 0), 0);
   const stats = [
-    { label: "Total classes", value: totalClassCount, caption: isAdmin ? "Matching your filters" : "Assigned to you", Icon: School },
+    { label: "Total classes", value: totalClassCount, caption: isAdmin ? hasSearch ? "Matching your search" : "Across all classes" : "Assigned to you", Icon: School },
     { label: "Total students", value: totalStudentCount, caption: "Across loaded classes", Icon: UsersRound },
     { label: "Subjects assigned", value: totalSubjectCount, caption: "Across loaded classes", Icon: BookOpen },
   ];
@@ -220,7 +220,7 @@ export default function Classes() {
           {isAdmin && !hasSearch && <button className="btn btn-primary" type="button" onClick={openAdd}>Add class</button>}
         </div> : <div className="mu-table-wrap">
           <table className="mu-table">
-            <thead><tr><th scope="col">Class</th><th scope="col">Level</th>{isAdmin ? <><th className="mu-cell-numeric" scope="col">Students</th><th className="mu-cell-numeric" scope="col">Subjects</th></> : <th scope="col">Assigned subjects</th>}<th scope="col">Actions</th></tr></thead>
+            <thead><tr><th scope="col">Class</th><th scope="col">Level</th>{isAdmin ? <><th className="mu-cell-numeric" scope="col">Students</th><th className="mu-cell-numeric" scope="col">Subjects</th></> : <th scope="col">Assigned subjects</th>}<th className="mu-cell-action" scope="col">Actions</th></tr></thead>
             <tbody>{classes.map((classItem) => <tr key={classItem.id}>
               <td>{isAdmin ? <Link to={`/classes/${classItem.id}`}>{classItem.name}</Link> : classItem.name}</td>
               <td><span className="mu-badge mu-badge-neutral mu-level-pill">{classItem.level || "Not set"}</span></td>
@@ -228,7 +228,7 @@ export default function Classes() {
                 <td className="mu-cell-numeric">{classItem.studentCount ?? classItem.students?.length ?? 0}</td>
                 <td className="mu-cell-numeric">{classItem.subjectCount ?? classItem.subjects?.length ?? 0}</td>
               </> : <td>{classItem.subjects?.length ? classItem.subjects.map((assignment) => assignment.subject.name).join(", ") : "No subjects assigned"}</td>}
-              <td><div className="mu-section-header-actions">
+              <td className="mu-cell-action"><div className="mu-section-header-actions">
                 {isAdmin && <>
                   <Link className="btn mu-btn-row-action" to={`/classes/${classItem.id}`}>View</Link>
                   <button className="btn mu-btn-row-action" type="button" onClick={() => openEdit(classItem)}>Edit</button>
