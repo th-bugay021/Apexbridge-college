@@ -995,3 +995,90 @@
     display: none;
   }
 }
+
+/* Weekly, monthly and report date-range toolbar */
+.michael-ui .mu-attendance-range-toolbar {
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: nowrap;
+}
+
+.michael-ui .mu-attendance-range-toolbar > .attendance-range {
+  display: contents;
+}
+
+.michael-ui .mu-attendance-range-toolbar > .mu-attendance-toolbar-field::after {
+  content: none;
+}
+
+.michael-ui .mu-attendance-range-toolbar > .mu-attendance-toolbar-field,
+.michael-ui .mu-attendance-range-toolbar > .attendance-range > .mu-attendance-range-fields {
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.michael-ui .mu-attendance-range-toolbar > .attendance-range > .mu-attendance-range-fields {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-4);
+}
+
+.michael-ui .mu-attendance-range-toolbar .mu-attendance-range-field {
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.michael-ui .mu-attendance-range-toolbar .mu-field-control {
+  height: var(--input-height-sm);
+  min-height: var(--input-height-sm);
+}
+
+.michael-ui .mu-attendance-range-toolbar > .attendance-range > .mu-toolbar-actions {
+  align-self: flex-end;
+  flex: 0 0 auto;
+}
+
+.michael-ui .mu-attendance-range-toolbar > .attendance-range > .mu-toolbar-actions .btn-outline {
+  height: var(--input-height-sm);
+  min-height: var(--input-height-sm);
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .michael-ui .mu-attendance-range-toolbar {
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .michael-ui .mu-attendance-range-toolbar > .mu-attendance-toolbar-field {
+    flex: 0 0 100%;
+  }
+}
+
+@media (max-width: 639px) {
+  .michael-ui .mu-attendance-range-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .michael-ui .mu-attendance-range-toolbar > .mu-attendance-toolbar-field,
+  .michael-ui .mu-attendance-range-toolbar > .attendance-range > .mu-attendance-range-fields,
+  .michael-ui .mu-attendance-range-toolbar .mu-attendance-range-field,
+  .michael-ui .mu-attendance-range-toolbar > .attendance-range > .mu-toolbar-actions {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .michael-ui .mu-attendance-range-toolbar > .attendance-range > .mu-attendance-range-fields {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-4);
+  }
+
+  .michael-ui .mu-attendance-range-toolbar > .attendance-range > .mu-toolbar-actions,
+  .michael-ui .mu-attendance-range-toolbar > .attendance-range > .mu-toolbar-actions .btn-outline {
+    width: 100%;
+  }
+}

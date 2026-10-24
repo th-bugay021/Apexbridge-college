@@ -230,9 +230,16 @@ export default function Attendance() {
     const link = document.createElement("a"); link.href = url; link.download = "attendance-" + (classItem?.name || "class") + "-" + range.from + "-" + range.to + ".csv"; link.click(); URL.revokeObjectURL(url);
   };
   const setRangePreset = () => setRange(presetRange(today, tab));
-  const rangeControls = <div className="mu-toolbar attendance-range">
+  const rangeFields = <>
     <div className="mu-toolbar-search mu-attendance-range-field"><label className="mu-field-label" htmlFor="attendance-from">From</label><input className="input mu-field-control" id="attendance-from" type="date" max={today} value={range.from} onChange={(e) => setRange((old) => ({ ...old, from: e.target.value }))} /></div>
     <div className="mu-toolbar-search mu-attendance-range-field"><label className="mu-field-label" htmlFor="attendance-to">To</label><input className="input mu-field-control" id="attendance-to" type="date" max={today} value={range.to} onChange={(e) => setRange((old) => ({ ...old, to: e.target.value }))} /></div>
+  </>;
+  const rangeControls = <div className="mu-toolbar attendance-range">
+    {rangeFields}
+    <div className="mu-toolbar-actions"><button className="btn btn-outline" type="button" onClick={setRangePreset}>{tab === "monthly" ? "This month" : "This week"}</button></div>
+  </div>;
+  const rangeToolbarControls = <div className="mu-toolbar attendance-range">
+    <div className="mu-attendance-range-fields">{rangeFields}</div>
     <div className="mu-toolbar-actions"><button className="btn btn-outline" type="button" onClick={setRangePreset}>{tab === "monthly" ? "This month" : "This week"}</button></div>
   </div>;
 
@@ -252,9 +259,9 @@ export default function Attendance() {
       </section> : <>
         {error && !classId && <section className="mu-empty-state" role="alert"><p>{error}</p><button className="btn btn-outline" type="button" onClick={() => void loadClasses()}>Retry</button></section>}
         <section className="card mu-card mu-attendance-toolbar">
-          <div className="mu-toolbar">
+          <div className={tab === "daily" ? "mu-toolbar" : "mu-toolbar mu-attendance-range-toolbar"}>
             <div className="mu-attendance-toolbar-field"><label className="mu-field-label" htmlFor="attendance-class">Class</label><select className="select mu-field-control" id="attendance-class" value={classId} onChange={(e) => void selectClass(e.target.value)} disabled={!classes.length || viewLoading}><option value="">Choose a class</option>{classes.map((item) => <option key={item.id} value={item.id}>{label(item)}</option>)}</select></div>
-            {tab === "daily" ? <div className="mu-attendance-toolbar-field"><label className="mu-field-label" htmlFor="attendance-date">Date</label><input className="input mu-field-control" id="attendance-date" type="date" max={today} value={date} onChange={(e) => { setRecords({}); setViewLoading(true); setDate(e.target.value); }} /><span className="mu-caption mu-attendance-readable-date">{formatDate(date)}</span></div> : rangeControls}
+            {tab === "daily" ? <div className="mu-attendance-toolbar-field"><label className="mu-field-label" htmlFor="attendance-date">Date</label><input className="input mu-field-control" id="attendance-date" type="date" max={today} value={date} onChange={(e) => { setRecords({}); setViewLoading(true); setDate(e.target.value); }} /><span className="mu-caption mu-attendance-readable-date">{formatDate(date)}</span></div> : rangeToolbarControls}
             {tab === "daily" && <div className="mu-toolbar-actions mu-attendance-action-wrap"><span className="mu-field-label mu-attendance-toolbar-spacer" aria-hidden="true">&nbsp;</span><button className="btn btn-outline mu-attendance-mark-all" type="button" disabled={!activeStudents.length || viewLoading} onClick={() => setRecords(Object.fromEntries(activeStudents.map((student) => [student.id, "PRESENT"]))) }>Mark all present</button></div>}
           </div>
         </section>
