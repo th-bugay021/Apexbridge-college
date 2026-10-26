@@ -3,6 +3,7 @@ import { getMyTimetable } from "../../../api/timetable";
 import { useAuth } from "../../../Context/AuthContext";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
 import WeeklyTimetable from "./WeeklyTimetable";
+import "../shared/michael-ui.css";
 import "./timetable.css";
 
 export default function MyTimetable() {
@@ -27,11 +28,11 @@ export default function MyTimetable() {
   const isTeacher = user?.role === "TEACHER";
   const classTitle = data?.class ? [data.class.name, data.class.level].filter(Boolean).join(" · ") : "";
 
-  return <main className="teacher-page timetable-page">
+  return <div className="michael-ui"><main className="teacher-page timetable-page">
     <header className="teacher-page-header"><div><h1>My timetable</h1><p>{isTeacher ? "Your teaching schedule across assigned classes." : "Your class schedule for the week."}</p></div></header>
     {classTitle && <section className="teacher-card timetable-class-summary"><h2>{classTitle}</h2></section>}
     <section className="teacher-card">
       <WeeklyTimetable entries={data?.entries || []} loading={loading} error={error} onRetry={load} showClass={isTeacher} />
     </section>
-  </main>;
+  </main></div>;
 }

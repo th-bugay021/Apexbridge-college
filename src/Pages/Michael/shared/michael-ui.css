@@ -979,6 +979,30 @@
   font-size: var(--mu-caption-size);
 }
 
+/* Timetable components */
+.michael-ui .timetable-page,
+.michael-ui .timetable-section,
+.michael-ui .timetable-grid {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.michael-ui .timetable-grid {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.michael-ui .mu-timetable-time {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 700px) {
+  .michael-ui .timetable-grid {
+    grid-template-columns: repeat(var(--timetable-day-count), minmax(150px, 1fr));
+    overflow-x: auto;
+  }
+}
+
 @media (max-width: 700px) {
   .michael-ui .mu-attendance-toolbar .mu-toolbar {
     align-items: stretch;
@@ -994,6 +1018,45 @@
   .michael-ui .mu-attendance-toolbar-spacer {
     display: none;
   }
+}
+
+/* Timetable dialogs rendered at the document root */
+.michael-ui .mu-modal-backdrop,
+.michael-ui .teacher-modal-backdrop {
+  position: fixed;
+  z-index: var(--z-modal-backdrop);
+  inset: 0;
+}
+
+.michael-ui .mu-modal-dialog {
+  display: flex;
+  max-height: calc(100vh - var(--space-8));
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.michael-ui .mu-modal-dialog > form {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.michael-ui .mu-modal-dialog .mu-modal-header,
+.michael-ui .mu-modal-dialog .mu-modal-footer {
+  flex: 0 0 auto;
+}
+
+.michael-ui .mu-modal-dialog .mu-modal-body {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.michael-ui .teacher-modal {
+  max-height: calc(100vh - var(--space-8));
+  overflow-y: auto;
 }
 
 /* Weekly, monthly and report date-range toolbar */
