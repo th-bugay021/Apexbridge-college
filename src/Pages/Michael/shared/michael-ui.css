@@ -1166,6 +1166,73 @@
   }
 }
 
+/* Teacher list layout and grid tables */
+.michael-ui .mu-teachers-page {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.michael-ui .mu-teacher-list-card,
+.michael-ui .mu-teacher-invites-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.michael-ui .mu-teacher-toolbar {
+  align-items: flex-end;
+}
+
+.michael-ui .mu-teacher-row-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.michael-ui .mu-teacher-list-card .mu-table-grid,
+.michael-ui .mu-teacher-invites-card .mu-table-grid {
+  border-collapse: collapse;
+}
+
+.michael-ui .mu-teacher-list-card .mu-table-grid th,
+.michael-ui .mu-teacher-list-card .mu-table-grid td,
+.michael-ui .mu-teacher-invites-card .mu-table-grid th,
+.michael-ui .mu-teacher-invites-card .mu-table-grid td {
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  text-align: left;
+}
+
+.michael-ui .mu-teacher-pagination {
+  align-items: center;
+  margin: 0;
+}
+
+@media (min-width: 640px) and (max-width: 700px) {
+  .michael-ui .mu-teacher-toolbar {
+    align-items: flex-end;
+    flex-direction: row;
+  }
+
+  .michael-ui .mu-teacher-toolbar .mu-toolbar-search {
+    width: auto;
+  }
+}
+
+@media (max-width: 639px) {
+  .michael-ui .mu-teacher-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .michael-ui .mu-teacher-toolbar .mu-toolbar-search {
+    width: 100%;
+  }
+}
+
 /* Timetable dialogs rendered at the document root */
 .michael-ui .mu-modal-backdrop,
 .michael-ui .teacher-modal-backdrop {
