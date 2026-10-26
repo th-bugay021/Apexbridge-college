@@ -1,0 +1,202 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f6f8f7;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
+        'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #25352f;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 35px 15px;
+}
+
+a {
+    text-decoration: none;
+    color: #006751;
+}
+
+.cent {
+    text-align: center;
+}
+
+/* Main login/register wrapper */
+.login-container {
+    width: 450px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.login-container h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.login-container > p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Form card */
+.contain {
+    background-color: #ffffff;
+    width: 100%;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 0 auto 20px;
+    box-shadow: 0px 0px 15px rgba(0, 32, 25, 0.12);
+}
+
+/* Google button */
+.btn1 {
+    background-color: #ffffff;
+    color: #002019;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #dce6e0;
+    border-radius: 10px;
+    font-weight: 300;
+    font-size: 15px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.3s ease,
+                border-color 0.3s ease,
+                color 0.3s ease;
+}
+
+.btn1:hover {
+    background-color: #e8f4ef;
+    border-color: #004d3b;
+    color: #004d3b;
+}
+
+/* OR divider */
+.we {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 22px 0;
+}
+
+.we p {
+    font-size: 13px;
+    color: #25352f;
+}
+
+.line {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    border-top: 1px solid #dce6e0;
+}
+
+/* Form labels */
+.contain > p {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+/* Input fields */
+input {
+    display: block;
+    background-color: #ffffff;
+    color: #25352f;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 18px;
+    border: 1px solid #dce6e0;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+input::placeholder {
+    color: #9aa69f;
+}
+
+input:focus {
+    outline: none;
+    border-color: #08745a;
+    box-shadow: 0 0 0 3px rgba(8, 116, 90, 0.09);
+}
+
+/* Password and forgot password */
+.passfor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.passfor p {
+    font-size: 14px;
+}
+
+.fp {
+    font-weight: 300;
+    color: #006751;
+    font-size: 13px;
+    transition: color 0.2s ease;
+}
+
+.fp:hover {
+    color: #002019;
+    text-decoration: underline;
+}
+
+/* Login and register button */
+.btn2 {
+    display: block;
+    background-color: #004d3b;
+    color: #ffffff;
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #004d3b;
+    border-radius: 10px;
+    font-family: inherit;
+    font-weight: 300;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+.btn2:hover {
+    background-color: #006751;
+    border-color: #006751;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 32, 25, 0.12);
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+    body {
+        padding: 25px 15px;
+    }
+
+    .login-container h1 {
+        font-size: 22px;
+    }
+
+    .contain {
+        padding: 22px 18px;
+    }
+
+    .btn1,
+    .btn2,
+    input {
+        padding: 13px;
+    }
+}
