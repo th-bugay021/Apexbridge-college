@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { CalendarDays, ClipboardList, UsersRound } from "lucide-react";
 import { getMyProfile, getTeacherOverview } from "../../../api/teachers";
 import Toast from "../../../Components/Michael/Teachers/Toast";
 import WeeklyTimetable from "../Timetable/WeeklyTimetable";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
+import "../shared/michael-ui.css";
 import "./performance.css";
 
 function lagosToday() {
@@ -27,8 +29,24 @@ function requestMessage(error) {
   return error?.response?.data?.error?.message || apiErrorMessage(error, "teacher overview");
 }
 
-function scheduledHours(minutes) {
-  return `${(minutes / 60).toFixed(1)} hours`;
+function formatDuration(hoursValue) {
+  if (hoursValue == null || hoursValue === "" || !Number.isFinite(Number(hoursValue))) return "–";
+  const totalMinutes = Math.round(Number(hoursValue) * 60);
+  if (totalMinutes === 0) return "0 min";
+  if (totalMinutes < 60) return `${totalMinutes} min`;
+  const wholeHours = Math.floor(totalMinutes / 60);
+  const remainingMinutes = totalMinutes % 60;
+  return remainingMinutes ? `${wholeHours} h ${remainingMinutes} min` : `${wholeHours} h`;
+}
+
+function formatDisplayDate(value) {
+  if (!value) return "–";
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  const date = match
+    ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
+    : new Date(value);
+  if (Number.isNaN(date.getTime())) return "–";
+  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(date);
 }
 
 export default function PerformanceDetail() {
@@ -75,53 +93,81 @@ export default function PerformanceDetail() {
   const attendanceByClass = overview?.attendance?.byClass || [];
 
   return (
-    <main className="teacher-page performance-page">
-      <header className="teacher-page-header">
-        <div><h1>{ownView ? "My performance" : "Teacher performance"}</h1><p>{overview?.teacher?.fullName || (loading ? "Loading teacher…" : "Teaching and attendance overview")}</p></div>
+    <div className="michael-ui">
+    <main className="mu-page-content mu-performance-page">
+      <header className="mu-page-header">
+        <div><h1 className="mu-page-title">{ownView ? "My performance" : "Teacher performance"}</h1><p className="mu-caption">{overview?.teacher?.fullName || (loading ? "Loading teacher…" : "Teaching and attendance overview")}</p></div>
         {!ownView && <Link className="btn btn-outline" to="/teachers/performance">Back to teacher overview</Link>}
       </header>
-      <section className="teacher-card">
-        <form className="performance-range-form" onSubmit={applyRange}>
-          <div className="performance-date-range">
-            <label>Attendance from<input type="date" value={draftRange.from} onChange={(event) => setDraft("from", event.target.value)} /></label>
-            <label>To<input type="date" value={draftRange.to} onChange={(event) => setDraft("to", event.target.value)} /></label>
+      <section className="card mu-card">
+        <form className="mu-toolbar mu-performance-toolbar" onSubmit={applyRange}>
+          <div className="mu-performance-range-fields">
+            <div className="mu-field">
+              <label className="mu-field-label" htmlFor="performance-detail-from">Attendance from</label>
+              <input className="input mu-field-control" id="performance-detail-from" type="date" value={draftRange.from} onChange={(event) => setDraft("from", event.target.value)} />
+            </div>
+            <div className="mu-field">
+              <label className="mu-field-label" htmlFor="performance-detail-to">To</label>
+              <input className="input mu-field-control" id="performance-detail-to" type="date" value={draftRange.to} onChange={(event) => setDraft("to", event.target.value)} />
+            </div>
+            <p className="mu-field-hint mu-performance-date-caption">{formatDisplayDate(draftRange.from)} – {formatDisplayDate(draftRange.to)}</p>
           </div>
-          <button className="btn btn-outline" type="submit">Apply dates</button>
+          <button className="btn btn-outline mu-performance-apply" type="submit">Apply dates</button>
         </form>
       </section>
 
-      {loading ? <section className="teacher-card"><p className="teacher-state" role="status">Loading teacher overview…</p></section> : error ? <section className="teacher-card"><div className="teacher-state teacher-error" role="alert"><p>{error}</p><button className="btn btn-outline" type="button" onClick={() => void load()}>Retry</button></div></section> : overview ? <>
-        <section className="performance-summary" aria-label="Performance summary">
-          <article className="teacher-card performance-stat"><span>Classes taught</span><strong>{classes.length}</strong></article>
-          <article className="teacher-card performance-stat"><span>Subjects taught</span><strong>{subjectsTaught}</strong></article>
-          <article className="teacher-card performance-stat"><span>Scheduled per week</span><strong>{scheduledHours(overview.weeklyScheduledMinutes || 0)}</strong></article>
-          <article className="teacher-card performance-stat"><span>Attendance days marked</span><strong>{overview.attendance?.daysMarked ?? 0}</strong><small>{overview.attendance?.recordsEntered ?? 0} records entered</small></article>
+      {loading ? <>
+        <section className="mu-stat-grid" aria-label="Loading performance summary" role="status">
+          {Array.from({ length: 4 }, (_, index) => <article className="mu-stat-card" key={index}><div className="mu-skeleton mu-skeleton-text" /></article>)}
+        </section>
+        <section className="card mu-card mu-performance-section"><h2 className="mu-section-title">Classes and subjects</h2><div className="mu-table-wrap" aria-hidden="true"><table className="mu-table"><tbody>{Array.from({ length: 5 }, (_, index) => <tr key={index}><td><div className="mu-skeleton mu-skeleton-row" /></td></tr>)}</tbody></table></div></section>
+        <section className="card mu-card mu-performance-section"><h2 className="mu-section-title">Weekly schedule</h2><WeeklyTimetable entries={[]} loading /></section>
+        <section className="card mu-card mu-performance-section"><h2 className="mu-section-title">Attendance activity</h2><div className="mu-table-wrap" aria-hidden="true"><table className="mu-table"><tbody>{Array.from({ length: 5 }, (_, index) => <tr key={index}><td><div className="mu-skeleton mu-skeleton-row" /></td></tr>)}</tbody></table></div></section>
+      </> : error ? <section className="card mu-card mu-empty-state mu-performance-error" role="alert"><p>{error}</p><button className="btn btn-outline" type="button" onClick={() => void load()}>Retry</button></section> : overview ? <>
+        <section className="mu-stat-grid" aria-label="Performance summary">
+          <article className="mu-stat-card"><span className="mu-stat-label">Classes taught</span><strong className="mu-stat-number">{classes.length}</strong></article>
+          <article className="mu-stat-card"><span className="mu-stat-label">Subjects taught</span><strong className="mu-stat-number">{subjectsTaught}</strong></article>
+          <article className="mu-stat-card"><span className="mu-stat-label">Scheduled per week</span><strong className="mu-stat-number"><span style={{ fontVariantNumeric: "tabular-nums" }}>{formatDuration(overview.weeklyScheduledMinutes == null ? overview.weeklyScheduledMinutes : overview.weeklyScheduledMinutes / 60)}</span></strong></article>
+          <article className="mu-stat-card"><span className="mu-stat-label">Attendance days marked</span><strong className="mu-stat-number">{overview.attendance?.daysMarked ?? 0}</strong><p className="mu-stat-caption">{overview.attendance?.recordsEntered ?? 0} records entered</p></article>
         </section>
 
-        <section className="teacher-card">
-          <h2>Classes and subjects</h2>
-          {!classes.length ? <p className="teacher-state">No class and subject assignments are available yet.</p> : <div className="teacher-table-wrap"><table className="teacher-table performance-table">
+        <section className="card mu-card mu-performance-section">
+          <h2 className="mu-section-title">Classes and subjects</h2>
+          {!classes.length ? <div className="mu-empty-state">
+            <span className="mu-empty-icon" aria-hidden="true"><UsersRound size={20} strokeWidth={1.8} /></span>
+            <strong className="mu-empty-title">No class and subject assignments are available yet.</strong>
+            <p className="mu-empty-hint">Review the teacher’s class and subject assignments.</p>
+          </div> : <div className="mu-table-wrap"><table className="mu-table performance-table">
             <thead><tr><th>Class</th><th>Level</th><th>Subjects</th></tr></thead>
-            <tbody>{classes.map((classItem) => <tr key={classItem.classId}><td>{classItem.name}</td><td>{classItem.level || "—"}</td><td>{classItem.subjects.length ? classItem.subjects.map((subject) => `${subject.name} (${subject.code})`).join(", ") : "—"}</td></tr>)}</tbody>
+            <tbody>{classes.map((classItem) => <tr key={classItem.classId}><td>{classItem.name}</td><td><span className="mu-badge mu-badge-neutral">{classItem.level || "—"}</span></td><td>{classItem.subjects.length ? classItem.subjects.map((subject) => `${subject.name} (${subject.code})`).join(", ") : "—"}</td></tr>)}</tbody>
           </table></div>}
         </section>
 
-        <section className="teacher-card">
-          <h2>Weekly schedule</h2>
+        <section className="card mu-card mu-performance-section">
+          <h2 className="mu-section-title">Weekly schedule</h2>
           <WeeklyTimetable entries={overview.weeklySchedule || []} showClass />
         </section>
 
-        <section className="teacher-card">
-          <h2>Attendance activity</h2>
-          <p className="performance-caption">Marks entered by this teacher from {range.from} to {range.to}.</p>
-          {!attendanceByClass.length ? <p className="teacher-state">No attendance marks were entered in this date range.</p> : <div className="teacher-table-wrap"><table className="teacher-table performance-table">
-            <thead><tr><th>Class</th><th>Days marked</th></tr></thead>
-            <tbody>{attendanceByClass.map((item) => <tr key={item.classId}><td>{item.name}</td><td>{item.daysMarked}</td></tr>)}</tbody>
+        <section className="card mu-card mu-performance-section">
+          <h2 className="mu-section-title">Attendance activity</h2>
+          <p className="mu-caption">Marks entered by this teacher from {formatDisplayDate(range.from)} – {formatDisplayDate(range.to)}.</p>
+          {!attendanceByClass.length ? <div className="mu-empty-state">
+            <span className="mu-empty-icon" aria-hidden="true"><CalendarDays size={20} strokeWidth={1.8} /></span>
+            <strong className="mu-empty-title">No attendance marks were entered in this date range.</strong>
+            <p className="mu-empty-hint">Try another date range.</p>
+          </div> : <div className="mu-table-wrap"><table className="mu-table performance-table">
+            <thead><tr><th>Class</th><th className="mu-cell-numeric">Days marked</th></tr></thead>
+            <tbody>{attendanceByClass.map((item) => <tr key={item.classId}><td>{item.name}</td><td className="mu-cell-numeric">{item.daysMarked}</td></tr>)}</tbody>
           </table></div>}
         </section>
-        <p className="performance-results-note">Results-based metrics will appear once the Results module is available.</p>
-      </> : <section className="teacher-card"><p className="teacher-state">No overview data is available.</p></section>}
+        <p className="mu-caption mu-performance-results-note">Results-based metrics will appear once the Results module is available.</p>
+      </> : <section className="card mu-card mu-empty-state">
+        <span className="mu-empty-icon" aria-hidden="true"><ClipboardList size={20} strokeWidth={1.8} /></span>
+        <strong className="mu-empty-title">No overview data is available.</strong>
+        <p className="mu-empty-hint">Try another date range.</p>
+      </section>}
       <Toast toast={toast} onClose={() => setToast(null)} />
     </main>
+    </div>
   );
 }

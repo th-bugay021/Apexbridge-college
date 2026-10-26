@@ -1020,6 +1020,152 @@
   }
 }
 
+/* Teacher performance page layout */
+.michael-ui .mu-performance-page {
+  min-width: 0;
+  max-width: 100%;
+  gap: var(--space-4);
+}
+
+.michael-ui .mu-performance-list-card,
+.michael-ui .mu-performance-section {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.michael-ui .mu-performance-toolbar {
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.michael-ui .mu-performance-toolbar .mu-toolbar-search {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.michael-ui .mu-performance-range-fields {
+  display: flex;
+  min-width: 0;
+  flex: 0 1 auto;
+  align-items: flex-end;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.michael-ui .mu-performance-range-fields > .mu-field {
+  flex: 1 1 8rem;
+}
+
+.michael-ui .mu-performance-date-caption {
+  flex: 0 0 100%;
+  margin: 0;
+}
+
+.michael-ui .mu-performance-apply {
+  height: var(--mu-control-height);
+  min-height: var(--mu-control-height);
+}
+
+.michael-ui .mu-performance-error {
+  border-color: var(--color-danger-light);
+}
+
+@media (min-width: 640px) and (max-width: 700px) {
+  .michael-ui .mu-performance-toolbar {
+    align-items: flex-end;
+    flex-direction: row;
+  }
+
+  .michael-ui .mu-performance-toolbar .mu-toolbar-search,
+  .michael-ui .mu-performance-range-fields {
+    width: auto;
+  }
+}
+
+@media (max-width: 639px) {
+  .michael-ui .mu-performance-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .michael-ui .mu-performance-toolbar .mu-toolbar-search,
+  .michael-ui .mu-performance-range-fields,
+  .michael-ui .mu-performance-range-fields > .mu-field,
+  .michael-ui .mu-performance-apply {
+    width: 100%;
+  }
+
+  .michael-ui .mu-performance-range-fields {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-4);
+  }
+}
+
+/* Teacher performance list alignment and table grid */
+.michael-ui .mu-performance-list-card > .mu-performance-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.michael-ui .mu-performance-list-card .mu-performance-toolbar {
+  align-items: flex-end;
+}
+
+.michael-ui .mu-performance-list-card .mu-performance-date-caption {
+  flex: none;
+  margin: 0;
+}
+
+.michael-ui .mu-performance-list-card .mu-performance-pagination {
+  align-items: center;
+  margin-block: 0;
+}
+
+.michael-ui .mu-table-grid {
+  min-width: 760px;
+  table-layout: fixed;
+}
+
+.michael-ui .mu-table-grid th,
+.michael-ui .mu-table-grid td {
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+}
+
+.michael-ui .mu-performance-list-card .mu-table-grid th:nth-child(1),
+.michael-ui .mu-performance-list-card .mu-table-grid td:nth-child(1) { width: 24%; text-align: left; }
+.michael-ui .mu-performance-list-card .mu-table-grid th:nth-child(2),
+.michael-ui .mu-performance-list-card .mu-table-grid td:nth-child(2) { width: 14%; text-align: left; }
+.michael-ui .mu-performance-list-card .mu-table-grid th:nth-child(3),
+.michael-ui .mu-performance-list-card .mu-table-grid td:nth-child(3) { width: 10%; }
+.michael-ui .mu-performance-list-card .mu-table-grid th:nth-child(4),
+.michael-ui .mu-performance-list-card .mu-table-grid td:nth-child(4) { width: 10%; }
+.michael-ui .mu-performance-list-card .mu-table-grid th:nth-child(5),
+.michael-ui .mu-performance-list-card .mu-table-grid td:nth-child(5) { width: 16%; }
+.michael-ui .mu-performance-list-card .mu-table-grid th:nth-child(6),
+.michael-ui .mu-performance-list-card .mu-table-grid td:nth-child(6) { width: 14%; }
+.michael-ui .mu-performance-list-card .mu-table-grid th:nth-child(7),
+.michael-ui .mu-performance-list-card .mu-table-grid td:nth-child(7) { width: 12%; }
+
+.michael-ui .mu-performance-list-card .mu-table-grid th.mu-cell-numeric,
+.michael-ui .mu-performance-list-card .mu-table-grid td.mu-cell-numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 639px) {
+  .michael-ui .mu-performance-list-card .mu-performance-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+}
+
 /* Timetable dialogs rendered at the document root */
 .michael-ui .mu-modal-backdrop,
 .michael-ui .teacher-modal-backdrop {
