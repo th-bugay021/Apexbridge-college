@@ -1,5 +1,6 @@
 
 import "./select.css";
+import { toggleDropdown } from "./select.js";
 
 function SelectLogin() {
   return (

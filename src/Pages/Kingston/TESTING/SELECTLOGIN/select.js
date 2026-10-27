@@ -1,4 +1,4 @@
-function toggleDropdown(id, button) {
+export function toggleDropdown(id, button) {
     const dropdown = document.getElementById(id);
     const isOpen = dropdown.classList.contains("show");
 
