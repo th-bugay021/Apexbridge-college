@@ -82,3 +82,19 @@
 .primary-nav a[href="/login"]:hover,.primary-nav a[href="/login"]:focus-visible { border-color:#0a9a8f; background:#0a9a8f; color:#fff; }
 .primary-nav a[href="/login"]:focus-visible { outline:3px solid #0b1f3a; outline-offset:3px; }
 @media (max-width:900px) { .primary-nav a[href="/login"] { width:100%; } }
+
+/* Life at Apexbridge gallery grid fixes */
+.campus-grid { grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:repeat(2,260px); }
+.campus-grid .campus-panel--lab { grid-row:auto; }
+.campus-grid .campus-panel--lecture { grid-column:span 2; background:var(--paper-deep); }
+.campus-grid .campus-panel-copy { width:100%; min-width:0; }
+.campus-grid .campus-panel::before { background:linear-gradient(to top,rgba(11,31,58,.86) 0%,rgba(11,31,58,.3) 55%,rgba(11,31,58,0) 100%); }
+@media (max-width:900px) {
+  .campus-grid .campus-panel--lecture { grid-column:span 2; }
+}
+
+/* Landing hero refinements */
+.hero h1 { letter-spacing:-.02em; word-spacing:.04em; }
+.hero .soft-aurora-container { filter:saturate(.55); opacity:.45; }
+.illustration-frame { overflow:hidden; }
+.illustration-frame .hero-slide { inset:0; width:100%; height:100%; border:0; border-radius:inherit; box-shadow:none; object-fit:cover; }
