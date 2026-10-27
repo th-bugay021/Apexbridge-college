@@ -93,6 +93,14 @@
   .campus-grid .campus-panel--lecture { grid-column:span 2; }
 }
 
+/* Programs section refinements */
+.programs-top .section-heading { color:var(--ink); }
+.program-detail { min-height:260px; padding:32px; }
+.program-detail h3 { overflow:visible; padding-block:.08em; line-height:1.35; }
+@media (max-width:620px) {
+  .program-detail { min-height:0; padding:25px; }
+}
+
 /* Landing hero refinements */
 .hero h1 { letter-spacing:-.02em; word-spacing:.04em; }
 .hero .soft-aurora-container { filter:saturate(.55); opacity:.45; }
