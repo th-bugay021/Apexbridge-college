@@ -346,3 +346,29 @@
   color: var(--accent-text);
 }
 .site-shell[data-landing-theme="dark"] .program-note { color: var(--text-muted); }
+
+/* Phase B · section 4: dark campus gallery only. */
+.site-shell[data-landing-theme="dark"] .campus-section { background: var(--page); }
+.site-shell[data-landing-theme="dark"] .campus-header .section-heading { color: var(--text); }
+.site-shell[data-landing-theme="dark"] .campus-header .eyebrow { color: var(--accent-text); }
+.site-shell[data-landing-theme="dark"] .campus-header .section-intro { color: var(--text-soft); }
+.site-shell[data-landing-theme="dark"] .campus-panel {
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 12px 32px rgba(0,0,0,.4);
+}
+.site-shell[data-landing-theme="dark"] .campus-grid .campus-panel::before {
+  background: linear-gradient(to top, rgba(4,13,24,.88) 0%, rgba(4,13,24,.42) 55%, transparent 100%);
+}
+.site-shell[data-landing-theme="dark"] .campus-panel-title { color: var(--text); }
+.site-shell[data-landing-theme="dark"] .campus-panel .campus-panel-text,
+.site-shell[data-landing-theme="dark"] .campus-panel .campus-expanded { color: var(--text-soft); }
+.site-shell[data-landing-theme="dark"] .campus-decoration {
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(6,18,31,.62);
+  color: #eaf3f5;
+}
+.site-shell[data-landing-theme="dark"] .campus-panel:hover,
+.site-shell[data-landing-theme="dark"] .campus-panel:focus-visible,
+.site-shell[data-landing-theme="dark"] .campus-panel.is-expanded {
+  box-shadow: 0 16px 32px rgba(0,0,0,.48);
+}
