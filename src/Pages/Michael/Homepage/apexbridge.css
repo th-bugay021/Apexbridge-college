@@ -228,16 +228,25 @@
 
 /* Keep the main nav links spacious while the action controls stay compact. */
 @media (min-width: 901px) {
-  .primary-nav { gap: 40px; }
-  .primary-nav > a[href="/login"],
+  .primary-nav { gap: 20px; }
+  .primary-nav > a[href="/login"] { margin-left: -4px; }
   .primary-nav > .nav-apply,
-  .primary-nav > .theme-toggle-wrap { margin-left: -28px; }
+  .primary-nav > .theme-toggle-wrap { margin-left: -10px; }
 }
 @media (min-width: 901px) and (max-width: 1100px) {
-  .primary-nav { gap: 24px; }
-  .primary-nav > a[href="/login"],
+  .primary-nav { gap: 20px; }
+}
+@media (min-width: 1101px) and (max-width: 1359px) {
+  .primary-nav { gap: 32px; }
+  .primary-nav > a[href="/login"] { margin-left: -8px; }
   .primary-nav > .nav-apply,
-  .primary-nav > .theme-toggle-wrap { margin-left: -12px; }
+  .primary-nav > .theme-toggle-wrap { margin-left: -20px; }
+}
+@media (min-width: 1360px) {
+  .primary-nav { gap: 40px; }
+  .primary-nav > a[href="/login"] { margin-left: -8px; }
+  .primary-nav > .nav-apply,
+  .primary-nav > .theme-toggle-wrap { margin-left: -24px; }
 }
 
 
@@ -372,3 +381,71 @@
 .site-shell[data-landing-theme="dark"] .campus-panel.is-expanded {
   box-shadow: 0 16px 32px rgba(0,0,0,.48);
 }
+
+/* Phase B · sections 5–6: dark Admissions and Enquiry only. */
+.site-shell[data-landing-theme="dark"] .admissions-section { background: var(--surface-alt); }
+.site-shell[data-landing-theme="dark"] .admissions-section .section-heading { color: var(--text); }
+.site-shell[data-landing-theme="dark"] .admissions-section .eyebrow { color: var(--accent-text); }
+.site-shell[data-landing-theme="dark"] .admissions-inner > div > p:last-child { color: var(--text-soft); }
+.site-shell[data-landing-theme="dark"] .admissions-section::after {
+  border-color: rgba(44,197,184,.10);
+  box-shadow: 0 0 0 30px rgba(44,197,184,.10), 0 0 0 60px rgba(44,197,184,.04);
+}
+.site-shell[data-landing-theme="dark"] .admission-step { border-top-color: rgba(255,255,255,.12); }
+.site-shell[data-landing-theme="dark"] .admission-step > span { color: var(--accent-text); }
+.site-shell[data-landing-theme="dark"] .admission-step strong { color: var(--text); }
+.site-shell[data-landing-theme="dark"] .admission-step p { color: var(--text-soft); }
+.site-shell[data-landing-theme="dark"] .admissions-inner .button {
+  background: var(--accent-strong);
+  color: var(--on-accent);
+}
+.site-shell[data-landing-theme="dark"] .admissions-inner .button:hover {
+  background: var(--accent-strong);
+  color: var(--on-accent);
+}
+.site-shell[data-landing-theme="dark"] .enquiry-section {
+  border-block: 1px solid rgba(44,197,184,.18);
+  background: #040d18;
+}
+.site-shell[data-landing-theme="dark"] .enquiry-section .section-heading { color: var(--on-navy); }
+.site-shell[data-landing-theme="dark"] .enquiry-section p:not(.eyebrow),
+.site-shell[data-landing-theme="dark"] .enquiry-aside { color: var(--on-navy); }
+.site-shell[data-landing-theme="dark"] .enquiry-form {
+  border: 1px solid rgba(255,255,255,.10);
+  background: var(--surface);
+  box-shadow: 0 16px 40px rgba(0,0,0,.45);
+  color: var(--text);
+  color-scheme: dark;
+}
+.site-shell[data-landing-theme="dark"] .form-field label { color: var(--text); }
+.site-shell[data-landing-theme="dark"] .form-field input,
+.site-shell[data-landing-theme="dark"] .form-field select,
+.site-shell[data-landing-theme="dark"] .form-field textarea {
+  border-color: rgba(255,255,255,.16);
+  background: #0a1b2e;
+  color: var(--text);
+  color-scheme: dark;
+}
+.site-shell[data-landing-theme="dark"] .form-field input::placeholder,
+.site-shell[data-landing-theme="dark"] .form-field textarea::placeholder { color: var(--text-muted); }
+.site-shell[data-landing-theme="dark"] .form-field input:focus,
+.site-shell[data-landing-theme="dark"] .form-field select:focus,
+.site-shell[data-landing-theme="dark"] .form-field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(44,197,184,.25);
+}
+.site-shell[data-landing-theme="dark"] .form-field [aria-invalid="true"] { border-color: var(--error-border); }
+.site-shell[data-landing-theme="dark"] .field-error { color: var(--error-text); }
+.site-shell[data-landing-theme="dark"] .form-field input:-webkit-autofill,
+.site-shell[data-landing-theme="dark"] .form-field input:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0 1000px #0a1b2e inset;
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+}
+.site-shell[data-landing-theme="dark"] .form-field input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #0a1b2e inset, 0 0 0 3px rgba(44,197,184,.25);
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+}
+.site-shell[data-landing-theme="dark"] .form-submit { background: var(--accent-strong); color: var(--on-accent); }
+.site-shell[data-landing-theme="dark"] .form-submit:hover { background: var(--accent-strong); color: var(--on-accent); }
