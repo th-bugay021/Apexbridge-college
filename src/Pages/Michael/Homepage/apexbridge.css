@@ -216,7 +216,7 @@
 .site-shell[data-landing-theme="dark"] .campus-panel-title,
 .site-shell[data-landing-theme="dark"] .campus-panel .campus-panel-text,
 .site-shell[data-landing-theme="dark"] .campus-panel .campus-expanded { color: var(--on-navy); }
-.site-shell[data-landing-theme="dark"] .site-footer { color: var(--text); }
+.site-shell[data-landing-theme="dark"] .site-footer-outer { color: var(--text); }
 
 
 .site-shell[data-landing-theme="dark"] .button-primary:hover,
@@ -449,3 +449,35 @@
 }
 .site-shell[data-landing-theme="dark"] .form-submit { background: var(--accent-strong); color: var(--on-accent); }
 .site-shell[data-landing-theme="dark"] .form-submit:hover { background: var(--accent-strong); color: var(--on-accent); }
+
+/* Phase B · sections 7–8: dark Contact area and footer only. */
+.site-shell[data-landing-theme="dark"] .contact-section {
+  border-top: 1px solid rgba(255,255,255,.08);
+  background: var(--page);
+}
+.site-shell[data-landing-theme="dark"] .contact-grid .section-heading { color: var(--text); }
+.site-shell[data-landing-theme="dark"] .contact-grid .eyebrow { color: var(--accent-text); }
+.site-shell[data-landing-theme="dark"] .contact-copy { color: var(--text-soft); }
+.site-shell[data-landing-theme="dark"] .contact-placeholder {
+  border: 1px solid rgba(255,255,255,.10);
+  background: var(--surface);
+  color: var(--text-muted);
+}
+.site-shell[data-landing-theme="dark"] .contact-placeholder strong { color: var(--text-soft); }
+.site-shell[data-landing-theme="dark"] .contact-columns {
+  border-top-color: rgba(255,255,255,.12);
+  border-bottom-color: rgba(255,255,255,.12);
+}
+.site-shell[data-landing-theme="dark"] .contact-columns strong { color: var(--text); }
+.site-shell[data-landing-theme="dark"] .contact-columns span { color: var(--text-muted); }
+.site-shell[data-landing-theme="dark"] .site-footer-outer {
+  border-top: 1px solid rgba(255,255,255,.08);
+  background: #040d18;
+  padding-bottom: 72px;
+  margin-bottom: -72px;
+}
+.site-shell[data-landing-theme="dark"] .site-footer > span { color: var(--text-muted); }
+.site-shell[data-landing-theme="dark"] .back-to-top { color: var(--text-soft); }
+.site-shell[data-landing-theme="dark"] .back-to-top:hover { color: var(--accent-text); }
+.site-shell[data-landing-theme="dark"] .site-footer .brand { padding: 4px 8px; border-radius: 10px; }
+.site-shell[data-landing-theme="dark"] .site-footer .brand img { height: 36px; }
