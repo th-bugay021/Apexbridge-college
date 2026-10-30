@@ -10,6 +10,7 @@
     import studentHero from '../../../assets/apexbridge-student-hero.png';
 
     import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+    import ThemeToggle from './ThemeToggle.jsx';
     import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
     import { Link } from 'react-router-dom';
     import {
@@ -48,6 +49,27 @@
     phoneNumber: '[Add verified phone number]',
     };
 
+    const THEME_STORAGE_KEY = 'apexbridge-landing-theme';
+
+    function readStoredTheme() {
+        try {
+            const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+            return storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : null;
+        } catch {
+            return null;
+        }
+    }
+
+    function readInitialTheme() {
+        const storedTheme = readStoredTheme();
+        if (storedTheme) return storedTheme;
+        try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        } catch {
+            return 'light';
+        }
+    }
+
     const reveal = (reduced, delay = 0) => ({
     initial: reduced ? false : { opacity: 0, y: 22 },
     whileInView: { opacity: 1, y: 0 },
@@ -59,9 +81,11 @@
     const reducedMotion = useReducedMotion();
     const reduced = Boolean(reducedMotion);
     const [menuOpen, setMenuOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
+    const [theme, setTheme] = useState(readInitialTheme);
+    const [hasThemeChoice, setHasThemeChoice] = useState(() => Boolean(readStoredTheme()));
+    const [scrolled, setScrolled] = useState(() => typeof window !== 'undefined' && window.scrollY > 24);
+    const previousScrolledRef = useRef(scrolled);
     const [activeSection, setActiveSection] = useState('top');
-    const [progress, setProgress] = useState(0);
     const [selectedProgram, setSelectedProgram] = useState(programs[0].id);
     const [expandedCampus, setExpandedCampus] = useState(null);
     const [formState, setFormState] = useState({ name: '', contact: '', stage: '', message: '' });
@@ -75,8 +99,26 @@
     const heroArtRef = useRef(null);
     const journeyRef = useRef(null);
     const [journeyVisible, setJourneyVisible] = useState(reduced);
-    const { scrollY } = useScroll();
+    const { scrollY, scrollYProgress } = useScroll();
     const artY = useTransform(scrollY, [0, 700], [0, reduced ? 0 : 70]);
+
+    useEffect(() => {
+        if (hasThemeChoice) return undefined;
+        const colorPreference = window.matchMedia('(prefers-color-scheme: dark)');
+        const updateTheme = () => setTheme(colorPreference.matches ? 'dark' : 'light');
+        colorPreference.addEventListener('change', updateTheme);
+        return () => colorPreference.removeEventListener('change', updateTheme);
+    }, [hasThemeChoice]);
+
+    const changeTheme = (nextTheme) => {
+        setTheme(nextTheme);
+        setHasThemeChoice(true);
+        try {
+            window.localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+        } catch {
+            // The theme still works for this visit when storage is unavailable.
+        }
+    };
 
     useEffect(() => {
         const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -149,15 +191,13 @@
         };
     }, [loadedHeroImages]);
 
-    useEffect(() => {
-        const onScroll = () => {
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        setProgress(max > 0 ? (window.scrollY / max) * 100 : 0);
-        setScrolled(window.scrollY > 24);
-        };
-        onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
+    useEffect(() => scrollY.on('change', (latest) => {
+        const nextScrolled = latest > 24;
+        if (previousScrolledRef.current !== nextScrolled) {
+            previousScrolledRef.current = nextScrolled;
+            setScrolled(nextScrolled);
+        }
+    }), [scrollY]);
 
     useEffect(() => {
         const sections = ['top', ...navItems.map(([id]) => id)];
@@ -190,10 +230,10 @@
     const SelectedIcon = selected.icon;
 
     return (
-        <div className="site-shell">
+        <div className="site-shell" data-landing-theme={theme}>
         <a className="skip-link" href="#main-content">Skip to main content</a>
         <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
-            <div className="scroll-progress" style={{ width: `${progress}%` }} aria-hidden="true" />
+            <motion.div className="scroll-progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" />
             <div className="wrap header-inner">
             <a className="brand" href="#top" aria-label="Apexbridge College home" onClick={closeMenu} data-testid="link-home"><img src="/logo/apexbridge-primary-logo.png" alt="Apexbridge College" /></a>
             <button ref={menuButtonRef} className="menu-toggle" type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen((open) => !open)} data-testid="button-menu-toggle">{menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}</button>
@@ -201,13 +241,14 @@
                 {navItems.map(([id, label]) => <a key={id} className={activeSection === id ? 'is-active' : ''} href={`#${id}`} onClick={closeMenu} data-testid={`link-${id}`}>{label}</a>)}
                 <Link to="/login" onClick={closeMenu}>Sign in</Link>
                 <a className="nav-apply" href="#contact" onClick={closeMenu} data-testid="link-contact">Get in touch <ArrowUpRight aria-hidden="true" size={15} /></a>
+                <ThemeToggle theme={theme} onChange={changeTheme} />
             </nav>
             </div>
         </header>
 
         <main id="main-content">
             <section id="top" className="hero" aria-labelledby="hero-title">
-            {auroraEnabled && <Suspense fallback={null}><HeroAurora /></Suspense>}
+            {auroraEnabled && <Suspense fallback={null}><HeroAurora theme={theme} /></Suspense>}
             <div className="wrap hero-inner">
                 <motion.div className="hero-copy" initial={reduced ? false : 'hidden'} animate="visible" transition={{ staggerChildren: reduced ? 0 : 0.12 }}>
                 <motion.p className="eyebrow" variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>A place to learn and grow</motion.p>

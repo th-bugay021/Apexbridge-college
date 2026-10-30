@@ -13,13 +13,14 @@ class AuroraErrorBoundary extends Component {
   }
 }
 
-function HeroAurora() {
+function HeroAurora({ theme = 'light' }) {
+  const isDark = theme === 'dark';
   return (
     <AuroraErrorBoundary>
       <SoftAurora
-        lightMode
+        lightMode={!isDark}
         color1="#0a9a8f"
-        color2="#0b1f3a"
+        color2={isDark ? "#0f3d5c" : "#0b1f3a"}
         speed={1.0}
         scale={1.5}
         brightness={1.1}
