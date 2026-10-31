@@ -8,10 +8,12 @@ import {
   FiChevronDown,
 } from "react-icons/fi";
 import { useAuth } from "../../Context/AuthContext";
+import { useTheme } from "../../Context/useTheme";
 import "../../Styles/Ayomide/topbar.css";
 
 function Topbar() {
   const { user, logout } = useAuth();
+  const { theme, changeTheme } = useTheme();
   const navigate = useNavigate();
 
 
@@ -147,6 +149,19 @@ function Topbar() {
               >
                 <FiSettings className="topbar-dropdown-icon" />
                 <span>Settings</span>
+              </button>
+
+              <button
+                type="button"
+                className="topbar-dropdown-item topbar-dropdown-theme"
+                role="menuitemcheckbox"
+                aria-checked={theme === "dark"}
+                onClick={() => changeTheme(theme === "dark" ? "light" : "dark")}
+              >
+                <span>Dark mode</span>
+                <span className="topbar-theme-state" aria-hidden="true">
+                  {theme === "dark" ? "On" : "Off"}
+                </span>
               </button>
 
               <div className="topbar-dropdown-divider" />
