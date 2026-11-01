@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
 import ProtectedRoute from "./ProtectedRoute";
 import RoleRoute from "./RoleRoute";
@@ -27,6 +28,13 @@ import Classes from "../Pages/Michael/Academics/Classes";
 import ClassDetails from "../Pages/Michael/Academics/ClassDetails";
 import Attendance from "../Pages/Michael/Attendance/Attendance";
 import MyTimetable from "../Pages/Michael/Timetable/MyTimetable";
+
+const Examination = lazy(() => import("../Pages/Great/Examinations/Examination"));
+const CreateExamination = lazy(() => import("../Pages/Great/Examinations/CreateExamination"));
+const ResultsList = lazy(() => import("../Pages/Great/Results/ResultsList"));
+const ClassResults = lazy(() => import("../Pages/Great/Results/ClassResults"));
+const FeeStructures = lazy(() => import("../Pages/Great/Finance/FeeStructures"));
+const StudentInvoices = lazy(() => import("../Pages/Great/Finance/StudentInvoices"));
 
 function AppRoutes() {
   return (
@@ -83,13 +91,16 @@ function AppRoutes() {
               <Route path="/timetable" element={<MyTimetable />} />
             </Route>
 
-            <Route path="/examinations" element={<h1>Examinations</h1>} />
-
-            <Route path="/results" element={<h1>Results</h1>} />
-
-            <Route path="/fees" element={<h1>Fees</h1>} />
-
-            <Route path="/payments" element={<h1>Payments</h1>} />
+            <Route element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN", "TEACHER"]} />}>
+              <Route path="/examinations" element={<Suspense fallback={<div role="status">Loading examinations…</div>}><Examination /></Suspense>} />
+              <Route path="/examinations/new" element={<Suspense fallback={<div role="status">Loading examination form…</div>}><CreateExamination /></Suspense>} />
+              <Route path="/results" element={<Suspense fallback={<div role="status">Loading results…</div>}><ResultsList /></Suspense>} />
+              <Route path="/results/class" element={<Suspense fallback={<div role="status">Loading class results…</div>}><ClassResults /></Suspense>} />
+            </Route>
+            <Route element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN", "ACCOUNTANT"]} />}>
+              <Route path="/fees" element={<Suspense fallback={<div role="status">Loading fee structures…</div>}><FeeStructures /></Suspense>} />
+              <Route path="/payments" element={<Suspense fallback={<div role="status">Loading student invoices…</div>}><StudentInvoices /></Suspense>} />
+            </Route>
 
             <Route path="/settings" element={<Settings />} />
             <Route path="/profile" element={<Profile />} />
