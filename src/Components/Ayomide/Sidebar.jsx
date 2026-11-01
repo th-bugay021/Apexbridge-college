@@ -14,7 +14,13 @@ import {
   FiChevronsLeft,
   FiChevronsRight
 } from "react-icons/fi";
-import "../../Styles/Ayomide/Sidebar.css";
+import "../../Styles/Ayomide/sidebar.css";
+
+function groupForPath(pathname) {
+  return navigationConfig.find((item) => item.children?.some((child) => (
+    child.path && (pathname === child.path || pathname.startsWith(`${child.path}/`))
+  )))?.label ?? null;
+}
 
 // 1. Accept isCollapsed and setIsCollapsed as props from AppLayout
 const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
@@ -24,8 +30,15 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   // Mobile Drawer Open state (kept local since it's only for mobile screens)
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  // Track expanded groups by item label or path
-  const [expandedGroups, setExpandedGroups] = useState({});
+  // The open group and its route key let manual clicks override route defaults until navigation.
+  const [groupState, setGroupState] = useState(() => ({
+    pathname: location.pathname,
+    openGroup: groupForPath(location.pathname),
+  }));
+
+  const openGroup = groupState.pathname === location.pathname
+    ? groupState.openGroup
+    : groupForPath(location.pathname);
 
   // Filter items based on user permissions
   const filterNavItems = (items) => {
@@ -58,10 +71,10 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
       // Un-collapse sidebar when expanding a group for better UX
       setIsCollapsed(false);
     }
-    setExpandedGroups((prev) => ({
-      ...prev,
-      [label]: !prev[label],
-    }));
+    setGroupState({
+      pathname: location.pathname,
+      openGroup: openGroup === label ? null : label,
+    });
   };
 
   // Close mobile sidebar on navigation
@@ -150,10 +163,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           <ul className="nav-list">
             {navItems.map((item) => {
               const hasChildren = item.children && item.children.length > 0;
-              const hasActiveChild = item.children?.some(
-                (child) => child.path && location.pathname.startsWith(child.path),
-              );
-              const isGroupExpanded = !!expandedGroups[item.label] || hasActiveChild;
+              const isGroupExpanded = openGroup === item.label;
 
               if (hasChildren) {
                 const isAnyChildActive = item.children.some(
