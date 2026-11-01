@@ -1,6 +1,8 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { GreatShell, MetricCard, SectionHeading, StatusPill } from "../../../Components/Great/default";
+import { CreateExaminationForm } from "./CreateExamination";
+import { useTheme } from "../../../Context/useTheme";
 
 const starterScores = [
   { student: "Amara Okafor", id: "AP-2041", ca: 27, exam: 61 },
@@ -13,9 +15,13 @@ const starterScores = [
 const gradeFor = (score) => score >= 70 ? "A" : score >= 60 ? "B" : score >= 50 ? "C" : score >= 45 ? "D" : score >= 40 ? "E" : "F";
 
 export default function Examination() {
+  const { theme } = useTheme();
   const [className, setClassName] = useState("JSS 2A");
   const [subject, setSubject] = useState("Mathematics");
   const [scores, setScores] = useState(starterScores);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const createButtonRef = useRef(null);
+  const wasDialogOpenRef = useRef(false);
   const rankedScores = useMemo(() => {
     const ranked = scores.map((item) => ({ ...item, total: Number(item.ca) + Number(item.exam) }));
     const sorted = [...ranked].sort((a, b) => b.total - a.total);
@@ -23,8 +29,26 @@ export default function Examination() {
   }, [scores]);
   const average = rankedScores.length ? (rankedScores.reduce((sum, item) => sum + item.total, 0) / rankedScores.length).toFixed(1) : "0";
   const updateScore = (id, key, value) => setScores((items) => items.map((item) => item.id === id ? { ...item, [key]: Math.min(+(key === "ca" ? 30 : 70), Math.max(0, Number(value) || 0)) } : item));
+  const closeCreateDialog = () => setShowCreateDialog(false);
 
-  return <GreatShell active="Examinations" eyebrow="Assessment centre" title="Examinations" description="Set up assessments, enter scores and review calculated class performance." action={<Link className="great-button primary" to="/examinations/new">＋ Create examination</Link>}>
+  useEffect(() => {
+    if (!showCreateDialog) {
+      if (wasDialogOpenRef.current) {
+        createButtonRef.current?.focus();
+        wasDialogOpenRef.current = false;
+      }
+      return undefined;
+    }
+    wasDialogOpenRef.current = true;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setShowCreateDialog(false);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [showCreateDialog]);
+
+  return <>
+    <GreatShell active="Examinations" eyebrow="Assessment centre" title="Examinations" description="Set up assessments, enter scores and review calculated class performance." action={<button type="button" ref={createButtonRef} className="great-button primary" onClick={() => setShowCreateDialog(true)}>＋ Create examination</button>}>
     <div className="great-metrics">
       <MetricCard label="Active examinations" value="04" note="Across 3 year groups" icon="▤" />
       <MetricCard label="Score entry" value="78%" note="156 of 200 scores entered" tone="green" icon="↗" />
@@ -38,5 +62,20 @@ export default function Examination() {
       <div className="great-split" style={{ paddingTop: 14 }}><span style={{ color: "var(--color-text-muted)", fontSize: 10 }}>{rankedScores.length} students · Average score {average}%</span><button className="great-button primary" onClick={() => window.alert("Scores saved for review.")}>Save scores</button></div>
     </section>
     <section className="great-card great-card-pad"><SectionHeading title="Current examinations" note="Track assessment setup and publication status." action={<button className="great-button">View all examinations →</button>} /><div className="great-table-wrap"><table className="great-table"><thead><tr><th>Examination</th><th>Term</th><th>Classes</th><th>Subjects</th><th>Due date</th><th>Status</th></tr></thead><tbody><tr><td><b>Second term examinations</b></td><td>Second term</td><td>JSS 1–3</td><td>12 subjects</td><td>14 Nov 2026</td><td><StatusPill tone="pending">In progress</StatusPill></td></tr><tr><td><b>Mid-term assessment</b></td><td>Second term</td><td>JSS 1–SSS 2</td><td>10 subjects</td><td>30 Oct 2026</td><td><StatusPill tone="published">Published</StatusPill></td></tr></tbody></table></div></section>
-  </GreatShell>;
+    </GreatShell>
+    {showCreateDialog && createPortal(
+      <div className="michael-ui" data-theme={theme}>
+        <div className="mu-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && closeCreateDialog()}>
+          <section className="mu-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="create-examination-dialog-title">
+            <header className="mu-modal-header">
+              <h2 className="mu-section-title" id="create-examination-dialog-title">Create examination</h2>
+              <button type="button" className="mu-modal-close" aria-label="Close dialog" onClick={closeCreateDialog}>×</button>
+            </header>
+            <CreateExaminationForm inDialog onCancel={closeCreateDialog} onSaved={closeCreateDialog} />
+          </section>
+        </div>
+      </div>,
+      document.body,
+    )}
+  </>;
 }
