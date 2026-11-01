@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { FiBookOpen, FiDollarSign, FiUsers, FiUserCheck, FiUserPlus, FiTrendingUp } from "react-icons/fi";
 import { getClasses } from "../../../api/classes";
 import { getDailyAttendance } from "../../../api/attendance";
@@ -6,13 +6,28 @@ import { getTeachers } from "../../../api/teachers";
 import { useAuth } from "../../../Context/AuthContext";
 import { useTheme } from "../../../Context/useTheme";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
-import AttendanceChart from "../../../Components/Kingston/AttendanceChart";
-import GenderChart from "../../../Components/Kingston/GenderChart";
-import PopulationChart from "../../../Components/Kingston/PopulationChart";
 import StatsCard from "../../../Components/Kingston/StatsCard";
 import TeacherDashboard from "./TeacherDashboard";
-import { mockFinanceTotals, mockGenderDistribution, mockStudentTotal, mockTrendBadges } from "./dashboardMockData";
+import {
+  mockFinanceTotals,
+  mockFeeCollection,
+  mockGenderDistribution,
+  mockPerformanceByClass,
+  mockRecentAdmissions,
+  mockRecentPayments,
+  mockStudentTotal,
+  mockTrendBadges,
+  mockUpcomingEvents,
+  mockUpcomingExams,
+} from "./dashboardMockData";
 import "./adminDashboard.css";
+
+const AttendanceChart = lazy(() => import("../../../Components/Kingston/AttendanceChart"));
+const GenderChart = lazy(() => import("../../../Components/Kingston/GenderChart"));
+const PopulationChart = lazy(() => import("../../../Components/Kingston/PopulationChart"));
+const FeeChart = lazy(() => import("../../../Components/Kingston/FeeChart"));
+const PerformanceChart = lazy(() => import("../../../Components/Kingston/PerformanceChart"));
+const ActivityList = lazy(() => import("../../../Components/Kingston/ActivityList"));
 
 const EMPTY_ATTENDANCE = { present: 0, absent: 0, marked: 0 };
 
@@ -22,13 +37,13 @@ function getDashboardColors() {
   const read = (name) => styles.getPropertyValue(name).trim();
   return {
     accent: read("--color-accent"), info: read("--color-info"), success: read("--color-success"),
-    danger: read("--color-danger"), text: read("--color-text-primary"), muted: read("--color-text-muted"),
+    danger: read("--color-danger"), warning: read("--color-warning"), text: read("--color-text-primary"), muted: read("--color-text-muted"),
     border: read("--color-border"), grid: read("--color-border-light"), surface: read("--color-surface"),
   };
 }
 
 function formatCurrency(amount) {
-  return new Intl.NumberFormat(undefined, { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(amount);
+  return new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(amount);
 }
 
 function datesForPeriod(period) {
@@ -156,14 +171,25 @@ function AdminDashboard() {
         <div><p className="dashboard-page-eyebrow">School overview</p><h1>Dashboard</h1><p className="dashboard-page-description">A quick look at the school&apos;s key numbers and daily activity.</p></div>
       </header>
       <section className="dashboard-stats-grid" aria-label="School statistics">{statCards.map((card) => <StatsCard key={card.title} {...card} />)}</section>
-      <section className="dashboard-chart-grid" aria-label="Student and attendance charts">
-        <GenderChart data={mockGenderDistribution} colors={colors} />
-        <AttendanceChart data={attendanceState.data} period={period} onPeriodChange={setPeriod} colors={colors} loading={attendanceState.loading} error={attendanceState.error} />
-      </section>
-      <section className="dashboard-population-section" aria-label="Student population by class"><PopulationChart data={populationData} colors={colors} loading={classesState.loading} error={classesState.error} /></section>
-      <section className="dashboard-planned-grid" aria-label="Dashboard sections planned for a later step">
-        {["Fee collection", "Performance", "Recent activity and lists"].map((title) => <article className="dashboard-planned-card" key={title}><span className="dashboard-planned-label">Planned</span><h2>{title}</h2><p>This dashboard section is reserved for a later build step.</p></article>)}
-      </section>
+      <Suspense fallback={<div className="dashboard-lazy-fallback" role="status">Loading dashboard charts…</div>}>
+        <section className="dashboard-chart-grid" aria-label="Student and attendance charts">
+          <GenderChart data={mockGenderDistribution} colors={colors} />
+          <AttendanceChart data={attendanceState.data} period={period} onPeriodChange={setPeriod} colors={colors} loading={attendanceState.loading} error={attendanceState.error} />
+        </section>
+        <section className="dashboard-population-section" aria-label="Student population by class"><PopulationChart data={populationData} colors={colors} loading={classesState.loading} error={classesState.error} /></section>
+      </Suspense>
+      <Suspense fallback={<div className="dashboard-lazy-fallback" role="status">Loading dashboard summaries…</div>}>
+        <section className="dashboard-secondary-chart-grid" aria-label="Fee collection and student performance">
+          <FeeChart data={mockFeeCollection.terms} colors={colors} formatCurrency={formatCurrency} />
+          <PerformanceChart data={mockPerformanceByClass} colors={colors} />
+        </section>
+        <section className="dashboard-activity-grid" aria-label="Recent school activity">
+          <ActivityList title="Recent admissions" items={mockRecentAdmissions} />
+          <ActivityList title="Recent payments" items={mockRecentPayments} />
+          <ActivityList title="Upcoming events" items={mockUpcomingEvents} />
+          <ActivityList title="Upcoming exams" items={mockUpcomingExams} />
+        </section>
+      </Suspense>
     </main>
   );
 }

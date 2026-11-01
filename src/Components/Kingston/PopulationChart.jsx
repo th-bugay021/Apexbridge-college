@@ -1,7 +1,7 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 function PopulationChart({ data, colors, loading = false, error = "" }) {
-  const isEmpty = !loading && !error && !data?.length;
+  const isEmpty = !loading && !error && (!data?.length || data.every((item) => item.students === 0));
 
   return (
     <section className="dashboard-chart-card" aria-labelledby="population-chart-title">
@@ -19,7 +19,7 @@ function PopulationChart({ data, colors, loading = false, error = "" }) {
       ) : error ? (
         <div className="dashboard-chart-state" role="alert">{error}</div>
       ) : isEmpty ? (
-        <div className="dashboard-chart-state">No classes available yet.</div>
+        <div className="dashboard-chart-state">No students enrolled yet.</div>
       ) : (
         <div className="dashboard-chart-frame dashboard-population-frame">
           <ResponsiveContainer width="100%" height="100%">
