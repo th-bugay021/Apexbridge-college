@@ -1,5 +1,6 @@
 
 import "./tdash.css";
+import { classLabel } from "../../../../config/school";
 
 function TeacherDashboard() {
     return (
@@ -126,7 +127,7 @@ function TeacherDashboard() {
                         </div>
                         <div className="zx">
                             <p>English Language</p>
-                            <p>JSS2 · Room 102</p>
+                            <p>{classLabel(8)} · Room 102</p>
                         </div>
                     </div>
 
@@ -138,7 +139,7 @@ function TeacherDashboard() {
                         </div>
                         <div className="zx">
                             <p>Basic Science</p>
-                            <p>JSS1 · Science lab</p>
+                            <p>{classLabel(7)} · Science lab</p>
                         </div>
                     </div>
                 </div>

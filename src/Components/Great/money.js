@@ -1,6 +1,8 @@
+import { currencyCode, locale } from "../../config/school";
+
 export const money = (value) =>
-  new Intl.NumberFormat("en-NG", {
+  new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "NGN",
+    currency: currencyCode,
     maximumFractionDigits: 0,
   }).format(Number(value) || 0);

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { GreatShell, SectionHeading } from "../../../Components/Great/default";
+import { classLabel } from "../../../config/school";
 
 export function CreateExaminationForm({ onCancel, onSaved, inDialog = false }) {
-  const [form, setForm] = useState({ title: "", term: "Second term", year: "2025/26", start: "", end: "", classes: ["JSS 1", "JSS 2", "JSS 3"], mode: "Examination + CA" });
+  const [form, setForm] = useState({ title: "", term: "Second term", year: "2025/26", start: "", end: "", classes: [classLabel(7), classLabel(8), classLabel(9)], mode: "Examination + CA" });
   const [saved, setSaved] = useState(false);
   const toggleClass = (className) => setForm((current) => ({ ...current, classes: current.classes.includes(className) ? current.classes.filter((item) => item !== className) : [...current.classes, className] }));
   const submit = (event) => { event.preventDefault(); setSaved(true); onSaved?.(); };
@@ -15,7 +16,7 @@ export function CreateExaminationForm({ onCancel, onSaved, inDialog = false }) {
     <div className="great-field"><label htmlFor="start-date">Start date *</label><input id="start-date" type="date" required value={form.start} onChange={(event) => setForm({ ...form, start: event.target.value })} /></div>
     <div className="great-field"><label htmlFor="end-date">Score submission deadline *</label><input id="end-date" type="date" required value={form.end} onChange={(event) => setForm({ ...form, end: event.target.value })} /></div>
     <div className="great-field full"><label htmlFor="score-mode">Scoring structure</label><select id="score-mode" value={form.mode} onChange={(event) => setForm({ ...form, mode: event.target.value })}><option>Examination + CA</option><option>Examination only</option><option>Custom weighting</option></select></div>
-    <fieldset className="great-class-choice"><legend>Classes included</legend>{["JSS 1", "JSS 2", "JSS 3", "SSS 1", "SSS 2", "SSS 3"].map((className) => <label key={className}><input type="checkbox" checked={form.classes.includes(className)} onChange={() => toggleClass(className)} />{className}</label>)}</fieldset>
+    <fieldset className="great-class-choice"><legend>Classes included</legend>{[classLabel(7), classLabel(8), classLabel(9), classLabel(10), classLabel(11), classLabel(12)].map((className) => <label key={className}><input type="checkbox" checked={form.classes.includes(className)} onChange={() => toggleClass(className)} />{className}</label>)}</fieldset>
   </>;
 
   return (

@@ -6,6 +6,7 @@ import { getTeachers } from "../../../api/teachers";
 import { useAuth } from "../../../Context/AuthContext";
 import { useTheme } from "../../../Context/useTheme";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
+import { money } from "../../../Components/Great/money";
 import StatsCard from "../../../Components/Kingston/StatsCard";
 import TeacherDashboard from "./TeacherDashboard";
 import {
@@ -42,9 +43,7 @@ function getDashboardColors() {
   };
 }
 
-function formatCurrency(amount) {
-  return new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(amount);
-}
+const formatCurrency = money;
 
 function datesForPeriod(period) {
   const today = new Date();

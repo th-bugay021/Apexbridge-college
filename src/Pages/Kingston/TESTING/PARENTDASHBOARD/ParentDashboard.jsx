@@ -1,5 +1,6 @@
 
 import "./pdash.css";
+import { money } from "../../../../Components/Great/money";
 
 function ParentDashboard() {
   return (
@@ -50,7 +51,7 @@ function ParentDashboard() {
 
           <div className="gg">
             <p>Fee balance</p>
-            <p>₦45,000</p>
+            <p>{money(45000)}</p>
             <p>Outstanding</p>
           </div>
         </div>

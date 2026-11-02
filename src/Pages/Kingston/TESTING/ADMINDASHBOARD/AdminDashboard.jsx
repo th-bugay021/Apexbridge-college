@@ -1,5 +1,7 @@
 
 import "./AdminDashboard.css";
+import { classLabel } from "../../../../config/school";
+import { money } from "../../../../Components/Great/money";
 
 function AdminDashboard() {
   return (
@@ -138,7 +140,7 @@ function AdminDashboard() {
               <p>28 Sep 2026</p>
             </div>
             <div className="qaz">
-              <p>JSS1</p>
+              <p>{classLabel(7)}</p>
               <p>Approved</p>
             </div>
           </div>
@@ -151,7 +153,7 @@ function AdminDashboard() {
               <p>29 Sep 2026</p>
             </div>
             <div className="qaz">
-              <p>SSS1</p>
+              <p>{classLabel(10)}</p>
               <p>Approved</p>
             </div>
           </div>
@@ -164,7 +166,7 @@ function AdminDashboard() {
               <p>30 Sep 2026</p>
             </div>
             <div className="qaz">
-              <p>JSS2</p>
+              <p>{classLabel(8)}</p>
               <p>Pending</p>
             </div>
           </div>
@@ -184,7 +186,7 @@ function AdminDashboard() {
               <p>Tuition · SS 2</p>
             </div>
             <div className="wq">
-              <p>₦85,000</p>
+              <p>{money(85000)}</p>
               <p>Paid</p>
             </div>
           </div>
@@ -194,10 +196,10 @@ function AdminDashboard() {
           <div className="wdc">
             <div className="wq">
               <p>Samuel Johnson</p>
-              <p>Tuition · JSS 1</p>
+              <p>Tuition · {classLabel(7)}</p>
             </div>
             <div className="wq">
-              <p>₦65,000</p>
+              <p>{money(65000)}</p>
               <p>Paid</p>
             </div>
           </div>
@@ -210,7 +212,7 @@ function AdminDashboard() {
               <p>Tuition · SS 1</p>
             </div>
             <div className="wq">
-              <p>₦85,000</p>
+              <p>{money(85000)}</p>
               <p>Paid</p>
             </div>
           </div>

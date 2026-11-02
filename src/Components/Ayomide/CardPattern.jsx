@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
+import { classLabel } from "../../config/school";
 import "../../Styles/Ayomide/pageStyles.css"; // Your page-specific or shared layout CSS
 
 const StudentList = () => {
@@ -26,8 +27,8 @@ const StudentList = () => {
         />
         <select className="select filter-select">
           <option value="">All Classes</option>
-          <option value="js1">JSS 1</option>
-          <option value="js2">JSS 2</option>
+          <option value="js1">{classLabel(7)}</option>
+          <option value="js2">{classLabel(8)}</option>
         </select>
       </div>
 

@@ -1,5 +1,7 @@
 
 import "./AccountantDashboard.css";
+import { classLabel } from "../../../../config/school";
+import { money } from "../../../../Components/Great/money";
 
 function AccountantDashboard() {
   return (
@@ -47,13 +49,13 @@ function AccountantDashboard() {
         <div className="grid1">
           <div className="gg">
             <p>Fees collected</p>
-            <p>₦4.8m</p>
+            <p>{money(4800000)}</p>
             <p>This month</p>
           </div>
 
           <div className="gg">
             <p>Outstanding fees</p>
-            <p>₦1.2m</p>
+            <p>{money(1200000)}</p>
             <p>Current term</p>
           </div>
 
@@ -130,7 +132,7 @@ function AccountantDashboard() {
               <p>Tuition · SS 2</p>
             </div>
             <div className="wq">
-              <p>₦85,000</p>
+              <p>{money(85000)}</p>
               <p>Paid</p>
             </div>
           </div>
@@ -140,10 +142,10 @@ function AccountantDashboard() {
           <div className="wdc">
             <div className="wq">
               <p>Samuel Johnson</p>
-              <p>Tuition · JSS 1</p>
+              <p>Tuition · {classLabel(7)}</p>
             </div>
             <div className="wq">
-              <p>₦65,000</p>
+              <p>{money(65000)}</p>
               <p>Paid</p>
             </div>
           </div>
@@ -156,7 +158,7 @@ function AccountantDashboard() {
               <p>Tuition · SS 1</p>
             </div>
             <div className="wq">
-              <p>₦85,000</p>
+              <p>{money(85000)}</p>
               <p>Paid</p>
             </div>
           </div>

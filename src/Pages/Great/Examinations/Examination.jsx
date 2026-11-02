@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { GreatShell, MetricCard, SectionHeading, StatusPill } from "../../../Components/Great/default";
 import { CreateExaminationForm } from "./CreateExamination";
 import { useTheme } from "../../../Context/useTheme";
+import { classLabel } from "../../../config/school";
 
 const starterScores = [
   { student: "Amara Okafor", id: "AP-2041", ca: 27, exam: 61 },
@@ -16,7 +17,7 @@ const gradeFor = (score) => score >= 70 ? "A" : score >= 60 ? "B" : score >= 50 
 
 export default function Examination() {
   const { theme } = useTheme();
-  const [className, setClassName] = useState("JSS 2A");
+  const [className, setClassName] = useState(classLabel(8, "A"));
   const [subject, setSubject] = useState("Mathematics");
   const [scores, setScores] = useState(starterScores);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
@@ -57,11 +58,11 @@ export default function Examination() {
     </div>
     <section className="great-card great-card-pad">
       <SectionHeading title="Score entry" note="Enter continuous assessment and examination marks. Total, grade and class position calculate automatically." action={<button className="great-button" onClick={() => window.print()}>Print score sheet</button>} />
-      <div className="great-toolbar"><select aria-label="Class" value={className} onChange={(event) => setClassName(event.target.value)}><option>JSS 2A</option><option>JSS 2B</option><option>SSS 1A</option></select><select aria-label="Subject" value={subject} onChange={(event) => setSubject(event.target.value)}><option>Mathematics</option><option>English Language</option><option>Basic Science</option></select><select aria-label="Term"><option>Second term · 2025/26</option><option>First term · 2025/26</option></select><span style={{ marginLeft: "auto", color: "var(--color-text-muted)", fontSize: 10 }}>CA / 30 · Exam / 70 · Total / 100</span></div>
+      <div className="great-toolbar"><select aria-label="Class" value={className} onChange={(event) => setClassName(event.target.value)}><option>{classLabel(8, "A")}</option><option>{classLabel(8, "B")}</option><option>{classLabel(10, "A")}</option></select><select aria-label="Subject" value={subject} onChange={(event) => setSubject(event.target.value)}><option>Mathematics</option><option>English Language</option><option>Basic Science</option></select><select aria-label="Term"><option>Second term · 2025/26</option><option>First term · 2025/26</option></select><span style={{ marginLeft: "auto", color: "var(--color-text-muted)", fontSize: 10 }}>CA / 30 · Exam / 70 · Total / 100</span></div>
       <div className="great-table-wrap"><table className="great-table"><thead><tr><th>Student</th><th>CA / 30</th><th>Exam / 70</th><th>Total / 100</th><th>Grade</th><th>Position</th></tr></thead><tbody>{rankedScores.map((item) => <tr key={item.id}><td><div className="great-primary-cell"><span className="great-initials">{item.student.split(" ").map((word) => word[0]).join("")}</span><span><b>{item.student}</b><br /><small>{item.id}</small></span></div></td><td><input aria-label={`${item.student} continuous assessment`} className="great-score-input" type="number" min="0" max="30" value={item.ca} onChange={(event) => updateScore(item.id, "ca", event.target.value)} /></td><td><input aria-label={`${item.student} exam score`} className="great-score-input" type="number" min="0" max="70" value={item.exam} onChange={(event) => updateScore(item.id, "exam", event.target.value)} /></td><td><b>{item.total}</b></td><td><StatusPill tone={item.total >= 50 ? "published" : "pending"}>{gradeFor(item.total)}</StatusPill></td><td>{item.position}{item.position === 1 ? "st" : item.position === 2 ? "nd" : item.position === 3 ? "rd" : "th"}</td></tr>)}</tbody></table></div>
       <div className="great-split" style={{ paddingTop: 14 }}><span style={{ color: "var(--color-text-muted)", fontSize: 10 }}>{rankedScores.length} students · Average score {average}%</span><button className="great-button primary" onClick={() => window.alert("Scores saved for review.")}>Save scores</button></div>
     </section>
-    <section className="great-card great-card-pad"><SectionHeading title="Current examinations" note="Track assessment setup and publication status." action={<button className="great-button">View all examinations →</button>} /><div className="great-table-wrap"><table className="great-table"><thead><tr><th>Examination</th><th>Term</th><th>Classes</th><th>Subjects</th><th>Due date</th><th>Status</th></tr></thead><tbody><tr><td><b>Second term examinations</b></td><td>Second term</td><td>JSS 1–3</td><td>12 subjects</td><td>14 Nov 2026</td><td><StatusPill tone="pending">In progress</StatusPill></td></tr><tr><td><b>Mid-term assessment</b></td><td>Second term</td><td>JSS 1–SSS 2</td><td>10 subjects</td><td>30 Oct 2026</td><td><StatusPill tone="published">Published</StatusPill></td></tr></tbody></table></div></section>
+    <section className="great-card great-card-pad"><SectionHeading title="Current examinations" note="Track assessment setup and publication status." action={<button className="great-button">View all examinations →</button>} /><div className="great-table-wrap"><table className="great-table"><thead><tr><th>Examination</th><th>Term</th><th>Classes</th><th>Subjects</th><th>Due date</th><th>Status</th></tr></thead><tbody><tr><td><b>Second term examinations</b></td><td>Second term</td><td>{classLabel("7–9")}</td><td>12 subjects</td><td>14 Nov 2026</td><td><StatusPill tone="pending">In progress</StatusPill></td></tr><tr><td><b>Mid-term assessment</b></td><td>Second term</td><td>{classLabel("7–11")}</td><td>10 subjects</td><td>30 Oct 2026</td><td><StatusPill tone="published">Published</StatusPill></td></tr></tbody></table></div></section>
     </GreatShell>
     {showCreateDialog && createPortal(
       <div className="michael-ui" data-theme={theme}>

@@ -9,8 +9,8 @@ export const mockGenderDistribution = [
 
 // Replace with the finance dashboard API when outstanding fee and revenue totals are implemented.
 export const mockFinanceTotals = {
-  outstandingFees: 5500000,
-  revenue: 19500000,
+  outstandingFees: 55000,
+  revenue: 195000,
 };
 
 // Replace with period-comparison KPI values from the dashboard metrics API.
@@ -26,9 +26,9 @@ export const mockTrendBadges = {
 // Replace with the fee collection API when term-level collected and outstanding totals are available.
 export const mockFeeCollection = {
   terms: [
-    { term: "First", collected: 6500000, outstanding: 1800000 },
-    { term: "Second", collected: 6300000, outstanding: 1900000 },
-    { term: "Third", collected: 6700000, outstanding: 1800000 },
+    { term: "First", collected: 65000, outstanding: 18000 },
+    { term: "Second", collected: 63000, outstanding: 19000 },
+    { term: "Third", collected: 67000, outstanding: 18000 },
   ],
 };
 
@@ -36,26 +36,26 @@ export const mockFeeCollection = {
 export const mockPerformanceByClass = [
   { className: "Nursery 1", averageScore: 74 },
   { className: "Nursery 2", averageScore: 78 },
-  { className: "Primary 1", averageScore: 72 },
-  { className: "Primary 2", averageScore: 81 },
-  { className: "Primary 3", averageScore: 76 },
-  { className: "Primary 4", averageScore: 84 },
+  { className: classLabel(1), averageScore: 72 },
+  { className: classLabel(2), averageScore: 81 },
+  { className: classLabel(3), averageScore: 76 },
+  { className: classLabel(4), averageScore: 84 },
 ];
 
 // Replace with the admissions API when recent student admissions can be listed.
 export const mockRecentAdmissions = [
-  { id: "admission-1", primary: "Amara Okafor", secondary: "Primary 2 · 28 Oct 2026", meta: "New" },
+  { id: "admission-1", primary: "Amara Okafor", secondary: `${classLabel(2)} · 28 Oct 2026`, meta: "New" },
   { id: "admission-2", primary: "Daniel Bello", secondary: "Nursery 2 · 26 Oct 2026", meta: "New" },
-  { id: "admission-3", primary: "Zara Ibrahim", secondary: "Primary 1 · 24 Oct 2026", meta: "New" },
-  { id: "admission-4", primary: "Tomi Adeyemi", secondary: "Primary 3 · 22 Oct 2026", meta: "New" },
+  { id: "admission-3", primary: "Zara Ibrahim", secondary: `${classLabel(1)} · 24 Oct 2026`, meta: "New" },
+  { id: "admission-4", primary: "Tomi Adeyemi", secondary: `${classLabel(3)} · 22 Oct 2026`, meta: "New" },
 ];
 
 // Replace with the school fees API when recent payments can be listed.
 export const mockRecentPayments = [
-  { id: "payment-1", primary: "K. Okafor", secondary: "Tuition · 29 Oct 2026", meta: "₦450,000" },
-  { id: "payment-2", primary: "M. Bello", secondary: "Tuition · 28 Oct 2026", meta: "₦325,000" },
-  { id: "payment-3", primary: "A. Ibrahim", secondary: "Transport · 27 Oct 2026", meta: "₦85,000" },
-  { id: "payment-4", primary: "T. Adeyemi", secondary: "Tuition · 25 Oct 2026", meta: "₦410,000" },
+  { id: "payment-1", primary: "K. Okafor", secondary: "Tuition · 29 Oct 2026", meta: money(4500) },
+  { id: "payment-2", primary: "M. Bello", secondary: "Tuition · 28 Oct 2026", meta: money(3250) },
+  { id: "payment-3", primary: "A. Ibrahim", secondary: "Transport · 27 Oct 2026", meta: money(850) },
+  { id: "payment-4", primary: "T. Adeyemi", secondary: "Tuition · 25 Oct 2026", meta: money(4100) },
 ];
 
 // Replace with the school events API when upcoming events can be listed.
@@ -68,8 +68,11 @@ export const mockUpcomingEvents = [
 
 // Replace with the examinations API when upcoming exam schedules can be listed.
 export const mockUpcomingExams = [
-  { id: "exam-1", primary: "Mathematics assessment", secondary: "Primary 4 · 09 Nov 2026", meta: "09 Nov" },
-  { id: "exam-2", primary: "English language", secondary: "Primary 3 · 11 Nov 2026", meta: "11 Nov" },
-  { id: "exam-3", primary: "Basic science", secondary: "Primary 2 · 13 Nov 2026", meta: "13 Nov" },
+  { id: "exam-1", primary: "Mathematics assessment", secondary: `${classLabel(4)} · 09 Nov 2026`, meta: "09 Nov" },
+  { id: "exam-2", primary: "English language", secondary: `${classLabel(3)} · 11 Nov 2026`, meta: "11 Nov" },
+  { id: "exam-3", primary: "Basic science", secondary: `${classLabel(2)} · 13 Nov 2026`, meta: "13 Nov" },
   { id: "exam-4", primary: "End-of-term exams", secondary: "All classes · 23 Nov 2026", meta: "23 Nov" },
 ];
+import { classLabel } from "../../../config/school";
+import { money } from "../../../Components/Great/money";
+

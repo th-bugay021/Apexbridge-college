@@ -1,5 +1,6 @@
 
 import "./studash.css";
+import { money } from "../../../../Components/Great/money";
 
 function StudentDashboard() {
   return (
@@ -50,7 +51,7 @@ function StudentDashboard() {
 
           <div className="gg">
             <p>Fee balance</p>
-            <p>₦20,000</p>
+            <p>{money(20000)}</p>
             <p>Outstanding</p>
           </div>
         </div>
