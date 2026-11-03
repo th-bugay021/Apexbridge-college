@@ -8,7 +8,6 @@ import { useTheme } from "../../../Context/useTheme";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
 import { money } from "../../../Components/Great/money";
 import StatsCard from "../../../Components/Kingston/StatsCard";
-import TeacherDashboard from "./TeacherDashboard";
 import {
   mockFinanceTotals,
   mockFeeCollection,
@@ -29,6 +28,7 @@ const PopulationChart = lazy(() => import("../../../Components/Kingston/Populati
 const FeeChart = lazy(() => import("../../../Components/Kingston/FeeChart"));
 const PerformanceChart = lazy(() => import("../../../Components/Kingston/PerformanceChart"));
 const ActivityList = lazy(() => import("../../../Components/Kingston/ActivityList"));
+const TeacherDashboard = lazy(() => import("./TeacherDashboard"));
 
 const EMPTY_ATTENDANCE = { present: 0, absent: 0, marked: 0 };
 
@@ -195,7 +195,7 @@ function AdminDashboard() {
 
 export default function DashboardLanding() {
   const { user } = useAuth();
-  if (user?.role === "TEACHER") return <TeacherDashboard />;
+  if (user?.role === "TEACHER") return <Suspense fallback={<div className="dashboard-lazy-fallback" role="status">Loading your dashboard…</div>}><TeacherDashboard /></Suspense>;
   if (["ADMIN", "SUPER_ADMIN"].includes(user?.role)) return <AdminDashboard />;
   return <h1>Dashboard</h1>;
 }

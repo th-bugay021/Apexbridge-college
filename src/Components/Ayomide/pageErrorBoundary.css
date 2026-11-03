@@ -1,0 +1,26 @@
+.page-error-state {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  max-width: 520px;
+  margin: 48px auto;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  padding: 24px;
+  color: var(--color-text-primary);
+}
+
+.page-error-state h1,
+.page-error-state p {
+  margin: 0;
+}
+
+.page-error-state button {
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-primary);
+  padding: 9px 16px;
+  color: var(--color-text-inverse);
+  cursor: pointer;
+}

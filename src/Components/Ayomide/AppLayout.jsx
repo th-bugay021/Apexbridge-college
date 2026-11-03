@@ -5,6 +5,7 @@ import Topbar from "./Topbar";
 import Breadcrumbs from "./Breadcrumbs";
 import "../../Styles/Ayomide/appLayout.css"; // Create this file for layout styles
 import { useTheme } from "../../Context/useTheme";
+import PageErrorBoundary from "./PageErrorBoundary";
 
 function AppLayout() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -24,7 +25,7 @@ function AppLayout() {
 
         <main className="app-content">
           <Breadcrumbs />
-          <Outlet /> {/* Your individual pages render here safely */}
+          <PageErrorBoundary><Outlet /></PageErrorBoundary>
         </main>
       </div>
     </div>

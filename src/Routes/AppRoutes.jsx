@@ -28,6 +28,7 @@ import Classes from "../Pages/Michael/Academics/Classes";
 import ClassDetails from "../Pages/Michael/Academics/ClassDetails";
 import Attendance from "../Pages/Michael/Attendance/Attendance";
 import MyTimetable from "../Pages/Michael/Timetable/MyTimetable";
+import { StudentSampleProvider } from "../Pages/Christabel/StudentSampleContext";
 
 const Examination = lazy(() => import("../Pages/Great/Examinations/Examination"));
 const CreateExamination = lazy(() => import("../Pages/Great/Examinations/CreateExamination"));
@@ -35,6 +36,9 @@ const ResultsList = lazy(() => import("../Pages/Great/Results/ResultsList"));
 const ClassResults = lazy(() => import("../Pages/Great/Results/ClassResults"));
 const FeeStructures = lazy(() => import("../Pages/Great/Finance/FeeStructures"));
 const StudentInvoices = lazy(() => import("../Pages/Great/Finance/StudentInvoices"));
+const StudentList = lazy(() => import("../Pages/Christabel/Students/StudentList"));
+const StudentProfile = lazy(() => import("../Pages/Christabel/Students/StudentProfile"));
+const ParentList = lazy(() => import("../Pages/Christabel/Parents/ParentList"));
 
 function AppRoutes() {
   return (
@@ -54,14 +58,11 @@ function AppRoutes() {
               <Route path="/dashboard" element={<DashboardLanding />} />
             </Route>
 
-            <Route
-              path="/students"
-              element={
-                <PermissionRoute permission="students.view">
-                  {/* <Students />- */}
-                </PermissionRoute>
-              }
-            />
+            <Route element={<StudentSampleProvider />}>
+              <Route path="/students" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading students…</div>}><StudentList /></Suspense></PermissionRoute>} />
+              <Route path="/students/:id" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading student profile…</div>}><StudentProfile /></Suspense></PermissionRoute>} />
+              <Route path="/parents" element={<PermissionRoute permission="parents.view"><Suspense fallback={<div role="status">Loading parents…</div>}><ParentList /></Suspense></PermissionRoute>} />
+            </Route>
 
             <Route element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN"]} />}>
               <Route path="/teachers/performance" element={<PerformanceList />} />

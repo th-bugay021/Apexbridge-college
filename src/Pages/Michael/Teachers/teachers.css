@@ -27,7 +27,7 @@
 .teacher-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5)}
 .teacher-details div{min-width:0}
 .teacher-details dt{font-size:var(--font-size-sm);color:var(--color-text-secondary)}
-.teacher-details dd{margin:var(--space-1) 0 0;overflow-wrap:anywhere;font-weight:var(--font-weight-medium)}
+.teacher-details dd{margin:var(--space-1) 0 0;overflow-wrap:anywhere;color:var(--color-text-primary);font-weight:var(--font-weight-medium)}
 .teacher-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4)}
 .teacher-form>label{display:flex;flex-direction:column;gap:var(--space-2);font-size:var(--font-size-sm);font-weight:var(--font-weight-medium)}
 .teacher-form textarea{resize:vertical}

@@ -1,0 +1,183 @@
+.teacher-dashboard-heading {
+  align-items: center;
+}
+
+.teacher-dashboard-profile-link,
+.teacher-dashboard-attendance-link,
+.teacher-dashboard-state button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text-primary);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.teacher-dashboard-profile-link:hover,
+.teacher-dashboard-attendance-link:hover,
+.teacher-dashboard-state button:hover {
+  border-color: var(--color-border-focus);
+  color: var(--color-accent);
+}
+
+.teacher-dashboard-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.teacher-dashboard-content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.teacher-dashboard-card {
+  display: flex;
+  min-height: 300px;
+  flex-direction: column;
+}
+
+.teacher-dashboard-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.teacher-dashboard-card-header h2 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+}
+
+.teacher-dashboard-small-link {
+  display: inline-flex;
+  min-height: 36px;
+  flex: 0 0 auto;
+  align-items: center;
+  color: var(--color-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.teacher-dashboard-small-link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+.teacher-dashboard-state {
+  display: grid;
+  flex: 1;
+  align-content: center;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-3);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.teacher-dashboard-state p {
+  margin: 0;
+}
+
+.teacher-dashboard-today-list,
+.teacher-dashboard-class-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.teacher-dashboard-today-list li,
+.teacher-dashboard-class-list li {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border-top: 1px solid var(--color-border-light);
+  padding: var(--space-3) 0;
+}
+
+.teacher-dashboard-time {
+  flex: 0 0 auto;
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.teacher-dashboard-lesson-copy,
+.teacher-dashboard-class-copy {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: var(--space-1);
+}
+
+.teacher-dashboard-lesson-copy strong,
+.teacher-dashboard-class-copy strong {
+  overflow: hidden;
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.teacher-dashboard-lesson-copy span,
+.teacher-dashboard-class-copy span,
+.teacher-dashboard-class-copy small {
+  overflow: hidden;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.teacher-dashboard-attendance-link {
+  min-height: 36px;
+  flex: 0 0 auto;
+  padding: var(--space-1) var(--space-2);
+  color: var(--color-accent);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 1100px) {
+  .teacher-dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .teacher-dashboard-content-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .teacher-dashboard-heading {
+    align-items: flex-start;
+  }
+
+  .teacher-dashboard-profile-link {
+    min-height: 36px;
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .teacher-dashboard-card-header,
+  .teacher-dashboard-class-list li {
+    align-items: flex-start;
+  }
+
+  .teacher-dashboard-today-list li {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,393 @@
+.students-ui {
+  color: var(--color-text-primary);
+}
+
+.students-ui .mu-page-header-actions,
+.students-ui .students-row-actions,
+.students-ui .students-section-title,
+.students-ui .students-bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.students-ui .students-sample-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-light);
+  padding: 0 var(--space-2);
+  color: var(--color-accent-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.students-ui .students-list-card {
+  min-width: 0;
+}
+
+.students-ui .students-toolbar {
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.students-ui .students-toolbar > .mu-field {
+  min-width: 145px;
+  flex: 1 1 145px;
+}
+
+.students-ui .students-toolbar > .students-search {
+  min-width: 220px;
+  flex-basis: 250px;
+}
+
+.students-ui .students-bulk-actions {
+  justify-content: flex-end;
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.students-ui .students-table {
+  min-width: 980px;
+}
+
+.students-ui .students-checkbox-cell {
+  width: 42px;
+  text-align: center;
+}
+
+.students-ui .students-checkbox {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--color-accent);
+  vertical-align: middle;
+}
+
+.students-ui .mu-page-header-actions > .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
+.students-ui .students-person-cell,
+.students-ui .students-profile-identity,
+.students-ui .students-parent-heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.students-ui .students-person-cell > span:last-child {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-1);
+}
+
+.students-ui .students-person-cell a {
+  overflow: hidden;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.students-ui .students-person-cell a:hover,
+.students-ui .students-inline-link,
+.students-ui .students-linked-children a {
+  color: var(--color-accent-dark);
+}
+
+.students-ui .students-person-cell small {
+  overflow: hidden;
+  color: var(--color-text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.students-ui .students-avatar {
+  display: inline-grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-light);
+  color: var(--color-accent-dark);
+  font-weight: 600;
+}
+
+.students-ui .students-avatar img,
+.students-ui img.students-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.students-ui .students-avatar-large {
+  width: 64px;
+  height: 64px;
+}
+
+.students-ui .students-avatar-profile {
+  width: 76px;
+  height: 76px;
+  font-size: 1.25rem;
+}
+
+.students-ui .students-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.students-ui .students-field {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.students-ui .students-field input,
+.students-ui .students-field select,
+.students-ui .students-field textarea {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text-primary);
+  font: inherit;
+}
+
+.students-ui .students-field textarea {
+  resize: vertical;
+}
+
+.students-ui .students-field input:focus,
+.students-ui .students-field select:focus,
+.students-ui .students-field textarea:focus {
+  border-color: var(--color-border-focus);
+  outline: 2px solid var(--color-accent-light);
+  outline-offset: 1px;
+}
+
+.students-ui .students-field-wide,
+.students-ui .students-photo-row {
+  grid-column: 1 / -1;
+}
+
+.students-ui .students-required {
+  color: var(--color-danger);
+}
+
+.students-ui .students-photo-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.students-ui .students-upload {
+  position: relative;
+  overflow: hidden;
+}
+
+.students-ui .students-upload input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.students-ui .students-caption {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.students-ui .students-profile-card {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.5fr);
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.students-ui .students-profile-identity h2,
+.students-ui .students-parent-heading h2 {
+  margin: 0 0 var(--space-1);
+  color: var(--color-text-primary);
+  font-size: 1.25rem;
+}
+
+.students-ui .students-profile-identity .mu-badge {
+  margin-top: var(--space-2);
+}
+
+.students-ui .students-profile-details,
+.students-ui .students-contact-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.students-ui .students-profile-details > div,
+.students-ui .students-contact-list > div {
+  min-width: 0;
+}
+
+.students-ui .students-profile-details dt,
+.students-ui .students-contact-list dt {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.students-ui .students-profile-details dd,
+.students-ui .students-contact-list dd {
+  margin: var(--space-1) 0 0;
+  overflow-wrap: anywhere;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.students-ui .students-profile-wide {
+  grid-column: 1 / -1;
+}
+
+.students-ui .students-guardian-panel {
+  margin-top: var(--space-5);
+}
+
+.students-ui .students-section-title {
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.students-ui .students-section-title h2,
+.students-ui .students-linked-children h3 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1.125rem;
+}
+
+.students-ui .students-guardian-grid,
+.students-ui .students-parent-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.students-ui .students-guardian-grid article,
+.students-ui .students-parent-card {
+  display: grid;
+  gap: var(--space-2);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  padding: var(--space-4);
+}
+
+.students-ui .students-guardian-grid strong,
+.students-ui .students-parent-heading strong {
+  color: var(--color-text-primary);
+}
+
+.students-ui .students-guardian-grid span,
+.students-ui .students-parent-heading p {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.students-ui .students-inline-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.students-ui .students-parent-card {
+  align-content: start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.students-ui .students-parent-heading > div {
+  min-width: 0;
+}
+
+.students-ui .students-parent-heading h2 {
+  overflow-wrap: anywhere;
+}
+
+.students-ui .students-contact-list {
+  gap: var(--space-3);
+}
+
+.students-ui .students-linked-children {
+  display: grid;
+  gap: var(--space-2);
+  border-top: 1px solid var(--color-border-light);
+  padding-top: var(--space-3);
+}
+
+.students-ui .students-linked-children h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+}
+
+.students-ui .students-linked-children a {
+  width: fit-content;
+  font-size: 0.875rem;
+}
+
+.students-ui .students-linked-children p {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .students-ui .students-profile-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .students-ui .mu-page-header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .students-ui .students-form-grid,
+  .students-ui .students-profile-details,
+  .students-ui .students-contact-list,
+  .students-ui .students-guardian-grid,
+  .students-ui .students-parent-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .students-ui .students-field-wide,
+  .students-ui .students-profile-wide {
+    grid-column: auto;
+  }
+
+  .students-ui .students-photo-row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .students-ui .students-bulk-actions {
+    justify-content: flex-start;
+  }
+}
+
