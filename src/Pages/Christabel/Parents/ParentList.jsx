@@ -55,16 +55,16 @@ export default function ParentList() {
           <div className="mu-page-header-actions"><span className="students-sample-tag">Sample data</span>{canCreate && <button ref={addButtonRef} type="button" className="btn btn-primary" onClick={() => { setEditingGuardian(null); setShowForm(true); }}><Plus size={16} /> Add parent</button>}</div>
         </header>
         <section className="card mu-card students-list-card" aria-label="Parents and guardians">
-          <div className="mu-toolbar"><label className="mu-field mu-toolbar-search"><span className="mu-field-label">Search guardians</span><input className="input mu-field-control" type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Name or email" /></label></div>
+          <div className="mu-toolbar students-toolbar"><label className="mu-field mu-toolbar-search"><span className="mu-field-label">Search guardians</span><input className="input mu-field-control" type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Name or email" /></label></div>
           {loading ? <div className="mu-empty-state" role="status">Loading sample guardians…</div> : shown.length === 0 ? <div className="mu-empty-state"><strong className="mu-empty-title">No guardians found.</strong><p className="mu-empty-hint">Try another search.</p></div> : <div className="students-parent-grid">{shown.map((guardian) => {
             const linkedStudents = students.filter((student) => (student.guardianIds || []).includes(guardian.id));
             return <article className="card students-parent-card" key={guardian.id}>
               <div className="students-parent-heading"><span className="students-avatar">{guardian.firstName[0]}{guardian.lastName[0]}</span><div><h2>{guardian.firstName} {guardian.lastName}</h2><p className="mu-caption">{guardian.relationship}{guardian.occupation ? ` · ${guardian.occupation}` : ""}</p></div></div>
               <dl className="students-contact-list"><div><dt>Email</dt><dd>{guardian.email || "Not provided"}</dd></div><div><dt>Phone</dt><dd>{guardian.phone || "Not provided"}</dd></div><div><dt>Address</dt><dd>{guardian.address || "Not provided"}</dd></div></dl>
               <div className="students-linked-children"><h3>Linked students <span className="mu-badge mu-badge-neutral">{linkedStudents.length}</span></h3>{linkedStudents.length ? linkedStudents.map((student) => <Link key={student.id} to={`/students/${student.id}`}>{student.firstName} {student.lastName} · {student.className}</Link>) : <p className="mu-caption">No students linked yet.</p>}</div>
-              <div className="students-row-actions" aria-label={`Actions for ${guardian.firstName} ${guardian.lastName}`}>
+              <div className="students-parent-actions" aria-label={`Actions for ${guardian.firstName} ${guardian.lastName}`}>
                 {canCreate && <button type="button" className="btn btn-outline" onClick={(event) => openEdit(guardian, event)}><Pencil size={15} /> Edit</button>}
-                {canDelete && <button type="button" className="btn mu-btn-danger" onClick={(event) => openDelete(guardian, event)}><Trash2 size={15} /> Delete</button>}
+                {canDelete && <button type="button" className="btn students-parent-delete" onClick={(event) => openDelete(guardian, event)}><Trash2 size={15} /> Delete</button>}
               </div>
             </article>;
           })}</div>}

@@ -31,6 +31,7 @@
 .students-ui .students-toolbar {
   align-items: flex-end;
   flex-wrap: wrap;
+  margin-bottom: var(--space-5);
 }
 
 .students-ui .students-toolbar > .mu-field {
@@ -54,17 +55,27 @@
   min-width: 980px;
 }
 
+.students-ui .students-table th:nth-child(2),
+.students-ui .students-table td:nth-child(2) {
+  min-width: 300px;
+}
+
 .students-ui .students-checkbox-cell {
   width: 42px;
   text-align: center;
 }
 
 .students-ui .students-checkbox {
-  width: 18px;
-  height: 18px;
+  width: var(--space-4);
+  height: var(--space-4);
   margin: 0;
   accent-color: var(--color-accent);
   vertical-align: middle;
+}
+
+.students-ui .students-table thead .students-checkbox,
+.students-ui .students-table tbody .students-checkbox {
+  accent-color: var(--color-accent);
 }
 
 .students-ui .mu-page-header-actions > .btn {
@@ -224,6 +235,10 @@
   gap: var(--space-6);
 }
 
+.students-ui .students-person-cell > span:last-child {
+  max-width: 100%;
+}
+
 .students-ui .students-profile-identity h2,
 .students-ui .students-parent-heading h2 {
   margin: 0 0 var(--space-1);
@@ -264,10 +279,6 @@
 
 .students-ui .students-profile-wide {
   grid-column: 1 / -1;
-}
-
-.students-ui .students-guardian-panel {
-  margin-top: var(--space-5);
 }
 
 .students-ui .students-section-title {
@@ -316,9 +327,38 @@
 }
 
 .students-ui .students-parent-card {
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-4);
   padding: var(--space-5);
+}
+
+.students-ui .students-parent-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+}
+
+.students-ui .students-parent-actions .btn {
+  display: inline-flex;
+  min-width: 0;
+  min-height: var(--space-10);
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.students-ui .students-parent-delete {
+  border: 1px solid var(--color-danger);
+  background: transparent;
+  color: var(--color-danger);
+}
+
+.students-ui .students-parent-delete:hover {
+  background: var(--color-surface-hover);
 }
 
 .students-ui .students-parent-heading > div {
