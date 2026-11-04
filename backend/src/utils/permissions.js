@@ -3,7 +3,7 @@ export const permissions = {
   SUPER_ADMIN: ['*'],
   ADMIN: [
     'users.view', 'users.create', 'users.update',
-    'students.view', 'students.create', 'students.update',
+    'students.view', 'students.create', 'students.update', 'students.delete',
     'teachers.view', 'teachers.create', 'teachers.update',
     'classes.view', 'classes.manage',
     'subjects.view', 'subjects.manage', 'attendance.view', 'attendance.manage',
