@@ -11,6 +11,8 @@ const permissions = {
     "students.delete",
     "parents.view",
     "parents.create",
+    "parents.update",
+    "parents.delete",
     "teachers.view",
     "teachers.create",
     "teachers.update",

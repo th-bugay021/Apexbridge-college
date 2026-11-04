@@ -4,6 +4,7 @@ export const permissions = {
   ADMIN: [
     'users.view', 'users.create', 'users.update',
     'students.view', 'students.create', 'students.update', 'students.delete',
+    'parents.view', 'parents.create', 'parents.update', 'parents.delete',
     'teachers.view', 'teachers.create', 'teachers.update',
     'classes.view', 'classes.manage',
     'subjects.view', 'subjects.manage', 'attendance.view', 'attendance.manage',
