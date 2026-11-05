@@ -28,6 +28,47 @@
   min-width: 0;
 }
 
+.students-ui .students-class-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+  gap: var(--space-4);
+}
+
+.students-ui .students-class-card {
+  display: grid;
+  min-height: 150px;
+  align-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.students-ui .students-class-card:hover {
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
+
+.students-ui .students-class-card h2 {
+  font-size: var(--font-size-lg);
+}
+
+.students-ui .students-class-level {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.students-ui .students-class-card .mu-caption {
+  color: var(--color-text-secondary);
+}
+
+.students-ui .students-list-card > .mu-toolbar > .students-search {
+  min-width: 220px;
+  flex: 2 1 250px;
+}
+
 .students-ui .students-toolbar {
   align-items: flex-end;
   flex-wrap: wrap;
@@ -192,6 +233,41 @@
   border-color: var(--color-border-focus);
   outline: 2px solid var(--color-accent-light);
   outline-offset: 1px;
+}
+
+.students-ui .students-field input[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+
+.students-ui .students-guardian-chips,
+.students-ui .students-guardian-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.students-ui .students-guardian-chip,
+.students-ui .students-guardian-option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+}
+
+.students-ui .students-guardian-chip button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.students-ui .students-guardian-option input {
+  width: auto;
+  min-height: 0;
 }
 
 .students-ui .students-field-wide,

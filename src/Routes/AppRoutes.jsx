@@ -38,6 +38,8 @@ const FeeStructures = lazy(() => import("../Pages/Great/Finance/FeeStructures"))
 const StudentInvoices = lazy(() => import("../Pages/Great/Finance/StudentInvoices"));
 const StudentList = lazy(() => import("../Pages/Christabel/Students/StudentList"));
 const StudentProfile = lazy(() => import("../Pages/Christabel/Students/StudentProfile"));
+const StudentClasses = lazy(() => import("../Pages/Christabel/Students/StudentClasses"));
+const StudentClassDetail = lazy(() => import("../Pages/Christabel/Students/StudentClassDetail"));
 const ParentList = lazy(() => import("../Pages/Christabel/Parents/ParentList"));
 
 function AppRoutes() {
@@ -60,6 +62,8 @@ function AppRoutes() {
 
             <Route element={<StudentSampleProvider />}>
               <Route path="/students" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading students…</div>}><StudentList /></Suspense></PermissionRoute>} />
+              <Route path="/students/classes" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading classes…</div>}><StudentClasses /></Suspense></PermissionRoute>} />
+              <Route path="/students/classes/:classId" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading class students…</div>}><StudentClassDetail /></Suspense></PermissionRoute>} />
               <Route path="/students/:id" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading student profile…</div>}><StudentProfile /></Suspense></PermissionRoute>} />
               <Route path="/parents" element={<PermissionRoute permission="parents.view"><Suspense fallback={<div role="status">Loading parents…</div>}><ParentList /></Suspense></PermissionRoute>} />
             </Route>
