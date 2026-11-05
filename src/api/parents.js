@@ -18,6 +18,22 @@ export async function getParent(id) {
   return (await api.get(`/parents/${id}`)).data.parent;
 }
 
+export async function createParent(values) {
+  return (await api.post('/parents', values)).data.parent;
+}
+
+export async function updateParent(id, values) {
+  return (await api.patch(`/parents/${id}`, values)).data.parent;
+}
+
+export async function deleteParent(id) {
+  return api.delete(`/parents/${id}`);
+}
+
+export async function bulkDeleteParents(ids) {
+  return (await api.post('/parents/bulk-delete', { ids })).data;
+}
+
 export async function linkStudentToParent(parentId, studentId) {
   return (await api.post(`/parents/${parentId}/students`, { studentId })).data.parent;
 }

@@ -118,7 +118,7 @@ export default function AddStudent({ student, guardians = emptyGuardians, onCanc
     const { wide, ...inputProps } = props;
     return <label className={`students-field${wide ? ' students-field-wide' : ''}`} key={name}>
       <span>{label}{props.required && <span className="students-required"> *</span>}</span>
-      <input {...inputProps} id={`student-${name}`} name={inputProps.name || name} value={values[name]} onChange={(event) => update(name, event.target.value)} />
+      <input {...inputProps} autoComplete={name === 'password' ? inputProps.autoComplete : 'off'} id={`student-${name}`} name={inputProps.name || name} value={values[name]} onChange={(event) => update(name, event.target.value)} />
     </label>;
   };
 
@@ -147,7 +147,7 @@ export default function AddStudent({ student, guardians = emptyGuardians, onCanc
             {field('Photo URL', 'photo', { type: 'url', placeholder: 'https://example.com/photo.jpg' })}
             {field('Admission date', 'admissionDate', { type: 'date' })}
             <label className="students-field"><span>Status</span><select value={values.status} onChange={(event) => update('status', event.target.value)}>{statuses.map((status) => <option key={status}>{status}</option>)}</select></label>
-            <label className="students-field students-field-wide"><span>Address</span><textarea id="student-address" value={values.address} onChange={(event) => update('address', event.target.value)} rows="2" /></label>
+            <label className="students-field students-field-wide"><span>Address</span><textarea autoComplete="off" id="student-address" value={values.address} onChange={(event) => update('address', event.target.value)} rows="2" /></label>
             {canPickParents && <>
               <div className="students-field students-field-wide">
                 <span>Guardians <span className="students-caption">Optional. Parents must exist first.</span></span>

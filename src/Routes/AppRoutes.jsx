@@ -28,7 +28,6 @@ import Classes from "../Pages/Michael/Academics/Classes";
 import ClassDetails from "../Pages/Michael/Academics/ClassDetails";
 import Attendance from "../Pages/Michael/Attendance/Attendance";
 import MyTimetable from "../Pages/Michael/Timetable/MyTimetable";
-import { StudentSampleProvider } from "../Pages/Christabel/StudentSampleContext";
 
 const Examination = lazy(() => import("../Pages/Great/Examinations/Examination"));
 const CreateExamination = lazy(() => import("../Pages/Great/Examinations/CreateExamination"));
@@ -60,13 +59,11 @@ function AppRoutes() {
               <Route path="/dashboard" element={<DashboardLanding />} />
             </Route>
 
-            <Route element={<StudentSampleProvider />}>
-              <Route path="/students" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading students…</div>}><StudentList /></Suspense></PermissionRoute>} />
-              <Route path="/students/classes" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading classes…</div>}><StudentClasses /></Suspense></PermissionRoute>} />
-              <Route path="/students/classes/:classId" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading class students…</div>}><StudentClassDetail /></Suspense></PermissionRoute>} />
-              <Route path="/students/:id" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading student profile…</div>}><StudentProfile /></Suspense></PermissionRoute>} />
-              <Route path="/parents" element={<PermissionRoute permission="parents.view"><Suspense fallback={<div role="status">Loading parents…</div>}><ParentList /></Suspense></PermissionRoute>} />
-            </Route>
+            <Route path="/students" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading students…</div>}><StudentList /></Suspense></PermissionRoute>} />
+            <Route path="/students/classes" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading classes…</div>}><StudentClasses /></Suspense></PermissionRoute>} />
+            <Route path="/students/classes/:classId" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading class students…</div>}><StudentClassDetail /></Suspense></PermissionRoute>} />
+            <Route path="/students/:id" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading student profile…</div>}><StudentProfile /></Suspense></PermissionRoute>} />
+            <Route path="/parents" element={<PermissionRoute permission="parents.view"><Suspense fallback={<div role="status">Loading parents…</div>}><ParentList /></Suspense></PermissionRoute>} />
 
             <Route element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN"]} />}>
               <Route path="/teachers/performance" element={<PerformanceList />} />

@@ -10,7 +10,10 @@
     "db:studio": "prisma studio",
     "db:seed": "node prisma/seed.js",
     "demo:students": "node scripts/demo-students.js",
-    "demo:students:remove": "node scripts/remove-demo-students.js"
+    "demo:students:remove": "node scripts/remove-demo-students.js",
+    "demo:parents": "node scripts/demo-parents.js",
+    "demo:parents:remove": "node scripts/remove-demo-parents.js",
+    "demo:fix-birthdates": "node scripts/fix-demo-birthdates.js"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
