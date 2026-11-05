@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import { useTheme } from "../../Context/useTheme";
 
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   FiChevronDown,
@@ -37,7 +37,23 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const location = useLocation();
 
   // Mobile Drawer Open state (kept local since it's only for mobile screens)
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [drawerState, setDrawerState] = useState({ key: location.key, open: false });
+  const isMobileOpen = drawerState.key === location.key && drawerState.open;
+  const setIsMobileOpen = useCallback((open) => setDrawerState({ key: location.key, open }), [location.key]);
+
+  useEffect(() => {
+    if (!isMobileOpen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setIsMobileOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isMobileOpen, setIsMobileOpen]);
 
   // The open group and its route key let manual clicks override route defaults until navigation.
   const [groupState, setGroupState] = useState(() => ({
@@ -107,6 +123,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
               : "Open navigation sidebar"
           }
           aria-expanded={isMobileOpen}
+          aria-controls="primary-navigation-drawer"
         >
           {isMobileOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
@@ -124,6 +141,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
 
       {/* Sidebar Container */}
       <aside
+        id="primary-navigation-drawer"
         className={`sidebar ${isCollapsed ? "sidebar--collapsed" : ""} ${
           isMobileOpen ? "sidebar--mobile-open" : ""
         }`}

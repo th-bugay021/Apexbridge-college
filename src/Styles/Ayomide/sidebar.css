@@ -14,7 +14,7 @@ Uses CSS Custom Properties defined in global root theme
   gap: var(--space-3);
   position: sticky;
   top: 0;
-  z-index: var(--z-sticky);
+  z-index: calc(var(--z-modal-backdrop) + 3);
 }
 
 .mobile-toggle-btn {
@@ -26,6 +26,9 @@ Uses CSS Custom Properties defined in global root theme
   justify-content: center;
   padding: var(--space-1);
   border-radius: var(--radius-sm);
+  min-width: var(--input-height-lg);
+  min-height: var(--input-height-lg);
+  cursor: pointer;
 }
 
 .mobile-logo {
@@ -35,11 +38,12 @@ Uses CSS Custom Properties defined in global root theme
 }
 
 .sidebar-backdrop {
-  display: none;
+  display: block;
   position: fixed;
   inset: 0;
   background: rgba(35, 43, 54, var(--opacity-overlay));
-  z-index: var(--z-modal-backdrop);
+  z-index: calc(var(--z-modal-backdrop) + 1);
+  cursor: pointer;
 }
 
 /* Sidebar Base Container */
@@ -54,6 +58,7 @@ Uses CSS Custom Properties defined in global root theme
   display: flex;
   flex-direction: column;
   z-index: var(--z-fixed);
+  min-width: 0;
   transition:
     width var(--transition-normal),
     transform var(--transition-normal);
@@ -337,20 +342,39 @@ RESPONSIVE DESIGN (MOBILE & TABLET)
     display: flex;
   }
 
-  .sidebar-backdrop {
-    display: block;
-  }
-
   .sidebar {
+    z-index: calc(var(--z-modal-backdrop) + 2);
+    height: 100dvh;
+    max-height: 100dvh;
+    max-width: min(var(--sidebar-width), calc(100vw - var(--space-8)));
+    overflow: hidden;
     transform: translateX(-100%);
     box-shadow: var(--shadow-lg);
+    pointer-events: none;
+    visibility: hidden;
   }
 
   .sidebar--mobile-open {
     transform: translateX(0);
+    pointer-events: auto;
+    visibility: visible;
   }
+
+  .mobile-header { position: sticky; }
 
   .collapse-toggle-btn {
     display: none;
   }
+}
+
+.sidebar :focus-visible,
+.mobile-header :focus-visible {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: var(--space-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .brand-logo,
+  .nav-label { transition: none; }
 }

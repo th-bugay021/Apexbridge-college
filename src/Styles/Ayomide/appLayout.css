@@ -4,7 +4,7 @@
 
 .app-layout {
   display: flex;
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: var(--color-background);
 }
 
@@ -17,6 +17,7 @@
   margin-left: var(--sidebar-width);
   transition: margin-left var(--transition-normal);
   min-width: 0; /* Prevents flex/grid child overflow bugs */
+  max-width: 100%;
 }
 
 /* When layout is collapsed, shrink the left margin to match the collapsed sidebar */
@@ -31,6 +32,7 @@
   max-width: var(--container-max-width);
   width: 100%;
   margin: 0 auto;
+  min-width: 0;
 }
 
 /* =========================================================
@@ -42,4 +44,12 @@
        so the main content has 0 left margin */
     margin-left: 0 !important;
   }
+}
+
+@media (max-width: 768px) {
+  .app-content { padding: var(--space-4); }
+}
+
+@media (max-width: 480px) {
+  .app-content { padding: var(--space-3); }
 }

@@ -507,3 +507,49 @@
   }
 }
 
+/* Responsive refinements shared by student and parent pages. */
+.students-ui,
+.students-ui * { min-width: 0; }
+
+.students-ui .students-person-cell a,
+.students-ui .students-person-cell small,
+.students-ui .students-profile-identity,
+.students-ui .students-guardian-grid,
+.students-ui .students-parent-grid { overflow-wrap: anywhere; }
+
+.students-ui .students-list-card,
+.students-ui .students-profile-card,
+.students-ui .mu-card { max-width: 100%; }
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .students-ui .students-class-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .students-ui .students-toolbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .students-ui .students-toolbar > .students-search { grid-column: 1 / -1; width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .students-ui .mu-page-header { align-items: stretch; }
+  .students-ui .mu-page-header-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .students-ui .mu-page-header-actions > .btn { width: 100%; min-height: var(--input-height-lg); white-space: normal; }
+  .students-ui .students-class-grid { grid-template-columns: minmax(0, 1fr); }
+  .students-ui .students-toolbar { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .students-ui .students-toolbar > .mu-field,
+  .students-ui .students-toolbar > .students-search,
+  .students-ui .students-list-card > .mu-toolbar > .students-search { width: 100%; min-width: 0; }
+  .students-ui .students-bulk-actions { justify-content: flex-start; flex-wrap: wrap; }
+  .students-ui .students-row-actions,
+  .students-ui .students-parent-actions { flex-wrap: wrap; }
+  .students-ui .students-parent-actions .btn { min-height: var(--input-height-lg); }
+  .students-ui .students-table { min-width: 900px; }
+  .students-ui .students-form-grid,
+  .students-ui .students-profile-details,
+  .students-ui .students-contact-list,
+  .students-ui .students-guardian-grid,
+  .students-ui .students-parent-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .students-ui .mu-card { padding: var(--space-3); }
+  .students-ui .students-profile-identity { align-items: flex-start; flex-wrap: wrap; }
+}
+

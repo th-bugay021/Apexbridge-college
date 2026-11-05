@@ -97,7 +97,9 @@ async function main() {
     for (const classPlan of classPlans) {
       await prisma.$transaction(async (tx) => {
         for (const update of classPlan.updates) {
-          const { id, plannedDepartment: _plannedDepartment, ...data } = update;
+          const { id, ...rest } = update;
+          const data = { ...rest };
+          delete data.plannedDepartment;
           await tx.student.update({ where: { id }, data });
         }
       }, { timeout: 120000, maxWait: 20000 });
