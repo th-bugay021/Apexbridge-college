@@ -3,6 +3,7 @@ import { FiBookOpen, FiDollarSign, FiUsers, FiUserCheck, FiUserPlus, FiTrendingU
 import { getClasses } from "../../../api/classes";
 import { getDailyAttendance } from "../../../api/attendance";
 import { getTeachers } from "../../../api/teachers";
+import { getStudents } from "../../../api/students";
 import { useAuth } from "../../../Context/AuthContext";
 import { useTheme } from "../../../Context/useTheme";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
@@ -11,11 +12,9 @@ import StatsCard from "../../../Components/Kingston/StatsCard";
 import {
   mockFinanceTotals,
   mockFeeCollection,
-  mockGenderDistribution,
   mockPerformanceByClass,
   mockRecentAdmissions,
   mockRecentPayments,
-  mockStudentTotal,
   mockTrendBadges,
   mockUpcomingEvents,
   mockUpcomingExams,
@@ -98,9 +97,22 @@ function AdminDashboard() {
   useTheme();
   const colors = getDashboardColors();
   const [teachersState, setTeachersState] = useState({ loading: true, error: "", total: null });
+  const [studentsState, setStudentsState] = useState({ loading: true, error: "", total: null });
+  const [genderState, setGenderState] = useState({ loading: true, error: "", data: [] });
   const [classesState, setClassesState] = useState({ loading: true, error: "", total: null, rows: [] });
   const [attendanceState, setAttendanceState] = useState({ loading: true, error: "", data: [], summary: EMPTY_ATTENDANCE });
   const [period, setPeriod] = useState("weekly");
+
+  useEffect(() => {
+    let active = true;
+    getStudents({ page: 1, limit: 1 })
+      .then((result) => active && setStudentsState({ loading: false, error: "", total: result.pagination?.total ?? null }))
+      .catch((error) => active && setStudentsState({ loading: false, error: apiErrorMessage(error, "students"), total: null }));
+    Promise.all(["MALE", "FEMALE", "OTHER"].map((gender) => getStudents({ page: 1, limit: 1, gender })))
+      .then((results) => active && setGenderState({ loading: false, error: "", data: results.map((result, index) => ({ name: ["Boys", "Girls", "Other"][index], value: result.pagination?.total ?? 0 })).filter((item) => item.name !== "Other" || item.value > 0) }))
+      .catch((error) => active && setGenderState({ loading: false, error: apiErrorMessage(error, "students"), data: [] }));
+    return () => { active = false; };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -156,7 +168,7 @@ function AdminDashboard() {
   const attendanceRate = attendanceState.summary.marked ? Math.round((attendanceState.summary.present / attendanceState.summary.marked) * 100) : null;
   const populationData = useMemo(() => classesState.rows.map((classItem) => ({ name: classItem.name || classItem.className || "Class", students: Number(classItem.studentCount || 0) })), [classesState.rows]);
   const statCards = [
-    { title: "Total students", value: mockStudentTotal.toLocaleString(), Icon: FiUsers, trend: mockTrendBadges.students, tone: "accent" },
+    { title: "Total students", value: studentsState.total?.toLocaleString(), Icon: FiUsers, tone: "accent", loading: studentsState.loading, error: studentsState.error, empty: !studentsState.loading && !studentsState.error && studentsState.total === null },
     { title: "Total teachers", value: teachersState.total?.toLocaleString(), Icon: FiUserCheck, trend: mockTrendBadges.teachers, tone: "info", loading: teachersState.loading, error: teachersState.error, empty: !teachersState.loading && !teachersState.error && teachersState.total === null },
     { title: "Total classes", value: classesState.total?.toLocaleString(), Icon: FiBookOpen, trend: mockTrendBadges.classes, tone: "success", loading: classesState.loading, error: classesState.error, empty: !classesState.loading && !classesState.error && classesState.total === null },
     { title: "Attendance rate", value: attendanceRate === null ? null : attendanceRate + "%", Icon: FiUserPlus, trend: mockTrendBadges.attendance, tone: "info", loading: attendanceState.loading, error: attendanceState.error, empty: !attendanceState.loading && !attendanceState.error && attendanceRate === null },
@@ -169,10 +181,11 @@ function AdminDashboard() {
       <header className="dashboard-page-heading">
         <div><p className="dashboard-page-eyebrow">School overview</p><h1>Dashboard</h1><p className="dashboard-page-description">A quick look at the school&apos;s key numbers and daily activity.</p></div>
       </header>
+      <style>{`.dashboard-stats-grid > .dashboard-stat-card:first-child .dashboard-stat-card-top::after, .dashboard-gender-card .dashboard-chart-header::after { display: none; }`}</style>
       <section className="dashboard-stats-grid" aria-label="School statistics">{statCards.map((card) => <StatsCard key={card.title} {...card} />)}</section>
       <Suspense fallback={<div className="dashboard-lazy-fallback" role="status">Loading dashboard charts…</div>}>
         <section className="dashboard-chart-grid" aria-label="Student and attendance charts">
-          <GenderChart data={mockGenderDistribution} colors={colors} />
+          <GenderChart data={genderState.data} colors={colors} loading={genderState.loading} error={genderState.error} />
           <AttendanceChart data={attendanceState.data} period={period} onPeriodChange={setPeriod} colors={colors} loading={attendanceState.loading} error={attendanceState.error} />
         </section>
         <section className="dashboard-population-section" aria-label="Student population by class"><PopulationChart data={populationData} colors={colors} loading={classesState.loading} error={classesState.error} /></section>
