@@ -2,6 +2,7 @@
 import navigationConfig from "./navigationConfig";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
+import { useTheme } from "../../Context/useTheme";
 
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -20,6 +21,14 @@ function groupForPath(pathname) {
   return navigationConfig.find((item) => item.children?.some((child) => (
     child.path && (pathname === child.path || pathname.startsWith(`${child.path}/`))
   )))?.label ?? null;
+}
+
+function AppLogo({ icon = false, className = "" }) {
+  const { theme } = useTheme();
+  const src = icon
+    ? theme === "dark" ? "/logo/apexbridge-icon-dark.png" : "/logo/apexbridge-icon.png"
+    : theme === "dark" ? "/logo/apexbridge-primary-logo-dark.png" : "/logo/apexbridge-primary-logo.png";
+  return <img src={src} alt="Apexbridge College" className={className} />;
 }
 
 // 1. Accept isCollapsed and setIsCollapsed as props from AppLayout
@@ -101,11 +110,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
         >
           {isMobileOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
-        <img
-          src="/logo/apexbridge-icon.png"
-          alt="Apexbridge College"
-          className="mobile-logo"
-        />
+        <AppLogo icon className="mobile-logo" />
       </div>
 
       {/* Backdrop for Mobile Drawer */}
@@ -131,13 +136,8 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
             onClick={handleNavLinkClick}
             className="brand-link"
           >
-            <img
-              src={
-                isCollapsed
-                  ? "/logo/apexbridge-icon.png"
-                  : "/logo/apexbridge-primary-logo.png"
-              }
-              alt="Apexbridge College"
+            <AppLogo
+              icon={isCollapsed}
               className={`brand-logo ${isCollapsed ? "brand-logo--icon" : "brand-logo--full"}`}
             />
           </NavLink>
