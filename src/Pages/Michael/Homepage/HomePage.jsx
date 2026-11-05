@@ -216,6 +216,21 @@
         window.addEventListener('keydown', onKeyDown); return () => window.removeEventListener('keydown', onKeyDown);
     }, [menuOpen]);
 
+    useEffect(() => {
+        if (!menuOpen) return undefined;
+        const mobileMenu = window.matchMedia('(max-width: 900px)');
+        const previousOverflow = document.body.style.overflow;
+        const syncScrollLock = () => {
+            document.body.style.overflow = mobileMenu.matches ? 'hidden' : previousOverflow;
+        };
+        syncScrollLock();
+        mobileMenu.addEventListener('change', syncScrollLock);
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            mobileMenu.removeEventListener('change', syncScrollLock);
+        };
+    }, [menuOpen]);
+
     const closeMenu = () => setMenuOpen(false);
     const validate = () => {
         const next = {};

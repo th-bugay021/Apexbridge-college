@@ -765,7 +765,7 @@
 }
 
 /* Compact layouts */
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .michael-ui .mu-card { padding: var(--space-5); }
   .michael-ui .mu-page-header,
   .michael-ui .mu-section-header,
@@ -894,7 +894,7 @@
   min-width: calc(var(--space-16) + var(--space-16) + var(--space-16) + var(--space-16) + var(--space-8));
 }
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .michael-ui .mu-attendance-page .mu-table-wrap {
     width: 100%;
     overflow-x: auto;
@@ -996,14 +996,14 @@
   font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .michael-ui .timetable-grid {
     grid-template-columns: repeat(var(--timetable-day-count), minmax(150px, 1fr));
     overflow-x: auto;
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .michael-ui .mu-attendance-toolbar .mu-toolbar {
     align-items: stretch;
     flex-direction: column;
@@ -1084,7 +1084,7 @@
   }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 600px) {
   .michael-ui .mu-performance-toolbar {
     align-items: stretch;
     flex-direction: column;
@@ -1123,7 +1123,7 @@
 .michael-ui .mu-modal-dialog .mu-modal-footer { flex: 0 0 auto; }
 .michael-ui :focus-visible { outline: var(--border-width-thick) solid var(--color-border-focus); outline-offset: var(--space-1); }
 
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 601px) and (max-width: 1024px) {
   .michael-ui .mu-toolbar { display: flex; flex-wrap: wrap; }
   .michael-ui .mu-toolbar > .mu-toolbar-search { flex: 1 1 100%; min-width: 0; }
   .michael-ui .mu-toolbar > .mu-field,
@@ -1156,7 +1156,7 @@
   .michael-ui .mu-pagination { flex-direction: column; }
   .michael-ui .mu-pagination-controls { width: 100%; justify-content: space-between; }
   .michael-ui .mu-modal-backdrop { padding: 0; place-items: stretch; }
-  .michael-ui .mu-modal-dialog { width: 100%; max-width: none; max-height: 100dvh; height: 100dvh; border-radius: 0; }
+  .michael-ui .mu-modal-dialog { width: 100%; max-width: none; max-height: 100dvh; height: 100dvh; overflow: hidden; border-radius: 0; }
   .michael-ui .mu-modal-header,
   .michael-ui .mu-modal-footer { padding: var(--space-4); }
   .michael-ui .mu-modal-footer { position: sticky; bottom: 0; flex-wrap: wrap; background: var(--color-surface); }
@@ -1220,7 +1220,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 639px) {
+@media (max-width: 600px) {
   .michael-ui .mu-performance-list-card .mu-performance-toolbar {
     align-items: stretch;
     flex-direction: column;
@@ -1283,7 +1283,7 @@
   }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 600px) {
   .michael-ui .mu-teacher-toolbar {
     align-items: stretch;
     flex-direction: column;
@@ -1305,7 +1305,7 @@
 
 .michael-ui .mu-modal-dialog {
   display: flex;
-  max-height: calc(100vh - var(--space-8));
+  max-height: calc(100dvh - var(--space-8));
   flex-direction: column;
   overflow: hidden;
 }
@@ -1330,7 +1330,7 @@
 }
 
 .michael-ui .teacher-modal {
-  max-height: calc(100vh - var(--space-8));
+  max-height: calc(100dvh - var(--space-8));
   overflow-y: auto;
 }
 
@@ -1383,7 +1383,7 @@
   white-space: nowrap;
 }
 
-@media (min-width: 640px) and (max-width: 1023px) {
+@media (min-width: 601px) and (max-width: 1023px) {
   .michael-ui .mu-attendance-range-toolbar {
     align-items: flex-end;
     flex-wrap: wrap;
@@ -1394,7 +1394,7 @@
   }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 600px) {
   .michael-ui .mu-attendance-range-toolbar {
     align-items: stretch;
     flex-direction: column;

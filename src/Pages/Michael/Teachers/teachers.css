@@ -44,9 +44,9 @@
 .teacher-toast{position:fixed;z-index:var(--z-modal);right:var(--space-5);bottom:var(--space-5);max-width:min(420px,calc(100vw - 2rem));padding:var(--space-4) var(--space-5);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);background:var(--color-primary);color:var(--color-text-inverse)}
 .teacher-toast--success{background:var(--color-success-dark)}
 .teacher-toast--error{background:var(--color-danger-dark)}
-@media(max-width:700px){.teacher-card{padding:var(--space-4)}.teacher-page-header{align-items:flex-start}.teacher-page-header>.btn{width:100%}.teacher-details,.teacher-form{grid-template-columns:1fr}.teacher-form-actions{grid-column:1}.teacher-pagination{align-items:flex-start;flex-direction:column}.teacher-pagination>div{width:100%;justify-content:space-between}.teacher-table{min-width:650px}}
+@media(max-width:600px){.teacher-card{padding:var(--space-4)}.teacher-page-header{align-items:flex-start}.teacher-page-header>.btn{width:100%}.teacher-details,.teacher-form{grid-template-columns:1fr}.teacher-form-actions{grid-column:1}.teacher-pagination{align-items:flex-start;flex-direction:column}.teacher-pagination>div{width:100%;justify-content:space-between}.teacher-table{min-width:650px}}
 
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 601px) and (max-width: 1024px) {
   .teacher-details,.teacher-form { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .teacher-page-header { align-items: flex-start; }
 }

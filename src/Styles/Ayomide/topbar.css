@@ -274,6 +274,7 @@ RESPONSIVE ADJUSTMENTS
 @media (max-width: 768px) {
     .topbar {
         padding: 0 var(--space-3);
+        padding-left: calc(var(--space-4) * 2 + var(--input-height-lg) * 2 + var(--space-3));
     }
 
     .topbar-welcome {
@@ -284,6 +285,12 @@ RESPONSIVE ADJUSTMENTS
     .topbar-user-info {
         display: none;
         /* Hide name/role on mobile; avatar remains visible */
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .topbar {
+        padding-left: calc(var(--space-4) * 2 + var(--input-height-lg) * 2 + var(--space-3));
     }
 }
 

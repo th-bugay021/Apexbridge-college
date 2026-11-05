@@ -297,10 +297,13 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  max-width: 100%;
 }
 
 body {
   margin: 0;
+  max-width: 100%;
+  overflow-x: clip;
   background: var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-family);
@@ -367,6 +370,40 @@ select:disabled {
 img {
   display: block;
   max-width: 100%;
+}
+
+#root {
+  min-height: 100dvh;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+@media (max-width: 900px) {
+  .app-layout,
+  .app-main,
+  .app-content {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .app-content :where(h1) {
+    font-size: clamp(1.6rem, 5vw, 2.25rem);
+    line-height: var(--line-height-tight);
+    overflow-wrap: anywhere;
+  }
+
+  .app-content :where(p, span, a, th, td, label, strong, dd, dt) {
+    overflow-wrap: anywhere;
+  }
+
+  .app-content :where(input, select, textarea) {
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  .app-content :where(button, .btn) {
+    min-height: var(--input-height-lg);
+  }
 }
 
 a {

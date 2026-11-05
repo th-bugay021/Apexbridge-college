@@ -358,9 +358,36 @@ RESPONSIVE DESIGN (MOBILE & TABLET)
     transform: translateX(0);
     pointer-events: auto;
     visibility: visible;
+    width: min(var(--sidebar-width), calc(100vw - var(--space-8)));
   }
 
-  .mobile-header { position: sticky; }
+  .sidebar--collapsed.sidebar--mobile-open .nav-label,
+  .sidebar--collapsed.sidebar--mobile-open .chevron-icon,
+  .sidebar--collapsed.sidebar--mobile-open .user-info {
+    display: initial !important;
+  }
+
+  .sidebar--collapsed.sidebar--mobile-open .nav-submenu {
+    display: flex !important;
+  }
+
+  .sidebar--collapsed.sidebar--mobile-open .nav-link,
+  .sidebar--collapsed.sidebar--mobile-open .nav-group-btn {
+    justify-content: flex-start;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .sidebar--collapsed.sidebar--mobile-open .nav-item-content {
+    gap: var(--space-3);
+  }
+
+  .sidebar--collapsed.sidebar--mobile-open .user-profile {
+    justify-content: flex-start;
+  }
+
+  .sidebar .nav-link,
+  .sidebar .nav-group-btn,
+  .sidebar .nav-link.sub-link { min-height: var(--input-height-lg); }
 
   .collapse-toggle-btn {
     display: none;

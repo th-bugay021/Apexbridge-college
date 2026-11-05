@@ -22,7 +22,7 @@
 .attendance-history-heading p{margin-top:var(--space-2);color:var(--color-text-secondary)}
 .attendance-history>.attendance-range{margin:var(--space-4) 0}
 .attendance-page .teacher-section-header{margin-bottom:var(--space-4)}
-@media(max-width:700px){
+@media(max-width:600px){
   .attendance-toolbar{align-items:stretch}
   .attendance-toolbar>label,.attendance-range,.attendance-range>label{width:100%;min-width:0}
   .attendance-range{align-items:stretch}

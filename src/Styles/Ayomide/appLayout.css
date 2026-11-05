@@ -39,10 +39,35 @@
    RESPONSIVE (MOBILE & TABLET VIEW)
    ========================================================= */
 @media (max-width: 1024px) {
+  .app-layout {
+    display: block;
+    width: 100%;
+  }
+
+  .mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
   .app-main {
-    /* On mobile, the sidebar is a fixed drawer (transform: translateX), 
-       so the main content has 0 left margin */
-    margin-left: 0 !important;
+    /* The sidebar is fixed, so the main column can use the full viewport. */
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .app-layout.layout--collapsed .app-main {
+    margin-left: 0;
+  }
+
+  .app-content {
+    align-self: stretch;
+    width: 100%;
+    margin-inline: 0;
   }
 }
 

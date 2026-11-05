@@ -20,7 +20,7 @@
 .timetable-assigned-teacher span{color:var(--color-text-secondary)}
 .timetable-help{color:var(--color-text-secondary);font-size:var(--font-size-sm)}
 .timetable-class-summary h2{font-size:var(--font-size-lg)}
-@media(max-width:700px){
+@media(max-width:600px){
   .timetable-grid{grid-template-columns:1fr;overflow:visible}
   .timetable-day{min-width:0}
   .timetable-modal .academic-form{grid-template-columns:1fr}
