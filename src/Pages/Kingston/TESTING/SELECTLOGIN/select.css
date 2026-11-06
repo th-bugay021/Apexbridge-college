@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: whitesmoke;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
+        'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #1e293b;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 35px 15px;
+}
+
+/* Main card */
+.contain {
+    background-color: white;
+    width: 400px;
+    max-width: 100%;
+    padding: 25px;
+    border-radius: 12px;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+/* Logo inside the card */
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.logo img {
+    height: 200px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Heading */
+.contain h2 {
+    font-size: 23px;
+    margin-bottom: 10px;
+    color: #0f172a;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+/* Dropdown containers */
+.inot {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.rfc {
+    position: relative;
+    width: 100%;
+}
+
+/* Dropdown buttons */
+.bnn {
+    width: 100%;
+    padding: 14px 16px;
+    background-color: #1e293b;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s ease;
+}
+
+.bnn:hover {
+    background-color: #16a34a;
+}
+
+.downsp {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+/* Dropdown menu */
+.dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    z-index: 10;
+    text-align: left;
+}
+
+.dropdown.show {
+    display: block;
+}
+
+.dropdown a {
+    display: block;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: #334155;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.dropdown a:hover {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+    body {
+        padding: 25px 15px;
+    }
+
+    .contain {
+        padding: 20px;
+    }
+
+    .logo img {
+        height: 170px;
+        max-width: 100%;
+    }
+
+    .contain h2 {
+        font-size: 21px;
+    }
+}

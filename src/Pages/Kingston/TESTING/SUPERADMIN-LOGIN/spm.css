@@ -1,0 +1,117 @@
+
+body {
+    background-color: #f6f8f7;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #25352f;
+}
+
+a {
+    text-decoration: none;
+    color: #006751;
+}
+
+.cent {
+    text-align: center;
+}
+
+.contain {
+    background-color: #ffffff;
+    width: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    margin: auto;
+    box-shadow: 0px 0px 15px rgba(0, 32, 25, 0.12);
+}
+
+.btn1 {
+    background-color: #ffffff;
+    color: #002019;
+    width: 400px;
+    padding: 15px;
+    border: 1px solid #dce6e0;
+    border-radius: 10px;
+    font-weight: 300;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease,
+                border-color 0.3s ease,
+                color 0.3s ease;
+}
+
+.btn1:hover {
+    background-color: #e8f4ef;
+    border-color: #004d3b;
+    color: #004d3b;
+}
+
+.we {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.line {
+    width: 130px;
+    border: 0;
+    border-top: 1px solid #dce6e0;
+}
+
+input {
+    background-color: #ffffff;
+    color: #25352f;
+    width: 369px;
+    padding: 15px;
+    border: 1px solid #dce6e0;
+    border-radius: 10px;
+    transition: border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+input::placeholder {
+    color: #9aa69f;
+}
+
+input:focus {
+    outline: none;
+    border-color: #08745a;
+    box-shadow: 0 0 0 3px rgba(8, 116, 90, 0.09);
+}
+
+.passfor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fp {
+    font-weight: light;
+    color: #006751;
+    transition: color 0.2s ease;
+}
+
+.fp:hover {
+    color: #002019;
+    text-decoration: underline;
+}
+
+.btn2 {
+    background-color: #004d3b;
+    color: #ffffff;
+    width: 400px;
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #004d3b;
+    border-radius: 10px;
+    font-weight: 300;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+.btn2:hover {
+    background-color: #006751;
+    border-color: #006751;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 32, 25, 0.12);
+}
