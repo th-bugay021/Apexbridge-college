@@ -821,3 +821,184 @@
     transition: opacity .2s ease;
   }
 }
+
+@media (max-width: 640px) {
+  .lg-page {
+    display: flex;
+    min-height: 100dvh;
+    position: relative;
+    box-sizing: border-box;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  .lg-card {
+    display: flex;
+    min-width: 0;
+    min-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    flex: 1 0 auto;
+    flex-direction: column;
+    overflow: visible;
+    z-index: 1;
+    background: transparent;
+  }
+
+  .lg-card::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    min-height: 100dvh;
+    background: radial-gradient(ellipse 45% 60% at var(--lg-glow-x) 100%, rgba(10, 154, 143, .32), transparent 100%), var(--lg-navy);
+    clip-path: polygon(0 0, 100% 0, 100% 22%, 0 94%);
+    pointer-events: none;
+  }
+
+  .lg-card .lg-panel {
+    position: relative;
+    inset: auto;
+    z-index: 1;
+    display: flex;
+    height: auto;
+    min-height: clamp(330px, 45vh, 380px);
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 24px;
+    padding: clamp(28px, 8vw, 44px) clamp(24px, 7vw, 40px);
+    clip-path: none;
+    background: transparent;
+  }
+
+  .lg-logo {
+    align-self: flex-start;
+    width: clamp(170px, 48vw, 210px);
+    max-width: 100%;
+    padding: 8px 14px;
+  }
+
+  .lg-welcome {
+    width: 100%;
+    max-width: 34ch;
+    padding: 0;
+  }
+
+  .lg-welcome h1 {
+    margin: 0 0 12px;
+    font-size: clamp(2.25rem, 8vw, 3rem);
+  }
+
+  .lg-welcome p {
+    max-width: 34ch;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .lg-card .lg-form-side {
+    position: relative;
+    z-index: 1;
+    display: block;
+    min-width: 0;
+    flex: 1 0 auto;
+    margin-top: clamp(24px, 5vh, 40px);
+    padding: 0 clamp(16px, 4.5vw, 20px) 32px;
+    background: transparent;
+  }
+
+  .lg-form-content {
+    width: 100%;
+    min-width: 0;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: clamp(22px, 6vw, 30px);
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 12px 32px rgba(11, 31, 58, .16);
+  }
+
+  .lg-fields {
+    gap: 20px;
+    margin-top: 28px;
+  }
+
+  .lg-field {
+    min-height: 58px;
+    padding: 5px 12px 0;
+    border: 1px solid rgba(11, 31, 58, .25);
+    border-radius: 10px;
+  }
+
+  .lg-field:focus-within {
+    border-color: var(--lg-teal);
+    box-shadow: 0 0 0 2px rgba(10, 154, 143, .12);
+  }
+
+  .lg-field label {
+    top: 17px;
+    left: 12px;
+    font-size: 15px;
+  }
+
+  .lg-field input {
+    box-sizing: border-box;
+    min-height: 48px;
+    padding: 15px 36px 5px 0;
+    font-size: 16px;
+  }
+
+  .lg-field:focus-within label,
+  .lg-field:has(input:not(:placeholder-shown)) label {
+    font-size: 12px;
+  }
+
+  .lg-field svg {
+    top: 17px;
+    right: 10px;
+    width: 22px;
+  }
+
+  .lg-options {
+    min-height: 44px;
+    margin-top: 18px;
+  }
+
+  .lg-forgot {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .lg-submit,
+  .lg-options + .lg-submit {
+    min-height: 52px;
+    margin-top: 16px;
+    background: var(--lg-teal);
+  }
+
+  .lg-submit:hover {
+    background: var(--lg-teal-dark);
+  }
+
+  .lg-register {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 12px;
+  }
+
+  .lg-register a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .lg-blade {
+    display: none;
+  }
+}
