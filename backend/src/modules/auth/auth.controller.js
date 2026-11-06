@@ -2,7 +2,7 @@ import * as service from './auth.service.js';
 import { env } from '../../config/env.js';
 import { permissionsForRole } from '../../utils/permissions.js';
 
-const cookieOptions = () => ({ httpOnly: true, sameSite: 'lax', secure: env.NODE_ENV === 'production', path: '/api/auth' });
+const cookieOptions = () => ({ httpOnly: true, sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax', secure: env.NODE_ENV === 'production', path: '/api/auth' });
 const sendSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, { ...cookieOptions(), maxAge: 30 * 24 * 60 * 60 * 1000 });
   return res.json({ user: session.user, accessToken: session.accessToken });
