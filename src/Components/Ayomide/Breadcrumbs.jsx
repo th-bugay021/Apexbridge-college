@@ -1,7 +1,7 @@
 // import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FiHome, FiChevronRight } from "react-icons/fi";
-import "../../Styles/Ayomide/Breadcrumbs.css";
+import "../../Styles/Ayomide/breadcrumbs.css";
 
 const Breadcrumbs = () => {
   const location = useLocation();
