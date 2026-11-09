@@ -11,6 +11,7 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -78,8 +79,10 @@ function Login() {
               </div>
               <div className="lg-field">
                 <label htmlFor="lg-password">Password</label>
-                <input id="lg-password" name="password" type="password" placeholder=" " autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required />
-                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.6" /></svg>
+                <input id="lg-password" name="password" type={showPassword ? "text" : "password"} placeholder=" " autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required />
+                <button className="lg-password-toggle" type="button" aria-label={showPassword ? "Hide password" : "Show password"} aria-pressed={showPassword} onClick={() => setShowPassword((visible) => !visible)}>
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.6" /></svg>
+                </button>
               </div>
             </div>
 

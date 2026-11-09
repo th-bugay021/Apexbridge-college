@@ -203,7 +203,7 @@
 .lg-field input {
   width: 100%;
   min-height: 42px;
-  padding: 15px 36px 5px 0;
+  padding: 15px 56px 5px 0;
   border: 0;
   outline: 0;
   background: transparent;
@@ -218,7 +218,8 @@
   font-size: 11px;
 }
 
-.lg-field svg {
+.lg-field > svg,
+.lg-password-toggle svg {
   position: absolute;
   top: 15px;
   right: 2px;
@@ -230,6 +231,28 @@
   stroke-width: 1.7;
   pointer-events: none;
   transition: stroke .18s ease;
+}
+
+.lg-password-toggle {
+  position: absolute;
+  z-index: 2;
+  top: 4px;
+  right: 0;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.lg-password-toggle svg {
+  position: static;
+  width: 22px;
+  pointer-events: none;
 }
 
 .lg-field:focus-within svg,
@@ -946,7 +969,7 @@
   .lg-field input {
     box-sizing: border-box;
     min-height: 48px;
-    padding: 15px 36px 5px 0;
+    padding: 15px 56px 5px 0;
     font-size: 16px;
   }
 
@@ -955,10 +978,22 @@
     font-size: 12px;
   }
 
-  .lg-field svg {
+  .lg-field > svg,
+  .lg-password-toggle svg {
     top: 17px;
     right: 10px;
     width: 22px;
+  }
+
+  .lg-password-toggle {
+    top: 6px;
+    right: 0;
+  }
+
+  .lg-password-toggle svg {
+    position: static;
+    top: auto;
+    right: auto;
   }
 
   .lg-options {
