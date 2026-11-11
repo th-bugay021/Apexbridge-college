@@ -94,12 +94,12 @@ export async function markAttendance({ classId, date, records }, actor) {
   }
 
   const attendanceDate = toDate(date);
-  const saved = await prisma.$transaction((tx) => Promise.all(records.map(({ studentId, status }) => tx.attendance.upsert({
+  const saved = await prisma.$transaction(records.map(({ studentId, status }) => prisma.attendance.upsert({
     where: { studentId_date: { studentId, date: attendanceDate } },
     create: { studentId, classId, date: attendanceDate, status, markedById: actor.id },
     update: { classId, status, markedById: actor.id },
     select: attendanceSelect,
-  }))));
+  })));
   return { classId, date, attendance: saved.map(formatAttendance) };
 }
 

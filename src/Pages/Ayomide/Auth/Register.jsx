@@ -43,6 +43,7 @@ function Register() {
   const [isReady, setIsReady] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState(() => new URLSearchParams(window.location.search).has("invite") ? "TEACHER" : "STUDENT");
@@ -188,7 +189,7 @@ function Register() {
                   <input
                     id="rg-password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder=" "
                     autoComplete="new-password"
                     value={password}
@@ -196,10 +197,12 @@ function Register() {
                     required
                     onChange={(event) => setPassword(event.target.value)}
                   />
-                  <svg aria-hidden="true" viewBox="0 0 24 24">
-                    <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" />
-                    <circle cx="12" cy="12" r="2.6" />
-                  </svg>
+                  <button className="lg-password-toggle" type="button" aria-label={showPassword ? "Hide password" : "Show password"} aria-pressed={showPassword} onClick={() => setShowPassword((visible) => !visible)}>
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                      <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" />
+                      <circle cx="12" cy="12" r="2.6" />
+                    </svg>
+                  </button>
                 </div>
 
                 <div className="rg-strength" data-level={strength}>
