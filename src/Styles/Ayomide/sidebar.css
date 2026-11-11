@@ -334,6 +334,24 @@ COLLAPSED DESKTOP STATE (72px)
   justify-content: center;
 }
 
+@media (min-width: 769px) {
+  .sidebar--collapsed .nav-link,
+  .sidebar--collapsed .nav-group-btn {
+    box-sizing: border-box;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    margin-inline: auto;
+    padding: 0;
+    border-radius: var(--radius-lg);
+  }
+
+  .sidebar--collapsed .nav-link:not(.sub-link) {
+    display: flex;
+  }
+}
+
 /* =========================================================
 RESPONSIVE DESIGN (MOBILE & TABLET)
 ========================================================= */

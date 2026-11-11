@@ -13,6 +13,9 @@ import {
   FiTrendingUp,
 } from "react-icons/fi";
 
+// Settings is a placeholder. Set to true when the page is ready.
+export const SHOW_SETTINGS = false;
+
 const navigationConfig = [
   {
     label: "Dashboard",

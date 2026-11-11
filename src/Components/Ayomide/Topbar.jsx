@@ -11,6 +11,9 @@ import { useAuth } from "../../Context/AuthContext";
 import { useTheme } from "../../Context/useTheme";
 import "../../Styles/Ayomide/topbar.css";
 
+// Notifications are a placeholder. Set to true when the backend exists.
+const SHOW_NOTIFICATIONS = false;
+
 function Topbar() {
   const { user, logout } = useAuth();
   const { theme, changeTheme } = useTheme();
@@ -79,6 +82,7 @@ function Topbar() {
 
       {/* Right section: Action items & Profile */}
       <div className="topbar-right">
+        {SHOW_NOTIFICATIONS && <>
         {/* Notification Button */}
         <button
           type="button"
@@ -91,6 +95,7 @@ function Topbar() {
         </button>
 
         <div className="topbar-divider" />
+        </>}
 
         {/* User Profile Dropdown */}
         <div className="topbar-profile-container" ref={dropdownRef}>

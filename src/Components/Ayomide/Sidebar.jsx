@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import navigationConfig from "./navigationConfig";
+import navigationConfig, { SHOW_SETTINGS } from "./navigationConfig";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import { useTheme } from "../../Context/useTheme";
@@ -76,6 +76,8 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           if (allowedChildren.length === 0) return null;
           return { ...item, children: allowedChildren };
         }
+
+        if (item.path === "/settings" && !SHOW_SETTINGS) return null;
 
         if (item.roles && !item.roles.includes(user?.role)) return null;
         if (item.excludeRoles?.includes(user?.role)) return null;
