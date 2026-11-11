@@ -45,6 +45,106 @@ async function findParent(id, tx = prisma) {
   return parent;
 }
 
+function lagosDateKey(date) {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Africa/Lagos', year: 'numeric', month: '2-digit', day: '2-digit',
+  }).formatToParts(date);
+  const part = (type) => parts.find((item) => item.type === type)?.value;
+  return `${part('year')}-${part('month')}-${part('day')}`;
+}
+
+function dateOffset(dateKey, days) {
+  const date = new Date(`${dateKey}T12:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+export async function getMyChildren(userId) {
+  const parent = await prisma.parent.findUnique({
+    where: { userId },
+    select: {
+      children: {
+        orderBy: { student: { admissionNumber: 'asc' } },
+        select: { student: {
+          select: {
+            id: true, admissionNumber: true, firstName: true, lastName: true, status: true, classId: true,
+            class: { select: { id: true, name: true, level: true } },
+          },
+        } },
+      },
+    },
+  });
+  if (!parent) throw missingParent();
+
+  const children = parent.children.map(({ student }) => student);
+  const studentIds = children.map(({ id }) => id);
+  const today = lagosDateKey(new Date());
+  const from = dateOffset(today, -29);
+  const dayOfWeek = new Intl.DateTimeFormat('en-US', { timeZone: 'Africa/Lagos', weekday: 'long' })
+    .format(new Date()).toUpperCase();
+  const [attendanceRows, timetableRows] = await Promise.all([
+    studentIds.length
+      ? prisma.attendance.findMany({
+        where: { studentId: { in: studentIds }, date: { gte: new Date(`${from}T00:00:00.000Z`), lte: new Date(`${today}T00:00:00.000Z`) } },
+        select: { studentId: true, date: true, status: true },
+        orderBy: { date: 'desc' },
+      })
+      : [],
+    children.some(({ classId }) => classId)
+      ? prisma.timetableEntry.findMany({
+        where: { classId: { in: [...new Set(children.map(({ classId }) => classId).filter(Boolean))] }, dayOfWeek },
+        select: {
+          classId: true, startTime: true, endTime: true, room: true,
+          classSubject: { select: { subject: { select: { name: true } } } },
+          teacher: { select: { user: { select: { fullName: true } } } },
+        },
+        orderBy: { startTime: 'asc' },
+      })
+      : [],
+  ]);
+
+  const attendanceByStudent = new Map(studentIds.map((id) => [id, []]));
+  for (const row of attendanceRows) attendanceByStudent.get(row.studentId).push(row);
+  const timetableByClass = new Map();
+  for (const row of timetableRows) {
+    const entries = timetableByClass.get(row.classId) ?? [];
+    entries.push({
+      subject: row.classSubject.subject.name,
+      teacherName: row.teacher.user.fullName,
+      startTime: row.startTime,
+      endTime: row.endTime,
+      room: row.room,
+    });
+    timetableByClass.set(row.classId, entries);
+  }
+
+  return {
+    children: children.map((student) => {
+      const rows = attendanceByStudent.get(student.id);
+      const counts = { present: 0, absent: 0, late: 0, excused: 0 };
+      for (const { status } of rows) counts[status.toLowerCase()] += 1;
+      const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
+      return {
+        id: student.id,
+        admissionNumber: student.admissionNumber,
+        firstName: student.firstName,
+        lastName: student.lastName,
+        fullName: [student.firstName, student.lastName].filter(Boolean).join(' '),
+        status: student.status,
+        class: student.class,
+        attendance: {
+          periodDays: 30,
+          ...counts,
+          total,
+          ratePercent: total ? Math.round(((counts.present + counts.late) / total) * 100) : null,
+          recent: rows.slice(0, 5).map(({ date, status }) => ({ date: date.toISOString().slice(0, 10), status })),
+        },
+        todayTimetable: timetableByClass.get(student.class?.id) ?? [],
+      };
+    }),
+  };
+}
+
 export async function listParents({ page, limit, search, studentId }) {
   const where = {
     user: {

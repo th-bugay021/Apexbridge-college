@@ -12,7 +12,7 @@ export const permissions = {
   ],
   TEACHER: ['students.view', 'attendance.view', 'attendance.manage', 'results.view', 'results.manage', 'classes.view', 'classes.view.own', 'subjects.view', 'teachers.view.own', 'teachers.update.own', 'timetable.view', 'timetable.view.own'],
   STUDENT: ['results.view', 'classes.view.own', 'timetable.view.own'],
-  PARENT: ['results.view', 'attendance.view'],
+  PARENT: ['results.view', 'attendance.view', 'parents.view.own'],
   ACCOUNTANT: ['fees.view', 'payments.view', 'payments.create'],
 };
 

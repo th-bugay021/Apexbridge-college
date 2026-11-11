@@ -1,6 +1,7 @@
 import * as service from './parents.service.js';
 
 export async function list(req, res) { return res.json(await service.listParents(req.validatedQuery)); }
+export async function getMine(req, res) { return res.json(await service.getMyChildren(req.user.id)); }
 export async function getOne(req, res) { return res.json({ parent: await service.getParent(req.params.id) }); }
 export async function create(req, res) { return res.status(201).json({ parent: await service.createParent(req.body) }); }
 export async function updateOne(req, res) { return res.json({ parent: await service.updateParent(req.params.id, req.body) }); }

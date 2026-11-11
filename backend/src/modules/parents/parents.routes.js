@@ -7,6 +7,7 @@ import { bulkDeleteParentsSchema, createParentSchema, linkStudentSchema, parentI
 
 const router = Router();
 router.use(authenticate);
+router.get('/me', authorize('parents.view.own'), controller.getMine);
 router.get('/', authorize('parents.view'), validate(parentListSchema), controller.list);
 router.post('/', authorize('parents.create'), validate(createParentSchema), controller.create);
 router.post('/bulk-delete', authorize('parents.delete'), validate(bulkDeleteParentsSchema), controller.bulkDelete);

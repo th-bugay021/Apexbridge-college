@@ -44,6 +44,7 @@ const permissions = {
   PARENT: [
     "results.view",
     "attendance.view",
+    "parents.view.own",
   ],
 
   ACCOUNTANT: [
