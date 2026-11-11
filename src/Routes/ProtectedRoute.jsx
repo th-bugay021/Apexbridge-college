@@ -24,12 +24,8 @@ function SessionLoader() {
   const [theme] = useState(getLoaderTheme);
 
   return (
-    <main className="session-loader" data-theme={theme} role="status" aria-live="polite">
-      <div className="session-loader__content">
-        <img className="session-loader__logo" src="/logo/apexbridge-primary-logo.png" alt="Apexbridge College" />
-        <span className="session-loader__spinner" aria-hidden="true" />
-        <p>Checking your session…</p>
-      </div>
+    <main className="session-loader" data-theme={theme} role="status" aria-label="Loading" aria-live="polite">
+      <span className="session-loader__spinner" aria-hidden="true" />
     </main>
   );
 }

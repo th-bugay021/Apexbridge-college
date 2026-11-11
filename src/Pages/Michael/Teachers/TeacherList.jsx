@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { Mail, UsersRound } from "lucide-react";
 import { createInvite, deactivateTeacher, getInvites, getTeachers, reactivateTeacher, revokeInvite } from "../../../api/teachers";
+import ResponsiveTable from "../../../Components/common/ResponsiveTable";
 import Toast from "../../../Components/Michael/Teachers/Toast";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
 import "../shared/michael-ui.css";
@@ -157,11 +158,21 @@ export default function TeacherList() {
           <span className="mu-empty-icon" aria-hidden="true"><UsersRound size={20} strokeWidth={1.8} /></span>
           <strong className="mu-empty-title">No teachers found.</strong>
           <p className="mu-empty-hint">Try another search.</p>
-        </div> : <div className="mu-table-wrap"><table className="mu-table mu-table-grid"><thead><tr><th>Name</th><th>Email</th><th>Employee number</th><th>Status</th><th>Actions</th></tr></thead><tbody>{items.map((teacher) => <tr key={teacher.id}>
-          <td><Link to={`/teachers/${teacher.id}`}>{teacher.fullName}</Link></td><td>{teacher.email}</td><td>{teacher.employeeNumber || "—"}</td>
-          <td><span className={`mu-badge ${teacher.status === "SUSPENDED" ? "mu-badge-warning" : "mu-badge-success"}`}>{statusLabel(teacher.status)}</span></td>
-          <td><div className="mu-teacher-row-actions"><Link className="btn mu-btn-row-action" to={`/teachers/${teacher.id}`}>View</Link><button type="button" className={`btn ${teacher.status === "SUSPENDED" ? "mu-btn-row-action" : "mu-btn-danger"}`} onClick={() => openConfirm({ kind: "status", id: teacher.id, active: teacher.status !== "SUSPENDED", name: teacher.fullName })}>{teacher.status === "SUSPENDED" ? "Reactivate" : "Deactivate"}</button></div></td>
-        </tr>)}</tbody></table></div>}
+        </div> : <ResponsiveTable
+          rows={items}
+          rowKey={(teacher) => teacher.id}
+          primary={(teacher) => teacher.fullName}
+          secondary={(teacher) => teacher.email || teacher.employeeNumber || "—"}
+          label="Teachers"
+          tableClassName="mu-table mu-table-grid"
+          columns={[
+            { key: "name", label: "Name", primary: true, render: (teacher) => <Link to={`/teachers/${teacher.id}`}>{teacher.fullName}</Link> },
+            { key: "email", label: "Email", render: (teacher) => teacher.email },
+            { key: "employeeNumber", label: "Employee number", render: (teacher) => teacher.employeeNumber || "—" },
+            { key: "status", label: "Status", render: (teacher) => <span className={`mu-badge ${teacher.status === "SUSPENDED" ? "mu-badge-warning" : "mu-badge-success"}`}>{statusLabel(teacher.status)}</span> },
+            { key: "actions", label: "Actions", actions: true, render: (teacher) => <div className="mu-teacher-row-actions"><Link className="btn mu-btn-row-action" to={`/teachers/${teacher.id}`}>View</Link><button type="button" className={`btn ${teacher.status === "SUSPENDED" ? "mu-btn-row-action" : "mu-btn-danger"}`} onClick={() => openConfirm({ kind: "status", id: teacher.id, active: teacher.status !== "SUSPENDED", name: teacher.fullName })}>{teacher.status === "SUSPENDED" ? "Reactivate" : "Deactivate"}</button></div> },
+          ]}
+        />}
         {!loading && !error && pagination.total > 0 && <nav className="mu-pagination mu-teacher-pagination" aria-label="Teacher pages"><span>{pagination.total} {pagination.total === 1 ? "teacher" : "teachers"}</span><div className="mu-pagination-controls"><button className="btn btn-outline" type="button" disabled={pagination.page <= 1} onClick={() => setPagination((current) => ({ ...current, page: current.page - 1 }))}>Previous</button><span>Page {pagination.page} of {Math.max(1, pagination.totalPages)}</span><button className="btn btn-outline" type="button" disabled={pagination.page >= pagination.totalPages} onClick={() => setPagination((current) => ({ ...current, page: current.page + 1 }))}>Next</button></div></nav>}
       </section>
       <section className="card mu-card mu-teacher-invites-card"><div className="mu-section-header"><div><h2 className="mu-section-title">Teacher invites</h2><p className="mu-caption">Invite codes are shown only once when created.</p></div></div>
@@ -169,10 +180,20 @@ export default function TeacherList() {
           <span className="mu-empty-icon" aria-hidden="true"><Mail size={20} strokeWidth={1.8} /></span>
           <strong className="mu-empty-title">No invites yet.</strong>
           <p className="mu-empty-hint">Invite a teacher to create an invite code.</p>
-        </div> : <div className="mu-table-wrap"><table className="mu-table mu-table-grid"><thead><tr><th>Created</th><th>Expires</th><th>Status</th><th>Actions</th></tr></thead><tbody>{invites.map((invite) => {
-          const status = inviteStatus(invite);
-          return <tr key={invite.id}><td>{formatDisplayDate(invite.createdAt)}</td><td>{formatDisplayDate(invite.expiresAt)}</td><td><span className={`mu-badge ${inviteBadgeTone(status)}`}>{status}</span></td><td>{status === "Pending" && <button className="btn mu-btn-danger" type="button" onClick={() => openConfirm({ kind: "invite", id: invite.id })}>Revoke</button>}</td></tr>;
-        })}</tbody></table></div>}
+        </div> : <ResponsiveTable
+          rows={invites}
+          rowKey={(invite) => invite.id}
+          primary={(invite) => inviteStatus(invite)}
+          secondary={(invite) => formatDisplayDate(invite.createdAt)}
+          label="Teacher invites"
+          tableClassName="mu-table mu-table-grid"
+          columns={[
+            { key: "created", label: "Created", primary: true, render: (invite) => formatDisplayDate(invite.createdAt) },
+            { key: "expires", label: "Expires", render: (invite) => formatDisplayDate(invite.expiresAt) },
+            { key: "status", label: "Status", render: (invite) => <span className={`mu-badge ${inviteBadgeTone(inviteStatus(invite))}`}>{inviteStatus(invite)}</span> },
+            { key: "actions", label: "Actions", actions: true, render: (invite) => inviteStatus(invite) === "Pending" && <button className="btn mu-btn-danger" type="button" onClick={() => openConfirm({ kind: "invite", id: invite.id })}>Revoke</button> },
+          ]}
+        />}
       </section>
       {inviteOpen && createPortal(<div className="michael-ui"><div className="mu-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && !inviteBusy && setInviteOpen(false)}>
         <section className="mu-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="invite-title">

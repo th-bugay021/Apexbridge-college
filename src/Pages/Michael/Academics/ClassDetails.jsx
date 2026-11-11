@@ -5,6 +5,7 @@ import { assignSubject, getActiveTeachers, getClass, unassignSubject } from "../
 import { getSubjects } from "../../../api/subjects";
 import ConfirmDialog from "../../../Components/Michael/Teachers/ConfirmDialog";
 import Toast from "../../../Components/Michael/Teachers/Toast";
+import ResponsiveTable from "../../../Components/common/ResponsiveTable";
 import { useAuth } from "../../../Context/AuthContext";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
 import ClassTimetable from "../Timetable/ClassTimetable";
@@ -163,15 +164,18 @@ export default function ClassDetails() {
             <span className="mu-empty-icon" aria-hidden="true"><UsersRound size={16} strokeWidth={1.8} /></span>
             <strong className="mu-empty-title">No students in this class yet</strong>
             <p className="mu-empty-hint">Students appear here once they are enrolled</p>
-          </div> : <div className="mu-table-wrap">
-            <table className="mu-table">
-              <thead><tr><th scope="col">Name</th><th scope="col">Admission number</th><th scope="col">Status</th></tr></thead>
-              <tbody>{students.map((student) => {
-                const status = studentStatus(student.status);
-                return <tr key={student.id}><td>{student.fullName}</td><td>{student.admissionNumber}</td><td><span className={`mu-badge ${status.badge}`}>{status.label}</span></td></tr>;
-              })}</tbody>
-            </table>
-          </div>}
+          </div>  : <ResponsiveTable
+            rows={students}
+            rowKey={(student) => student.id}
+            primary={(student) => student.fullName}
+            secondary={(student) => student.admissionNumber || "—"}
+            label="Class students"
+            columns={[
+              { key: "name", label: "Name", primary: true, render: (student) => student.fullName },
+              { key: "admission", label: "Admission number", render: (student) => student.admissionNumber || "—" },
+              { key: "status", label: "Status", render: (student) => { const status = studentStatus(student.status); return <span className={`mu-badge ${status.badge}`}>{status.label}</span>; } },
+            ]}
+          />}
         </section>
 
         <section className="card mu-card mu-detail-card">
@@ -195,15 +199,20 @@ export default function ClassDetails() {
             </div>
             <button className="btn btn-primary" type="submit" disabled={saving || !subjectId || !teacherId}>{saving ? "Assigning…" : "Assign subject"}</button>
           </form>}
-          {classSubjects.length === 0 ? <div className="mu-empty-state"><strong className="mu-empty-title">No subjects assigned to this class yet</strong></div> : <div className="mu-table-wrap">
-            <table className="mu-table">
-              <thead><tr><th scope="col">Subject</th><th scope="col">Code</th><th scope="col">Teacher</th><th scope="col">Email</th>{isAdmin && <th scope="col">Actions</th>}</tr></thead>
-              <tbody>{classSubjects.map((assignment) => <tr key={assignment.subjectId}>
-                <td>{assignment.subject.name}</td><td><span className="mu-badge mu-badge-neutral">{assignment.subject.code}</span></td><td>{assignment.teacher.fullName}</td><td>{assignment.teacher.email}</td>
-                {isAdmin && <td><button className="btn mu-btn-danger" type="button" onClick={() => setConfirm(assignment)}>Unassign</button></td>}
-              </tr>)}</tbody>
-            </table>
-          </div>}
+          {classSubjects.length === 0 ? <div className="mu-empty-state"><strong className="mu-empty-title">No subjects assigned to this class yet</strong></div>  : <ResponsiveTable
+            rows={classSubjects}
+            rowKey={(assignment) => assignment.subjectId}
+            primary={(assignment) => assignment.subject.name}
+            secondary={(assignment) => assignment.subject.code}
+            label="Subjects and teachers"
+            columns={[
+              { key: "subject", label: "Subject", primary: true, render: (assignment) => assignment.subject.name },
+              { key: "code", label: "Code", render: (assignment) => <span className="mu-badge mu-badge-neutral">{assignment.subject.code}</span> },
+              { key: "teacher", label: "Teacher", render: (assignment) => assignment.teacher.fullName },
+              { key: "email", label: "Email", render: (assignment) => assignment.teacher.email },
+              ...(isAdmin ? [{ key: "actions", label: "Actions", actions: true, render: (assignment) => <button className="btn mu-btn-danger" type="button" onClick={() => setConfirm(assignment)}>Unassign</button> }] : []),
+            ]}
+          />}
         </section>
         <ClassTimetable classItem={classItem} canManage={isAdmin} />
       </>}

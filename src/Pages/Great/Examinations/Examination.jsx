@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { GreatShell, MetricCard, SectionHeading, StatusPill } from "../../../Components/Great/default";
+import ResponsiveTable from "../../../Components/common/ResponsiveTable";
 import { CreateExaminationForm } from "./CreateExamination";
 import { useTheme } from "../../../Context/useTheme";
 import { classLabel } from "../../../config/school";
@@ -62,7 +63,17 @@ export default function Examination() {
       <div className="great-table-wrap"><table className="great-table"><thead><tr><th>Student</th><th>CA / 30</th><th>Exam / 70</th><th>Total / 100</th><th>Grade</th><th>Position</th></tr></thead><tbody>{rankedScores.map((item) => <tr key={item.id}><td><div className="great-primary-cell"><span className="great-initials">{item.student.split(" ").map((word) => word[0]).join("")}</span><span><b>{item.student}</b><br /><small>{item.id}</small></span></div></td><td><input aria-label={`${item.student} continuous assessment`} className="great-score-input" type="number" min="0" max="30" value={item.ca} onChange={(event) => updateScore(item.id, "ca", event.target.value)} /></td><td><input aria-label={`${item.student} exam score`} className="great-score-input" type="number" min="0" max="70" value={item.exam} onChange={(event) => updateScore(item.id, "exam", event.target.value)} /></td><td><b>{item.total}</b></td><td><StatusPill tone={item.total >= 50 ? "published" : "pending"}>{gradeFor(item.total)}</StatusPill></td><td>{item.position}{item.position === 1 ? "st" : item.position === 2 ? "nd" : item.position === 3 ? "rd" : "th"}</td></tr>)}</tbody></table></div>
       <div className="great-split" style={{ paddingTop: 14 }}><span style={{ color: "var(--color-text-muted)", fontSize: 10 }}>{rankedScores.length} students · Average score {average}%</span><button className="great-button primary" onClick={() => window.alert("Scores saved for review.")}>Save scores</button></div>
     </section>
-    <section className="great-card great-card-pad"><SectionHeading title="Current examinations" note="Track assessment setup and publication status." action={<button className="great-button">View all examinations →</button>} /><div className="great-table-wrap"><table className="great-table"><thead><tr><th>Examination</th><th>Term</th><th>Classes</th><th>Subjects</th><th>Due date</th><th>Status</th></tr></thead><tbody><tr><td><b>Second term examinations</b></td><td>Second term</td><td>{classLabel("7–9")}</td><td>12 subjects</td><td>14 Nov 2026</td><td><StatusPill tone="pending">In progress</StatusPill></td></tr><tr><td><b>Mid-term assessment</b></td><td>Second term</td><td>{classLabel("7–11")}</td><td>10 subjects</td><td>30 Oct 2026</td><td><StatusPill tone="published">Published</StatusPill></td></tr></tbody></table></div></section>
+    <section className="great-card great-card-pad"><SectionHeading title="Current examinations" note="Track assessment setup and publication status." action={<button className="great-button">View all examinations →</button>} /><ResponsiveTable rows={[
+      { exam: "Second term examinations", term: "Second term", classes: classLabel("7–9"), subjects: "12 subjects", due: "14 Nov 2026", status: "In progress", tone: "pending" },
+      { exam: "Mid-term assessment", term: "Second term", classes: classLabel("7–11"), subjects: "10 subjects", due: "30 Oct 2026", status: "Published", tone: "published" },
+    ]} rowKey={(item) => item.exam} primary={(item) => item.exam} secondary={(item) => item.term} label="Current examinations" tableClassName="great-table" wrapClassName="great-table-wrap" columns={[
+      { key: "exam", label: "Examination", primary: true, render: (item) => <b>{item.exam}</b> },
+      { key: "term", label: "Term", render: (item) => item.term },
+      { key: "classes", label: "Classes", render: (item) => item.classes },
+      { key: "subjects", label: "Subjects", render: (item) => item.subjects },
+      { key: "due", label: "Due date", render: (item) => item.due },
+      { key: "status", label: "Status", render: (item) => <StatusPill tone={item.tone}>{item.status}</StatusPill> },
+    ]} /></section>
     </GreatShell>
     {showCreateDialog && createPortal(
       <div className="michael-ui" data-theme={theme}>

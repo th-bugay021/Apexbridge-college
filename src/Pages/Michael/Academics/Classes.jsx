@@ -4,6 +4,7 @@ import { BookOpen, Search, School, UsersRound } from "lucide-react";
 import { createClass, deleteClass, getClasses, getMyClasses, updateClass } from "../../../api/classes";
 import ConfirmDialog from "../../../Components/Michael/Teachers/ConfirmDialog";
 import Toast from "../../../Components/Michael/Teachers/Toast";
+import ResponsiveTable from "../../../Components/common/ResponsiveTable";
 import { useAuth } from "../../../Context/AuthContext";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
 import "../shared/michael-ui.css";
@@ -167,6 +168,15 @@ export default function Classes() {
   const hasSearch = Boolean(query || search.trim());
   const pageTitle = isAdmin ? "Classes" : user?.role === "TEACHER" ? "My classes" : "My class";
   const columns = isAdmin ? 5 : 4;
+  const tableColumns = [
+    { key: "class", label: "Class", primary: true, render: (classItem) => isAdmin ? <Link to={`/classes/${classItem.id}`}>{classItem.name}</Link> : classItem.name },
+    { key: "level", label: "Level", render: (classItem) => <span className="mu-badge mu-badge-neutral mu-level-pill">{classItem.level || "Not set"}</span> },
+    ...(isAdmin ? [
+      { key: "students", label: "Students", className: "mu-cell-numeric", render: (classItem) => classItem.studentCount ?? classItem.students?.length ?? 0 },
+      { key: "subjects", label: "Subjects", className: "mu-cell-numeric", render: (classItem) => classItem.subjectCount ?? classItem.subjects?.length ?? 0 },
+    ] : [{ key: "assignedSubjects", label: "Assigned subjects", render: (classItem) => classItem.subjects?.length ? classItem.subjects.map((assignment) => assignment.subject.name).join(", ") : "No subjects assigned" }]),
+    { key: "actions", label: "Actions", className: "mu-cell-action", actions: true, render: (classItem) => <div className="mu-section-header-actions">{isAdmin ? <><Link className="btn mu-btn-row-action" to={`/classes/${classItem.id}`}>View</Link><button className="btn mu-btn-row-action" type="button" onClick={() => openEdit(classItem)}>Edit</button><button className="btn mu-btn-danger" type="button" onClick={() => setConfirm(classItem)}>Delete</button></> : user?.role === "TEACHER" && <Link className="btn mu-btn-row-action" to={`/classes/${classItem.id}`}>View details</Link>}</div> },
+  ];
   const totalClassCount = isAdmin ? pagination.total : classes.length;
   const totalStudentCount = classes.reduce((total, classItem) => total + (classItem.studentCount ?? classItem.students?.length ?? 0), 0);
   const totalSubjectCount = classes.reduce((total, classItem) => total + (classItem.subjectCount ?? classItem.subjects?.length ?? 0), 0);
@@ -218,27 +228,7 @@ export default function Classes() {
           <strong className="mu-empty-title">{isAdmin && hasSearch ? "No classes match your search" : "No classes yet"}</strong>
           <p className="mu-empty-hint">{isAdmin && hasSearch ? "Try a different class name or level." : isAdmin ? "Create a class to start organizing students and subjects." : "Your class information will appear here once it is available."}</p>
           {isAdmin && !hasSearch && <button className="btn btn-primary" type="button" onClick={openAdd}>Add class</button>}
-        </div> : <div className="mu-table-wrap">
-          <table className="mu-table">
-            <thead><tr><th scope="col">Class</th><th scope="col">Level</th>{isAdmin ? <><th className="mu-cell-numeric" scope="col">Students</th><th className="mu-cell-numeric" scope="col">Subjects</th></> : <th scope="col">Assigned subjects</th>}<th className="mu-cell-action" scope="col">Actions</th></tr></thead>
-            <tbody>{classes.map((classItem) => <tr key={classItem.id}>
-              <td>{isAdmin ? <Link to={`/classes/${classItem.id}`}>{classItem.name}</Link> : classItem.name}</td>
-              <td><span className="mu-badge mu-badge-neutral mu-level-pill">{classItem.level || "Not set"}</span></td>
-              {isAdmin ? <>
-                <td className="mu-cell-numeric">{classItem.studentCount ?? classItem.students?.length ?? 0}</td>
-                <td className="mu-cell-numeric">{classItem.subjectCount ?? classItem.subjects?.length ?? 0}</td>
-              </> : <td>{classItem.subjects?.length ? classItem.subjects.map((assignment) => assignment.subject.name).join(", ") : "No subjects assigned"}</td>}
-              <td className="mu-cell-action"><div className="mu-section-header-actions">
-                {isAdmin && <>
-                  <Link className="btn mu-btn-row-action" to={`/classes/${classItem.id}`}>View</Link>
-                  <button className="btn mu-btn-row-action" type="button" onClick={() => openEdit(classItem)}>Edit</button>
-                  <button className="btn mu-btn-danger" type="button" onClick={() => setConfirm(classItem)}>Delete</button>
-                </>}
-                {!isAdmin && user?.role === "TEACHER" && <Link className="btn mu-btn-row-action" to={`/classes/${classItem.id}`}>View details</Link>}
-              </div></td>
-            </tr>)}</tbody>
-          </table>
-        </div>}
+        </div> : <ResponsiveTable columns={tableColumns} rows={classes} rowKey={(classItem) => classItem.id} primary={(classItem) => classItem.name} secondary={(classItem) => `${classItem.studentCount ?? classItem.students?.length ?? 0} students`} label="Classes" />}
 
         {isAdmin && !loading && !error && pagination.total > 0 && <nav className="mu-pagination" aria-label="Class pages">
           <span>{pagination.total} {pagination.total === 1 ? "class" : "classes"}</span>

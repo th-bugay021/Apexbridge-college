@@ -7,6 +7,8 @@
   --lg-mint: #dff1ef;
   --lg-text: #0b1f3a;
   --lg-muted: #5b6b7a;
+  --lg-autofill-bg: var(--lg-paper);
+  --lg-autofill-text: var(--lg-text);
   --lg-error: #c0392b;
   --lg-rake: -8deg;
 
@@ -209,6 +211,33 @@
   background: transparent;
   color: var(--lg-text);
   font-size: 15px;
+}
+
+.lg-card--flip .lg-field input {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  box-sizing: border-box;
+  padding-top: 20px;
+  border-radius: inherit;
+}
+
+.lg-card--flip .lg-field {
+  min-height: 62px;
+}
+
+.lg-card--flip .lg-field label {
+  z-index: 1;
+}
+
+.lg-card--flip .lg-field input:-webkit-autofill,
+.lg-card--flip .lg-field input:-webkit-autofill:hover,
+.lg-card--flip .lg-field input:-webkit-autofill:focus {
+  box-shadow: 0 0 0 1000px var(--lg-autofill-bg) inset;
+  -webkit-text-fill-color: var(--lg-autofill-text);
+  transition: background-color 99999s ease-out 0s;
 }
 
 .lg-field:focus-within label,
@@ -692,6 +721,11 @@
   color: #e8f1f2;
 }
 
+[data-theme="dark"] .lg-page {
+  --lg-autofill-bg: var(--lg-navy);
+  --lg-autofill-text: #e8f1f2;
+}
+
 [data-theme="dark"] .lg-field {
   border-bottom-color: rgba(255, 255, 255, .25);
 }
@@ -955,6 +989,12 @@
     border-radius: 10px;
   }
 
+  .lg-card--flip .lg-field {
+    min-height: 58px;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
   .lg-field:focus-within {
     border-color: var(--lg-teal);
     box-shadow: 0 0 0 2px rgba(10, 154, 143, .12);
@@ -971,6 +1011,10 @@
     min-height: 48px;
     padding: 15px 56px 5px 0;
     font-size: 16px;
+  }
+
+  .lg-card--flip .lg-field input {
+    padding: 20px 68px 5px 12px;
   }
 
   .lg-field:focus-within label,

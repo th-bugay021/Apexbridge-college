@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createSubject, deleteSubject, getSubjects, updateSubject } from "../../../api/subjects";
 import ConfirmDialog from "../../../Components/Michael/Teachers/ConfirmDialog";
 import Toast from "../../../Components/Michael/Teachers/Toast";
+import ResponsiveTable from "../../../Components/common/ResponsiveTable";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
 import "../shared/michael-ui.css";
 import "./academics.css";
@@ -160,6 +161,11 @@ export default function Subjects() {
   };
 
   const hasSearch = Boolean(query || search.trim());
+  const tableColumns = [
+    { key: "name", label: "Name", primary: true, render: (subject) => subject.name },
+    { key: "code", label: "Code", render: (subject) => <span className="mu-badge mu-badge-neutral">{subject.code}</span> },
+    { key: "actions", label: "Actions", actions: true, render: (subject) => <div className="mu-section-header-actions"><button className="btn mu-btn-row-action" type="button" onClick={() => openEdit(subject)}>Edit</button><button className="btn mu-btn-danger" type="button" onClick={() => setConfirm(subject)}>Delete</button></div> },
+  ];
 
   return <div className="michael-ui">
     <main className="mu-page-content">
@@ -189,19 +195,7 @@ export default function Subjects() {
         </div> : subjects.length === 0 ? <div className="mu-empty-state">
           <strong className="mu-empty-title">{hasSearch ? "No subjects match your search" : "No subjects yet"}</strong>
           {!hasSearch && <button className="btn btn-primary" type="button" onClick={openAdd}>Add subject</button>}
-        </div> : <div className="mu-table-wrap">
-          <table className="mu-table">
-            <thead><tr><th scope="col">Name</th><th scope="col">Code</th><th scope="col">Actions</th></tr></thead>
-            <tbody>{subjects.map((subject) => <tr key={subject.id}>
-              <td>{subject.name}</td>
-              <td><span className="mu-badge mu-badge-neutral">{subject.code}</span></td>
-              <td><div className="mu-section-header-actions">
-                <button className="btn mu-btn-row-action" type="button" onClick={() => openEdit(subject)}>Edit</button>
-                <button className="btn mu-btn-danger" type="button" onClick={() => setConfirm(subject)}>Delete</button>
-              </div></td>
-            </tr>)}</tbody>
-          </table>
-        </div>}
+        </div> : <ResponsiveTable columns={tableColumns} rows={subjects} rowKey={(subject) => subject.id} primary={(subject) => subject.name} secondary={(subject) => subject.code} label="Subjects" />}
 
         {!loading && !error && pagination.total > 0 && <nav className="mu-pagination" aria-label="Subject pages">
           <span>{pagination.total} {pagination.total === 1 ? "subject" : "subjects"}</span>

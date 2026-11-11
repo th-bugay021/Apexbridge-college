@@ -138,7 +138,9 @@
 /* Table and pagination */
 .michael-ui .mu-table-wrap {
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-md);
 }

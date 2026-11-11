@@ -7,6 +7,7 @@ import { getAllParents, linkStudentToParent, unlinkStudentFromParent } from '../
 import { bulkDeleteStudents, createStudent, deleteStudent, getStudents, updateStudent } from '../../../api/students';
 import useDebounce from '../../../hooks/useDebounce';
 import ConfirmDialog from '../ConfirmDialog';
+import ResponsiveTable from '../../../Components/common/ResponsiveTable';
 import AddStudent from './AddStudent';
 import { classDisplayName, genderValueToApi, guardianFromApi, statusValueToApi, studentApiErrorMessage, studentFromApi, studentToApi } from './studentAdapter';
 import '../studentPages.css';
@@ -228,6 +229,16 @@ export default function StudentList() {
     URL.revokeObjectURL(url);
   };
 
+  const studentColumns = [
+    ...(canDelete ? [{ key: 'selection', label: '', selection: true, className: 'students-checkbox-cell' }] : []),
+    { key: 'student', label: 'Student', primary: true, render: (student) => <div className="students-person-cell">{student.photo ? <img className="students-avatar" src={student.photo} alt="" /> : <span className="students-avatar" aria-hidden="true">{student.firstName[0] || 'S'}{student.lastName[0] || ''}</span>}<span><Link to={`/students/${student.id}`}><strong>{student.firstName} {student.lastName}</strong></Link><small title={student.email || 'No email'}>{student.email || 'No email'}</small></span></div>, mobileDetails: (student) => [{ label: 'Email', value: student.email || 'No email' }, { label: 'Gender', value: student.gender || '—' }, { label: 'Department', value: student.department || '—' }] },
+    { key: 'studentId', label: 'Student ID', render: (student) => student.studentId || '—' },
+    { key: 'class', label: 'Class', primary: true, render: (student) => student.className || '—' },
+    { key: 'guardian', label: 'Guardian', render: guardianName },
+    { key: 'status', label: 'Status', render: (student) => <span className={`mu-badge ${statusTone(student.status)}`}>{student.status}</span> },
+    { key: 'actions', label: 'Actions', className: 'mu-cell-action', actions: true, render: (student) => <div className="students-row-actions"><Link className="btn mu-btn-row-action" to={`/students/${student.id}`} aria-label={`View ${student.firstName}`}><Eye size={15} /></Link>{canUpdate && <button className="btn mu-btn-row-action" type="button" aria-label={`Edit ${student.firstName}`} onClick={(event) => openStudentForm(student, event)}><Pencil size={15} /></button>}{canDelete && <button className="btn mu-btn-danger" type="button" aria-label={`Delete ${student.firstName}`} onClick={(event) => openDelete([student.id], `Delete ${student.firstName} ${student.lastName}'s student record?`, event)}><Trash2 size={15} /></button>}</div> },
+  ];
+
   return (
     <div className="michael-ui students-ui">
       <main className="mu-page-content">
@@ -247,17 +258,21 @@ export default function StudentList() {
           {classesError && <p className="mu-field-error" role="alert">{classesError}</p>}
           {error && students.length > 0 && <p className="mu-field-error" role="alert">{error}</p>}
           {canDelete && selected.length > 0 && <div className="students-bulk-actions"><span>{selected.length} selected</span><button type="button" className="btn mu-btn-danger" onClick={(event) => openDelete(selected, `Delete ${selected.length} selected student${selected.length === 1 ? '' : 's'}?`, event)}>Delete selected</button></div>}
-          {loading ? <div className="mu-table-wrap" role="status" aria-label="Loading students"><table className="mu-table"><tbody>{Array.from({ length: 5 }, (_, index) => <tr key={index}><td><div className="mu-skeleton mu-skeleton-row" /></td></tr>)}</tbody></table></div> : error && students.length === 0 ? <div className="mu-empty-state" role="alert"><strong className="mu-empty-title">Students could not be loaded.</strong><p>{error}</p></div> : visible.length === 0 ? <div className="mu-empty-state"><strong className="mu-empty-title">No students found.</strong><p className="mu-empty-hint">Try a different search or filter.</p></div> : <div className="mu-table-wrap">
-            <table className="mu-table mu-table-grid students-table">
-              <thead><tr>{canDelete && <th scope="col" className="students-checkbox-cell"><input className="input students-checkbox" type="checkbox" aria-label="Select all students on this page" checked={allVisibleSelected} onChange={toggleVisible} /></th>}<th scope="col">Student</th><th scope="col">Student ID</th><th scope="col">Class</th><th scope="col">Guardian</th><th scope="col">Status</th><th scope="col" className="mu-cell-action">Actions</th></tr></thead>
-              <tbody>{visible.map((student) => <tr key={student.id}>
-                {canDelete && <td className="students-checkbox-cell"><input className="input students-checkbox" type="checkbox" aria-label={`Select ${student.firstName} ${student.lastName}`} checked={selected.includes(student.id)} onChange={() => toggleOne(student.id)} /></td>}
-                <td><div className="students-person-cell">{student.photo ? <img className="students-avatar" src={student.photo} alt="" /> : <span className="students-avatar" aria-hidden="true">{student.firstName[0] || 'S'}{student.lastName[0] || ''}</span>}<span><Link to={`/students/${student.id}`}><strong>{student.firstName} {student.lastName}</strong></Link><small title={student.email || 'No email'}>{student.email || 'No email'}</small></span></div></td>
-                <td>{student.studentId}</td><td>{student.className || '—'}</td><td>{guardianName(student)}</td><td><span className={`mu-badge ${statusTone(student.status)}`}>{student.status}</span></td>
-                <td className="mu-cell-action"><div className="students-row-actions"><Link className="btn mu-btn-row-action" to={`/students/${student.id}`} aria-label={`View ${student.firstName}`}><Eye size={15} /></Link>{canUpdate && <button className="btn mu-btn-row-action" type="button" aria-label={`Edit ${student.firstName}`} onClick={(event) => openStudentForm(student, event)}><Pencil size={15} /></button>}{canDelete && <button className="btn mu-btn-danger" type="button" aria-label={`Delete ${student.firstName}`} onClick={(event) => openDelete([student.id], `Delete ${student.firstName} ${student.lastName}'s student record?`, event)}><Trash2 size={15} /></button>}</div></td>
-              </tr>)}</tbody>
-            </table>
-          </div>}
+          {loading ? <div className="mu-table-wrap" role="status" aria-label="Loading students"><table className="mu-table"><tbody>{Array.from({ length: 5 }, (_, index) => <tr key={index}><td><div className="mu-skeleton mu-skeleton-row" /></td></tr>)}</tbody></table></div> : error && students.length === 0 ? <div className="mu-empty-state" role="alert"><strong className="mu-empty-title">Students could not be loaded.</strong><p>{error}</p></div> : visible.length === 0 ? <div className="mu-empty-state"><strong className="mu-empty-title">No students found.</strong><p className="mu-empty-hint">Try a different search or filter.</p></div> : <ResponsiveTable
+            columns={studentColumns}
+            rows={visible}
+            rowKey={(student) => student.id}
+            primary={(student) => `${student.firstName} ${student.lastName}`.trim()}
+            secondary={(student) => student.className || 'No class assigned'}
+            avatar={(student) => student.photo ? <img className="students-avatar" src={student.photo} alt="" /> : <span className="students-avatar" aria-hidden="true">{student.firstName[0] || 'S'}{student.lastName[0] || ''}</span>}
+            label="Students"
+            tableClassName="mu-table mu-table-grid students-table"
+            wrapClassName="mu-table-wrap"
+            selection={canDelete ? {
+              header: <input className="input students-checkbox" type="checkbox" aria-label="Select all students on this page" checked={allVisibleSelected} onChange={toggleVisible} />,
+              render: (student) => <input className="input students-checkbox" type="checkbox" aria-label={`Select ${student.firstName} ${student.lastName}`} checked={selected.includes(student.id)} onChange={() => toggleOne(student.id)} />,
+            } : undefined}
+          />}
           {!loading && pagination.total > 0 && <nav className="mu-pagination" aria-label="Student pages"><span>{pagination.total} {pagination.total === 1 ? 'student' : 'students'}</span><div className="mu-pagination-controls"><button type="button" className="btn btn-outline" disabled={currentPage <= 1} onClick={() => setPage(currentPage - 1)}>Previous</button><span>Page {currentPage} of {pageCount}</span><button type="button" className="btn btn-outline" disabled={currentPage >= pageCount} onClick={() => setPage(currentPage + 1)}>Next</button></div></nav>}
         </section>
       </main>

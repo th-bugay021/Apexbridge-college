@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { GreatShell, MetricCard, SectionHeading, StatusPill } from "../../../Components/Great/default";
+import ResponsiveTable from "../../../Components/common/ResponsiveTable";
 import { money } from "../../../Components/Great/money";
 import { classLabel, currencyCode, currencySymbol } from "../../../config/school";
 import { useTheme } from "../../../Context/useTheme";
@@ -46,7 +47,14 @@ export default function FeeStructures() {
     <>
       <GreatShell active="Fees & payments" eyebrow="Finance / Fee setup" title="Fee structures" description="Configure term charges by class and manage required and optional fee items." action={<button ref={addFeeButtonRef} className="great-button primary" onClick={() => setShowForm(true)}>＋ Add fee item</button>}>
         <div className="great-metrics"><MetricCard label={`${classLabel("7–9")} core fees`} value={money(2200)} note="Required charges per student" tone="green" icon={currencySymbol} /><MetricCard label="Fee items" value={String(fees.length).padStart(2, "0")} note="Across all classes" icon="▤" /><MetricCard label="Optional charges" value={money(100)} note="Per eligible student" tone="violet" icon="＋" /><MetricCard label="Applied to invoices" value="98%" note="2025/26 · Second term" tone="orange" icon="↗" /></div>
-        <section className="great-card great-card-pad"><SectionHeading title="Active fee schedule" note="Second term · 2025/26 academic year" action={<Link className="great-button" to="/payments">View student invoices →</Link>} /><div className="great-toolbar"><select aria-label="Term"><option>Second term · 2025/26</option><option>First term · 2025/26</option></select><select aria-label="Class filter"><option>All classes</option><option>{classLabel("7–9")}</option><option>{classLabel("10–12")}</option></select><span style={{ marginLeft: "auto", color: "var(--color-text-muted)", fontSize: 10 }}>Last updated 18 Oct 2026</span></div><div className="great-table-wrap"><table className="great-table"><thead><tr><th>Fee item</th><th>Class scope</th><th>Amount per student</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead><tbody>{fees.map((fee) => <tr key={fee.name}><td><b>{fee.name}</b><br /><small>{fee.detail || "Term fee"}</small></td><td>{fee.className}</td><td><b>{money(fee.amount)}</b></td><td>{fee.type}</td><td><StatusPill tone="published">{fee.status}</StatusPill></td><td><button className="great-button subtle">Edit</button></td></tr>)}</tbody></table></div></section>
+        <section className="great-card great-card-pad"><SectionHeading title="Active fee schedule" note="Second term · 2025/26 academic year" action={<Link className="great-button" to="/payments">View student invoices →</Link>} /><div className="great-toolbar"><select aria-label="Term"><option>Second term · 2025/26</option><option>First term · 2025/26</option></select><select aria-label="Class filter"><option>All classes</option><option>{classLabel("7–9")}</option><option>{classLabel("10–12")}</option></select><span style={{ marginLeft: "auto", color: "var(--color-text-muted)", fontSize: 10 }}>Last updated 18 Oct 2026</span></div><ResponsiveTable rows={fees} rowKey={(fee) => fee.name} primary={(fee) => fee.name} secondary={(fee) => fee.className} label="Fee schedule" tableClassName="great-table" wrapClassName="great-table-wrap" columns={[
+          { key: "fee", label: "Fee item", primary: true, render: (fee) => <><b>{fee.name}</b><br /><small>{fee.detail || "Term fee"}</small></> },
+          { key: "class", label: "Class scope", render: (fee) => fee.className },
+          { key: "amount", label: "Amount per student", render: (fee) => <b>{money(fee.amount)}</b> },
+          { key: "type", label: "Type", render: (fee) => fee.type },
+          { key: "status", label: "Status", render: (fee) => <StatusPill tone="published">{fee.status}</StatusPill> },
+          { key: "actions", label: "Actions", actions: true, render: () => <button className="great-button subtle">Edit</button> },
+        ]} /></section>
         <div className="great-inline-note">Fee changes apply to newly generated invoices. Existing student invoices keep their recorded amounts for clear payment reconciliation.</div>
       </GreatShell>
       {showForm && createPortal(

@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { CalendarDays, ClipboardList, UsersRound } from "lucide-react";
 import { getMyProfile, getTeacherOverview } from "../../../api/teachers";
 import Toast from "../../../Components/Michael/Teachers/Toast";
+import ResponsiveTable from "../../../Components/common/ResponsiveTable";
 import WeeklyTimetable from "../Timetable/WeeklyTimetable";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
 import "../shared/michael-ui.css";
@@ -137,10 +138,11 @@ export default function PerformanceDetail() {
             <span className="mu-empty-icon" aria-hidden="true"><UsersRound size={20} strokeWidth={1.8} /></span>
             <strong className="mu-empty-title">No class and subject assignments are available yet.</strong>
             <p className="mu-empty-hint">Review the teacher’s class and subject assignments.</p>
-          </div> : <div className="mu-table-wrap"><table className="mu-table performance-table">
-            <thead><tr><th>Class</th><th>Level</th><th>Subjects</th></tr></thead>
-            <tbody>{classes.map((classItem) => <tr key={classItem.classId}><td>{classItem.name}</td><td><span className="mu-badge mu-badge-neutral">{classItem.level || "—"}</span></td><td>{classItem.subjects.length ? classItem.subjects.map((subject) => `${subject.name} (${subject.code})`).join(", ") : "—"}</td></tr>)}</tbody>
-          </table></div>}
+          </div>  : <ResponsiveTable rows={classes} rowKey={(item) => item.classId} primary={(item) => item.name} secondary={(item) => item.level || "—"} label="Classes and subjects" tableClassName="mu-table performance-table" columns={[
+            { key: "class", label: "Class", primary: true, render: (item) => item.name },
+            { key: "level", label: "Level", render: (item) => <span className="mu-badge mu-badge-neutral">{item.level || "—"}</span> },
+            { key: "subjects", label: "Subjects", render: (item) => item.subjects.length ? item.subjects.map((subject) => `${subject.name} (${subject.code})`).join(", ") : "—" },
+          ]} />}
         </section>
 
         <section className="card mu-card mu-performance-section">
@@ -155,10 +157,10 @@ export default function PerformanceDetail() {
             <span className="mu-empty-icon" aria-hidden="true"><CalendarDays size={20} strokeWidth={1.8} /></span>
             <strong className="mu-empty-title">No attendance marks were entered in this date range.</strong>
             <p className="mu-empty-hint">Try another date range.</p>
-          </div> : <div className="mu-table-wrap"><table className="mu-table performance-table">
-            <thead><tr><th>Class</th><th className="mu-cell-numeric">Days marked</th></tr></thead>
-            <tbody>{attendanceByClass.map((item) => <tr key={item.classId}><td>{item.name}</td><td className="mu-cell-numeric">{item.daysMarked}</td></tr>)}</tbody>
-          </table></div>}
+          </div>  : <ResponsiveTable rows={attendanceByClass} rowKey={(item) => item.classId} primary={(item) => item.name} secondary={(item) => `${item.daysMarked} days marked`} label="Attendance activity" tableClassName="mu-table performance-table" columns={[
+            { key: "class", label: "Class", primary: true, render: (item) => item.name },
+            { key: "days", label: "Days marked", className: "mu-cell-numeric", render: (item) => item.daysMarked },
+          ]} />}
         </section>
         <p className="mu-caption mu-performance-results-note">Results-based metrics will appear once the Results module is available.</p>
       </> : <section className="card mu-card mu-empty-state">

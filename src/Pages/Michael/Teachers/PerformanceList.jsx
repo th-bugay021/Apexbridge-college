@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { UsersRound } from "lucide-react";
 import { getTeachersOverview } from "../../../api/teachers";
 import Toast from "../../../Components/Michael/Teachers/Toast";
+import ResponsiveTable from "../../../Components/common/ResponsiveTable";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
 import "../shared/michael-ui.css";
 import "./performance.css";
@@ -124,14 +125,15 @@ export default function PerformanceList() {
           <strong className="mu-empty-title">No active teachers found.</strong>
           <p className="mu-empty-hint">Try another search.</p>
         </div> : (
-          <div className="mu-table-wrap"><table className="mu-table mu-table-grid performance-table">
-            <thead><tr><th>Teacher</th><th>Employee number</th><th className="mu-cell-numeric">Classes</th><th className="mu-cell-numeric">Subjects</th><th className="mu-cell-numeric">Scheduled / week</th><th className="mu-cell-numeric">Attendance days</th><th className="mu-cell-numeric">Records entered</th></tr></thead>
-            <tbody>{rows.map((teacher) => <tr key={teacher.teacherId}>
-              <td><Link to={`/teachers/${teacher.teacherId}/performance`}>{teacher.fullName}</Link></td>
-              <td>{teacher.employeeNumber || "—"}</td><td className="mu-cell-numeric">{teacher.classCount}</td><td className="mu-cell-numeric">{teacher.subjectCount}</td>
-              <td className="mu-cell-numeric"><span style={{ fontVariantNumeric: "tabular-nums" }}>{formatDuration(teacher.weeklyScheduledMinutes == null ? teacher.weeklyScheduledMinutes : teacher.weeklyScheduledMinutes / 60)}</span></td><td className="mu-cell-numeric">{teacher.attendanceDaysMarked}</td><td className="mu-cell-numeric">{teacher.attendanceRecordsEntered}</td>
-            </tr>)}</tbody>
-          </table></div>
+          <ResponsiveTable rows={rows} rowKey={(teacher) => teacher.teacherId} primary={(teacher) => teacher.fullName} secondary={(teacher) => teacher.employeeNumber || "—"} label="Teacher overview" tableClassName="mu-table mu-table-grid performance-table" columns={[
+            { key: "teacher", label: "Teacher", primary: true, render: (teacher) => <Link to={`/teachers/${teacher.teacherId}/performance`}>{teacher.fullName}</Link> },
+            { key: "employee", label: "Employee number", render: (teacher) => teacher.employeeNumber || "—" },
+            { key: "classes", label: "Classes", className: "mu-cell-numeric", render: (teacher) => teacher.classCount },
+            { key: "subjects", label: "Subjects", className: "mu-cell-numeric", render: (teacher) => teacher.subjectCount },
+            { key: "scheduled", label: "Scheduled / week", className: "mu-cell-numeric", render: (teacher) => <span style={{ fontVariantNumeric: "tabular-nums" }}>{formatDuration(teacher.weeklyScheduledMinutes == null ? teacher.weeklyScheduledMinutes : teacher.weeklyScheduledMinutes / 60)}</span> },
+            { key: "attendance", label: "Attendance days", className: "mu-cell-numeric", render: (teacher) => teacher.attendanceDaysMarked },
+            { key: "records", label: "Records entered", className: "mu-cell-numeric", render: (teacher) => teacher.attendanceRecordsEntered },
+          ]} />
         )}
         {!loading && !error && pagination.total > 0 && <nav className="mu-pagination mu-performance-pagination" aria-label="Teacher performance pages">
           <span>{pagination.total} {pagination.total === 1 ? "teacher" : "teachers"}</span>

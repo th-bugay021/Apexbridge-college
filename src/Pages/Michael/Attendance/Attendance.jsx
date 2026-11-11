@@ -3,6 +3,7 @@ import { BookOpen, Check, CircleHelp, CircleX, Clock3, School, UsersRound } from
 import { getClass, getClasses, getMyClasses } from "../../../api/classes";
 import { getAttendanceReport, getAttendanceSummary, getDailyAttendance, getStudentAttendance, markAttendance } from "../../../api/attendance";
 import Toast from "../../../Components/Michael/Teachers/Toast";
+import ResponsiveTable from "../../../Components/common/ResponsiveTable";
 import { useAuth } from "../../../Context/AuthContext";
 import apiErrorMessage from "../../../utils/apiErrorMessage";
 import "../shared/michael-ui.css";
@@ -81,6 +82,19 @@ function StatusSelector({ student, value, onChange }) {
       tabIndex={value === status || (!value && index === 0) ? 0 : -1}
       onClick={() => onChange(status)}
       onKeyDown={(event) => onKeyDown(event, index)}
+    >{statusLabels[status]}</button>)}
+  </div>;
+}
+
+function MobileStatusButtons({ student, value, onChange }) {
+  return <div className="attendance-mobile-status" role="group" aria-label={`Attendance for ${student.fullName}`}>
+    {STATUSES.map((status) => <button
+      key={status}
+      className="attendance-mobile-status-button"
+      type="button"
+      data-status={status.toLowerCase()}
+      aria-pressed={value === status}
+      onClick={() => onChange(status)}
     >{statusLabels[status]}</button>)}
   </div>;
 }
@@ -270,7 +284,7 @@ export default function Attendance() {
           <nav className="mu-tabs" role="tablist" aria-label="Attendance views">{[["daily", "Daily"], ["weekly", "Weekly"], ["monthly", "Monthly"], ["report", "Report"]].map(([key, title]) => <button key={key} type="button" role="tab" className="mu-tab" aria-selected={tab === key} onClick={() => { setTab(key); setError(""); }}>{title}</button>)}</nav>
           {error && classId && <section className="mu-empty-state" role="alert"><p>{error}</p><button className="btn btn-outline" type="button" onClick={() => tab === "daily" ? void loadDaily() : void loadAggregate()}>Retry</button></section>}
           {tab === "daily" && <section className="card mu-card mu-detail-card">
-            <div className="mu-section-header"><div className="mu-card-heading"><h2 className="mu-section-title">{classItem ? label(classItem) : "Class roster"}</h2><p className="mu-card-subtitle">Only active students can be marked.</p></div><button className="btn btn-primary" type="button" disabled={saving || viewLoading || !activeStudents.length} onClick={() => void save()}>{saveSucceeded ? "✓ Saved" : saving ? "Saving…" : "Save attendance"}</button></div>
+            <div className="mu-section-header attendance-daily-heading"><div className="mu-card-heading"><h2 className="mu-section-title">{classItem ? label(classItem) : "Class roster"}</h2><p className="mu-card-subtitle">Only active students can be marked.</p></div><button className="btn btn-primary attendance-desktop-save" type="button" disabled={saving || viewLoading || !activeStudents.length} onClick={() => void save()}>{saveSucceeded ? "✓ Saved" : saving ? "Saving…" : "Save attendance"}</button></div>
             {classItem && <div className="mu-stat-grid mu-attendance-stat-grid" aria-label="Attendance counts for this day">
               {[["PRESENT", "Present", Check], ["ABSENT", "Absent", CircleX], ["LATE", "Late", Clock3], ["EXCUSED", "Excused", CircleHelp]].map(([status, title, Icon]) => <article className={`mu-stat-card mu-attendance-stat-card mu-attendance-stat-${status.toLowerCase()}`} key={status}>
                 <div className="mu-stat-card-header"><span className="mu-stat-label">{title}</span><span className="mu-stat-icon" aria-hidden="true"><Icon size={16} strokeWidth={1.8} /></span></div>
@@ -278,9 +292,22 @@ export default function Attendance() {
                 <p className="mu-stat-caption">Marked</p>
               </article>)}
             </div>}
-            {viewLoading ? <SkeletonRows columns={4} /> : !classItem ? <EmptyState Icon={School} title="Select a class to take attendance" hint="Choose a class above to load its roster." /> : !activeStudents.length ? <EmptyState Icon={UsersRound} title={(classItem.students || []).length ? "No active students to mark" : "No students in this class yet"} hint={(classItem.students || []).length ? "Only active students can be marked for attendance." : "Students appear here once they are enrolled in this class."} className={(classItem.students || []).length ? "" : "mu-attendance-no-students"} /> : <div className="mu-table-wrap">
+          {viewLoading ? <SkeletonRows columns={4} /> : !classItem ? <EmptyState Icon={School} title="Select a class to take attendance" hint="Choose a class above to load its roster." /> : !activeStudents.length ? <EmptyState Icon={UsersRound} title={(classItem.students || []).length ? "No active students to mark" : "No students in this class yet"} hint={(classItem.students || []).length ? "Only active students can be marked for attendance." : "Students appear here once they are enrolled in this class."} className={(classItem.students || []).length ? "" : "mu-attendance-no-students"} /> : <>
+            <div className="attendance-daily-cards" aria-label="Students to mark attendance">
+              {activeStudents.map((student) => <article className="attendance-student-card" key={student.id}>
+                <div className="attendance-student-identity">
+                  <strong>{student.fullName}</strong>
+                  <small>{student.admissionNumber || "No admission number"}</small>
+                </div>
+                <MobileStatusButtons student={student} value={records[student.id] || ""} onChange={(status) => setRecords((old) => ({ ...old, [student.id]: status }))} />
+                <button className="btn mu-btn-row-action attendance-history-button" type="button" onClick={() => void openHistory(student)}>View history</button>
+              </article>)}
+            </div>
+            <button className="btn btn-primary attendance-mobile-save" type="button" disabled={saving || viewLoading || !activeStudents.length} onClick={() => void save()}>{saveSucceeded ? "✓ Saved" : saving ? "Saving…" : "Save attendance"}</button>
+            <div className="mu-table-wrap attendance-daily-table">
               <table className="mu-table"><thead><tr><th scope="col">Student</th><th scope="col">Admission number</th><th scope="col">Attendance status</th><th scope="col">History</th></tr></thead><tbody>{activeStudents.map((student) => <tr key={student.id}><td>{student.fullName}</td><td>{student.admissionNumber}</td><td><StatusSelector student={student} value={records[student.id] || ""} onChange={(status) => setRecords((old) => ({ ...old, [student.id]: status }))} /></td><td><button className="btn mu-btn-row-action" type="button" onClick={() => void openHistory(student)}>View history</button></td></tr>)}</tbody></table>
-            </div>}
+            </div>
+          </>}
           </section>}
           {(tab === "weekly" || tab === "monthly") && <section className="card mu-card mu-detail-card">
             <div className="mu-section-header"><div className="mu-card-heading"><h2 className="mu-section-title">{tab === "weekly" ? "Weekly" : "Monthly"} summary</h2><p className="mu-card-subtitle">{label(classItem)} · {formatDate(range.from)} – {formatDate(range.to)}</p></div><button className="btn btn-outline" type="button" disabled={viewLoading} onClick={() => void loadAggregate()}>Refresh</button></div>
@@ -303,14 +330,33 @@ export default function Attendance() {
   </div>;
 }
 
+function historyButton(student, onHistory) {
+  return <button className="btn mu-btn-row-action" type="button" onClick={() => onHistory({ id: student.studentId, fullName: student.fullName, admissionNumber: student.admissionNumber })}>View history</button>;
+}
+
 function SummaryTable({ rows, onHistory }) {
-  return <div className="mu-table-wrap"><table className="mu-table"><thead><tr><th scope="col">Student</th>{STATUSES.map((status) => <th className="mu-cell-numeric" key={status} scope="col">{statusLabels[status]}</th>)}<th className="mu-cell-numeric" scope="col">Total days</th></tr></thead><tbody>{rows.map((student) => <tr key={student.studentId}><td><button className="btn mu-btn-row-action" type="button" onClick={() => onHistory({ id: student.studentId, fullName: student.fullName, admissionNumber: student.admissionNumber })}>{student.fullName}</button></td>{STATUSES.map((status) => <td className="mu-cell-numeric" key={status}>{student.counts?.[status] ?? 0}</td>)}<td className="mu-cell-numeric">{student.totalMarkedDays}</td></tr>)}</tbody></table></div>;
+  return <ResponsiveTable rows={rows} rowKey={(student) => student.studentId} primary={(student) => student.fullName} secondary={(student) => student.admissionNumber || "—"} label="Attendance summary" columns={[
+    { key: "student", label: "Student", primary: true, render: (student) => historyButton(student, onHistory), mobileActions: (student) => historyButton(student, onHistory) },
+    ...STATUSES.map((status) => ({ key: status, label: statusLabels[status], className: "mu-cell-numeric", render: (student) => student.counts?.[status] ?? 0 })),
+    { key: "total", label: "Total days", className: "mu-cell-numeric", render: (student) => student.totalMarkedDays },
+  ]} />;
 }
 
 function ReportTable({ rows, onHistory }) {
-  return <div className="mu-table-wrap"><table className="mu-table"><thead><tr><th scope="col">Student</th><th scope="col">Admission number</th>{STATUSES.map((status) => <th className="mu-cell-numeric" key={status} scope="col">{statusLabels[status]}</th>)}<th className="mu-cell-numeric" scope="col">Total days</th><th className="mu-cell-numeric" scope="col">Attendance</th></tr></thead><tbody>{rows.map((student) => <tr key={student.studentId}><td><button className="btn mu-btn-row-action" type="button" onClick={() => onHistory({ id: student.studentId, fullName: student.fullName, admissionNumber: student.admissionNumber })}>{student.fullName}</button></td><td>{student.admissionNumber || "—"}</td>{STATUSES.map((status) => <td className="mu-cell-numeric" key={status}>{student.counts?.[status] ?? 0}</td>)}<td className="mu-cell-numeric">{student.totalMarkedDays}</td><td className="mu-cell-numeric">{student.attendancePercentage}%</td></tr>)}</tbody></table></div>;
+  return <ResponsiveTable rows={rows} rowKey={(student) => student.studentId} primary={(student) => student.fullName} secondary={(student) => student.admissionNumber || "—"} label="Attendance report" columns={[
+    { key: "student", label: "Student", primary: true, render: (student) => historyButton(student, onHistory), mobileActions: (student) => historyButton(student, onHistory) },
+    { key: "admission", label: "Admission number", render: (student) => student.admissionNumber || "—" },
+    ...STATUSES.map((status) => ({ key: status, label: statusLabels[status], className: "mu-cell-numeric", render: (student) => student.counts?.[status] ?? 0 })),
+    { key: "total", label: "Total days", className: "mu-cell-numeric", render: (student) => student.totalMarkedDays },
+    { key: "attendance", label: "Attendance", className: "mu-cell-numeric", render: (student) => `${student.attendancePercentage}%` },
+  ]} />;
 }
 
 function HistoryTable({ rows }) {
-  return <div className="mu-table-wrap"><table className="mu-table"><thead><tr><th scope="col">Date</th><th scope="col">Class</th><th scope="col">Status</th><th scope="col">Marked by</th></tr></thead><tbody>{rows.map((row) => <tr key={row.id}><td>{formatDate(row.date)}</td><td>{label(row.class)}</td><td><span className={`mu-badge mu-status-badge-${row.status.toLowerCase()}`}>{statusLabels[row.status] || row.status.toLowerCase().replace(/^./, (first) => first.toUpperCase())}</span></td><td>{row.markedBy?.fullName || "—"}</td></tr>)}</tbody></table></div>;
+  return <ResponsiveTable rows={rows} rowKey={(row) => row.id} primary={(row) => formatDate(row.date)} secondary={(row) => label(row.class)} label="Attendance history" columns={[
+    { key: "date", label: "Date", primary: true, render: (row) => formatDate(row.date) },
+    { key: "class", label: "Class", render: (row) => label(row.class) },
+    { key: "status", label: "Status", render: (row) => <span className={`mu-badge mu-status-badge-${row.status.toLowerCase()}`}>{statusLabels[row.status] || row.status.toLowerCase().replace(/^./, (first) => first.toUpperCase())}</span> },
+    { key: "markedBy", label: "Marked by", render: (row) => row.markedBy?.fullName || "—" },
+  ]} />;
 }
