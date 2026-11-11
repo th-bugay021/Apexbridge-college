@@ -9,7 +9,7 @@ function RoleRoute({ allowedRoles }) {
   }
 
   if (!allowedRoles.includes(user.role)) {
-    return <Navigate to="/403" replace />;
+    return <Navigate to={user.role === "PARENT" ? "/dashboard" : "/403"} replace />;
   }
 
   return <Outlet />;

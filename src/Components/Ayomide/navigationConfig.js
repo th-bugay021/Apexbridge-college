@@ -18,6 +18,14 @@ const navigationConfig = [
     label: "Dashboard",
     path: "/dashboard",
     icon: FiHome,
+    excludeRoles: ["PARENT"],
+  },
+  {
+    label: "Dashboard",
+    path: "/dashboard",
+    icon: FiHome,
+    permission: "parents.view.own",
+    roles: ["PARENT"],
   },
 
   {

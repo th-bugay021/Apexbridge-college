@@ -23,6 +23,7 @@ import MyTeacherProfile from "../Pages/Michael/Teachers/MyProfile";
 import PerformanceList from "../Pages/Michael/Teachers/PerformanceList";
 import PerformanceDetail from "../Pages/Michael/Teachers/PerformanceDetail";
 import DashboardLanding from "../Pages/Kingston/Dashboard/DashboardLanding";
+import ParentDashboardPage from "../Pages/parent/ParentDashboardPage";
 import Subjects from "../Pages/Michael/Academics/Subjects";
 import Classes from "../Pages/Michael/Academics/Classes";
 import ClassDetails from "../Pages/Michael/Academics/ClassDetails";
@@ -53,11 +54,15 @@ function AppRoutes() {
         {/* Application routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
-            <Route
-              element={<RoleRoute allowedRoles={["SUPER_ADMIN", "ADMIN", "TEACHER"]} />}
-            >
-              <Route path="/dashboard" element={<DashboardLanding />} />
-            </Route>
+            <Route path="/dashboard" element={
+              <PermissionRoute
+                permission="parents.view.own"
+                allowedRoles={["SUPER_ADMIN", "ADMIN", "TEACHER"]}
+                fallback={<DashboardLanding />}
+              >
+                <ParentDashboardPage />
+              </PermissionRoute>
+            } />
 
             <Route path="/students" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading students…</div>}><StudentList /></Suspense></PermissionRoute>} />
             <Route path="/students/classes" element={<PermissionRoute permission="students.view"><Suspense fallback={<div role="status">Loading classes…</div>}><StudentClasses /></Suspense></PermissionRoute>} />

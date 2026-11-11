@@ -78,6 +78,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
         }
 
         if (item.roles && !item.roles.includes(user?.role)) return null;
+        if (item.excludeRoles?.includes(user?.role)) return null;
 
         if (item.permission && typeof hasPermission === "function") {
           return hasPermission(item.permission) ? item : null;
