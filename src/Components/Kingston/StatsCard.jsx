@@ -1,6 +1,7 @@
 import { FiArrowDownRight, FiArrowUpRight } from "react-icons/fi";
+import CountUp from "../common/CountUp";
 
-function StatsCard({ title, value, Icon, trend, tone = "accent", loading = false, error = "", empty = false, caption = "Compared with the previous period" }) {
+function StatsCard({ title, value, Icon, trend, tone = "accent", loading = false, error = "", empty = false, animate = false, caption = "Compared with the previous period" }) {
   if (loading) {
     return (
       <article className={`dashboard-stat-card dashboard-stat-card--${tone}`} aria-label={`Loading ${title}`}>
@@ -43,7 +44,7 @@ function StatsCard({ title, value, Icon, trend, tone = "accent", loading = false
           </span>
         )}
       </div>
-      <p className="dashboard-stat-value">{value}</p>
+      <p className="dashboard-stat-value">{animate ? <CountUp value={value} /> : value}</p>
       <h2 className="dashboard-stat-title">{title}</h2>
       <p className="dashboard-stat-caption">{caption}</p>
     </article>
