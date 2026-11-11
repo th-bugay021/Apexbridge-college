@@ -1,5 +1,9 @@
 import api from './axios';
 
+export async function getMyChildren() {
+  return (await api.get('/parents/me')).data;
+}
+
 export async function getParents({ page = 1, limit = 20, search = '', studentId } = {}) {
   return (await api.get('/parents', { params: { page, limit, search, studentId } })).data;
 }
