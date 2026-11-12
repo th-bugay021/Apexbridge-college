@@ -177,12 +177,8 @@
   margin-top: 42px;
 }
 
-.rg-fields > div:last-child {
-  margin-bottom: -14px;
-}
-
 .rg-strength {
-  margin-top: 7px;
+  margin: 7px 0 15px;
   color: var(--lg-muted);
   font-size: 12px;
   font-weight: 400;
@@ -474,19 +470,14 @@
 
 .rg-mode-fields {
   display: grid;
-  grid-template-rows: 78px;
+  grid-template-rows: auto;
   margin-top: 1px;
-  transition: grid-template-rows .18s ease;
-}
-
-.rg-mode-fields.is-staff {
-  grid-template-rows: 226px;
 }
 
 .rg-mode-field {
   grid-area: 1 / 1;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
   opacity: 1;
   transform: translateY(0);
   transition: opacity .18s ease, transform .18s ease, visibility .18s;
