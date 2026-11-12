@@ -181,7 +181,6 @@ function AdminDashboard() {
       <header className="dashboard-page-heading">
         <div><p className="dashboard-page-eyebrow">School overview</p><h1>Dashboard</h1><p className="dashboard-page-description">A quick look at the school&apos;s key numbers and daily activity.</p></div>
       </header>
-      <style>{`.dashboard-stats-grid > .dashboard-stat-card:first-child .dashboard-stat-card-top::after, .dashboard-gender-card .dashboard-chart-header::after { display: none; }`}</style>
       <section className="dashboard-stats-grid" aria-label="School statistics">{statCards.map((card) => <StatsCard key={card.title} {...card} />)}</section>
       <Suspense fallback={<div className="dashboard-lazy-fallback" role="status">Loading dashboard charts…</div>}>
         <section className="dashboard-chart-grid" aria-label="Student and attendance charts">

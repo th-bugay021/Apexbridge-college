@@ -1,4 +1,5 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { SHOW_SAMPLE_DATA_LABELS } from "../../config/sampleDataLabels";
 
 function GenderChart({ data, colors, loading = false, error = "" }) {
   const isEmpty = !loading && !error && (!data?.length || data.every((item) => item.value === 0));
@@ -12,6 +13,7 @@ function GenderChart({ data, colors, loading = false, error = "" }) {
           <p className="dashboard-chart-eyebrow">Students</p>
           <h2 id="gender-distribution-title" className="dashboard-chart-title">Gender distribution</h2>
         </div>
+        {SHOW_SAMPLE_DATA_LABELS && <span className="dashboard-sample-tag">Sample data</span>}
       </header>
       {loading ? (
         <div className="dashboard-chart-skeleton" role="status" aria-label="Loading gender distribution">

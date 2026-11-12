@@ -1,5 +1,6 @@
 import { FiArrowDownRight, FiArrowUpRight } from "react-icons/fi";
 import CountUp from "../common/CountUp";
+import { SHOW_SAMPLE_DATA_LABELS } from "../../config/sampleDataLabels";
 
 function StatsCard({ title, value, Icon, trend, tone = "accent", loading = false, error = "", empty = false, animate = false, caption = "Compared with the previous period" }) {
   if (loading) {
@@ -43,6 +44,7 @@ function StatsCard({ title, value, Icon, trend, tone = "accent", loading = false
             {trend.percent}%
           </span>
         )}
+        {SHOW_SAMPLE_DATA_LABELS && <span className="dashboard-sample-tag">Sample data</span>}
       </div>
       <p className="dashboard-stat-value">{animate ? <CountUp value={value} /> : value}</p>
       <h2 className="dashboard-stat-title">{title}</h2>

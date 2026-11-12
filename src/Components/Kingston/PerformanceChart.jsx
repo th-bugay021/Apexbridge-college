@@ -1,11 +1,12 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { SHOW_SAMPLE_DATA_LABELS } from "../../config/sampleDataLabels";
 
 function PerformanceChart({ data, colors }) {
   return (
     <section className="dashboard-chart-card" aria-labelledby="performance-chart-title">
       <header className="dashboard-chart-header">
         <div><p className="dashboard-chart-eyebrow">Examinations</p><h2 id="performance-chart-title" className="dashboard-chart-title">Student performance</h2></div>
-        <span className="dashboard-sample-tag">Sample data</span>
+        {SHOW_SAMPLE_DATA_LABELS && <span className="dashboard-sample-tag">Sample data</span>}
       </header>
       <div className="dashboard-chart-frame dashboard-secondary-chart-frame">
         <ResponsiveContainer width="100%" height="100%">

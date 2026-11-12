@@ -1,4 +1,5 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { SHOW_SAMPLE_DATA_LABELS } from "../../config/sampleDataLabels";
 
 function FeeChart({ data, colors, formatCurrency }) {
   const totals = data.reduce((result, term) => ({
@@ -11,7 +12,7 @@ function FeeChart({ data, colors, formatCurrency }) {
     <section className="dashboard-chart-card" aria-labelledby="fee-chart-title">
       <header className="dashboard-chart-header">
         <div><p className="dashboard-chart-eyebrow">School fees</p><h2 id="fee-chart-title" className="dashboard-chart-title">Fee collection</h2></div>
-        <span className="dashboard-sample-tag">Sample data</span>
+        {SHOW_SAMPLE_DATA_LABELS && <span className="dashboard-sample-tag">Sample data</span>}
       </header>
       <div className="dashboard-fee-summary" aria-label="Fee collection totals">
         <div><span>Collected</span><strong>{formatCurrency(totals.collected)}</strong></div>

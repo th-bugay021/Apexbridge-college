@@ -1,5 +1,6 @@
 
 import "./AdminDashboard.css";
+import { SHOW_SAMPLE_DATA_LABELS } from "../../../../config/sampleDataLabels";
 
 function AdminEvents() {
   return (
@@ -55,7 +56,7 @@ function AdminEvents() {
           <p>Parent–teacher conference</p>
           <p>2026-10-09 · 10:00</p>
           <p>
-            Sample event · Meet with class teachers to discuss student
+            {SHOW_SAMPLE_DATA_LABELS && "Sample event · "}Meet with class teachers to discuss student
             progress.
           </p>
 
@@ -65,7 +66,7 @@ function AdminEvents() {
           <p>First term examinations</p>
           <p>2026-10-19 · 08:00</p>
           <p>
-            Sample exam · Students should arrive 30 minutes before their
+            {SHOW_SAMPLE_DATA_LABELS && "Sample exam · "}Students should arrive 30 minutes before their
             first paper.
           </p>
 
@@ -75,7 +76,7 @@ function AdminEvents() {
           <p>Inter-house sports day</p>
           <p>2026-10-23 · 09:00</p>
           <p>
-            Sample event · A day of teamwork and friendly competition.
+            {SHOW_SAMPLE_DATA_LABELS && "Sample event · "}A day of teamwork and friendly competition.
           </p>
         </div>
       </main>

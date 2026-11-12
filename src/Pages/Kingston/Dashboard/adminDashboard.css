@@ -195,8 +195,6 @@
 .dashboard-activity-empty { margin: var(--space-4) 0; color: var(--color-text-muted); font-size: 0.85rem; }
 
 .dashboard-sample-tag { display: inline-flex; flex: 0 0 auto; align-items: center; border-radius: var(--radius-full); background: var(--color-accent-light); padding: var(--space-1) var(--space-2); color: var(--color-accent-dark); font-size: 0.65rem; font-weight: 700; line-height: 1.2; }
-.dashboard-stat-card-top::after { content: "Sample data"; display: inline-flex; flex: 0 0 auto; align-items: center; border-radius: var(--radius-full); background: var(--color-accent-light); padding: var(--space-1) var(--space-2); color: var(--color-accent-dark); font-size: 0.65rem; font-weight: 700; line-height: 1.2; }
-.dashboard-gender-card .dashboard-chart-header::after { content: "Sample data"; display: inline-flex; flex: 0 0 auto; align-items: center; border-radius: var(--radius-full); background: var(--color-accent-light); padding: var(--space-1) var(--space-2); color: var(--color-accent-dark); font-size: 0.65rem; font-weight: 700; line-height: 1.2; }
 .dashboard-lazy-fallback { display: grid; min-height: 180px; place-items: center; border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); color: var(--color-text-secondary); }
 
 .dashboard-state-card { justify-content: center; gap: var(--space-2); background: var(--color-surface); }

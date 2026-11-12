@@ -1,5 +1,6 @@
 
 import "./AccountantDashboard.css";
+import { SHOW_SAMPLE_DATA_LABELS } from "../../../../config/sampleDataLabels";
 
 function AccountantAnnouncements() {
   return (
@@ -57,7 +58,7 @@ function AccountantAnnouncements() {
 
           <p>Welcome to a new school term</p>
           <p>
-            Sample announcement · Welcome back to Greenfield Academy. We look
+            {SHOW_SAMPLE_DATA_LABELS && "Sample announcement · "}Welcome back to Greenfield Academy. We look
             forward to a term filled with learning, growth, and new
             opportunities.
           </p>
@@ -71,7 +72,7 @@ function AccountantAnnouncements() {
 
           <p>Parent–teacher conference</p>
           <p>
-            Sample announcement · Join us on 9 October to meet your child's
+            {SHOW_SAMPLE_DATA_LABELS && "Sample announcement · "}Join us on 9 October to meet your child's
             teachers and discuss their progress.
           </p>
         </div>
